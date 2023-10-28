@@ -18,7 +18,7 @@ const nextConfig = {
     ],
   },
   env: {
-    //env
+    VERSION: process.env.VERSION,
   }
 };
 

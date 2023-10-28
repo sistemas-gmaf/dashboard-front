@@ -1,27 +1,58 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import MediaCard from '@/components/MediaCard';
+'use client'
 
-export default function HomePage() {
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Image from 'next/image';
+import logoImg from '@/img/logo.png';
+import { VERSION } from '@/utils/constants';
+import { useRouter } from 'next/navigation';
+
+function Version(props) {
   return (
-    <Box >
-      <div>
-        <Alert severity="info" sx={{ mt: 2, mb: 5 }}>
-          <AlertTitle>Hola 👋</AlertTitle>
-          Esta aplicación está en construcción
-        </Alert>
-        <Grid container rowSpacing={3} columnSpacing={3}>
-          <Grid xs={6} xsOffset={3}>
-            <MediaCard
-              heading="Estamos trabajando en la aplicación"
-              text="Esta es una pantalla de prueba inicial para verificar que el proyecto se visualiza correctamente..."
-            />
-          </Grid>
-        </Grid>
-      </div>
-    </Box>
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      Version {VERSION}
+    </Typography>
+  );
+}
+
+export default function SignIn() {
+  const router = useRouter();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    router.push('/dashboard');
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 22,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Image
+          src={logoImg}
+          width={150}
+          alt='logo'
+        />
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            size='large'
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Iniciar Sesión con Microsoft
+          </Button>
+        </Box>
+      </Box>
+      <Version sx={{ mt: 8, mb: 4 }} />
+    </Container>
   );
 }
