@@ -1,0 +1,16 @@
+'use client'
+import { createSlice } from "@reduxjs/toolkit";
+
+export const SliceSideMenu = createSlice({
+  name: 'sidemenu',
+  initialState: {
+    open: true,
+  },
+  reducers: {
+    toggleSideMenuState: (state) => {
+      state.open = !state.open;
+    },
+  }
+});
+
+export const { toggleSideMenuState } = SliceSideMenu.actions;

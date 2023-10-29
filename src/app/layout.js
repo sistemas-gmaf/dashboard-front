@@ -1,4 +1,5 @@
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
+import StoreProvider from '@/store/provider';
 
 export const metadata = {
   title: 'Dashboard Grupo MAF',
@@ -9,9 +10,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body>
-        <ThemeRegistry>
-          {children}
-        </ThemeRegistry>
+        <StoreProvider>
+          <ThemeRegistry>
+            {children}
+          </ThemeRegistry>
+        </StoreProvider>
       </body>
     </html>
   );

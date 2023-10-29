@@ -1,10 +1,5 @@
-import * as React from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
 import Image from 'next/image';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-/* import Button from '@mui/material/Button'; */
-import Typography from '@mui/material/Typography';
 
 export default function MediaCard({ heading, text }) {
   return (
@@ -17,7 +12,7 @@ export default function MediaCard({ heading, text }) {
         style={{
           maxWidth: '100%',
           height: '200px',
-          objectFit: 'cover',
+          objectFit: 'contain',
         }}
       />
       <CardContent>
@@ -28,10 +23,6 @@ export default function MediaCard({ heading, text }) {
           {text}
         </Typography>
       </CardContent>
-      <CardActions>
-        {/* <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button> */}
-      </CardActions>
     </Card>
   );
 }

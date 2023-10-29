@@ -1,12 +1,11 @@
 'use client'
 
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import { Box, Button, Container, Typography } from '@mui/material';
+
 import Image from 'next/image';
 import logoImg from '@/img/logo.png';
 import { VERSION } from '@/utils/constants';
+
 import { useRouter } from 'next/navigation';
 
 function Version(props) {
