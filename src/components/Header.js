@@ -22,7 +22,6 @@ export default function PrimarySearchAppBar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    router.push('/');
   };
 
   const menuId = 'primary-search-account-menu';
@@ -43,7 +42,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Cerrar Sesión</MenuItem>
+      <MenuItem onClick={() => router.push('/')}>Cerrar Sesión</MenuItem>
     </Menu>
   );
 
