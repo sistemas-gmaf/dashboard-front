@@ -1,13 +1,14 @@
 'use client'
 
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, Avatar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import logoImg from '@/img/logo.png';
 
 import { toggleSideMenuState } from '@/store/slice';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -79,7 +80,9 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar>
+                <Image src={logoImg} alt='GMAF' width={60} style={{ objectFit: 'fill' }} />
+              </Avatar>
             </IconButton>
           </Box>
         </Toolbar>

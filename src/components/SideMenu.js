@@ -49,7 +49,7 @@ function SideMenu() {
           width: sideMenuOpen ? `${DRAWER_WIDTH}px` : `${DRAWER_WIDTH_CLOSED}px`,
           transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
           boxSizing: 'border-box',
-          top: ['48px', '56px', '64px'],
+          top: '56px',
           height: 'auto',
           bottom: 0,
         },

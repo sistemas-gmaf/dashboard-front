@@ -1,12 +1,9 @@
-'use client'
+import { Paper, Box, Grid, Typography } from '@mui/material';
 
-import { Box, Button, Container, Typography } from '@mui/material';
-
-import Image from 'next/image';
-import logoImg from '@/img/logo.png';
+import backgroundLoginImg from '@/img/background-login.jpg';
 import { VERSION } from '@/utils/constants';
 
-import { useRouter } from 'next/navigation';
+import LoginForm from '@/components/LoginForm';
 
 function Version(props) {
   return (
@@ -16,42 +13,38 @@ function Version(props) {
   );
 }
 
-export default function SignIn() {
-  const router = useRouter();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    router.push('/dashboard');
-  };
-
+export default function Login() {
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
+    <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
         sx={{
-          marginTop: 22,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          backgroundImage: `url(${backgroundLoginImg.src})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
-      >
-        <Image
-          src={logoImg}
-          width={150}
-          alt='logo'
-        />
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            size='large'
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Iniciar Sesión con Microsoft
-          </Button>
+      />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box
+          sx={{
+            my: 20,
+            mx: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Grupo MAF
+          </Typography>
+          <LoginForm />
+          <Version sx={{ mt: 5 }} />
         </Box>
-      </Box>
-      <Version sx={{ mt: 8, mb: 4 }} />
-    </Container>
+      </Grid>
+    </Grid>
   );
 }
