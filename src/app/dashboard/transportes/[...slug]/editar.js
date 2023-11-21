@@ -4,6 +4,8 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { get, patch } from "@/utils/httpClient";
+import { API } from "@/utils/constants";
 
 export default function Editar({ id }) {
   const router = useRouter();
@@ -11,31 +13,26 @@ export default function Editar({ id }) {
   const [ formData, setFormData ] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:5000/transportes/${id}`)
-      .then(res => res.json())
-      .then(transporte => setFormData(transporte))
-      .catch(() => {
+    get({
+      url: `${API.TRANSPORTES}/${id}`,
+      onSuccess: transporte => setFormData(transporte),
+      onError: () => {
         alert('Ocurrio un error al obtener los datos');
         router.push('/dashboard/transportes');
-      })
+      }
+    })
   }, [])
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch(`http://localhost:5000/transportes/${id}`, {
-      method: 'PATCH',
-      headers: {
-        "Content-Type": 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then(() => {
+    patch({
+      url: `${API.TRANSPORTES}/${id}`,
+      data: formData,
+      onSuccess: () => {
         alert('Datos editados correctamente');
         router.push('/dashboard/transportes');
-      })
-      .catch(() => {
-        alert('Error al actualizar datos');
-      })
+      }
+    })
   }
 
   return (

@@ -10,6 +10,8 @@ import AddIcon from '@mui/icons-material/Add';
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { del, get } from '@/utils/httpClient';
+import { API } from '@/utils/constants';
 
 function CustomToolbar() {
   return (
@@ -42,10 +44,10 @@ export default function TransportesPage() {
   const [ reloadTable, setReloadTable ] = useState(Math.random());
 
   useEffect(() => {
-    fetch('http://localhost:5000/transportes')
-      .then(res => res.json())
-      .then(transportes => setRows(transportes))
-      .catch(() => alert('error: no se pueden obtener los datos'))
+    get({
+      url: API.TRANSPORTES,
+      onSuccess: transportes => setRows(transportes)
+    })
   }, [reloadTable]);
 
   const columns = [
@@ -63,18 +65,13 @@ export default function TransportesPage() {
         <IconButton href={`/dashboard/transportes/editar/${id}`} LinkComponent={Link}>
           <EditIcon />
         </IconButton>
-        <IconButton onClick={() => {
-          fetch(`http://localhost:5000/transportes/${id}`, {
-            method: 'DELETE'
-          })
-            .then(() => {
-              alert('Borrado con exito');
-              setReloadTable(Math.random());
-            })
-            .catch(() => {
-              alert('Error al borrar');
-            })
-        }}>
+        <IconButton onClick={() => del({ 
+          url: `${API.TRANSPORTES}/${id}`,
+          onSuccess: () => {
+            alert('Borrado con exito');
+            setReloadTable(Math.random());
+          } 
+        })}>
           <DeleteIcon />
         </IconButton>
       </div>

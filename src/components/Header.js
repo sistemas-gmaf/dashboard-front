@@ -4,7 +4,7 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, Avatar } 
 import MenuIcon from '@mui/icons-material/Menu';
 import logoImg from '@/img/logo.png';
 
-import { toggleSideMenuState } from '@/store/slice';
+import { toggleSideMenuState } from '@/store/slices/sidemenu';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

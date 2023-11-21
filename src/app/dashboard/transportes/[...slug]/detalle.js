@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import 'moment/locale/es';
+import { get } from "@/utils/httpClient";
+import { API } from "@/utils/constants";
 
 export default function Detalle({ id }) {
   const router = useRouter();
@@ -12,13 +14,14 @@ export default function Detalle({ id }) {
   const [ data, setData ] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:5000/transportes/${id}`)
-      .then(res => res.json())
-      .then(transporte => setData(transporte))
-      .catch(() => {
+    get({
+      url: `${API.TRANSPORTES}/${id}`,
+      onSuccess: transporte => setData(transporte),
+      onError: () => {
         alert('Ocurrio un error al obtener los datos');
         router.push('/dashboard/transportes');
-      })
+      }
+    })
   }, [])
 
   return (

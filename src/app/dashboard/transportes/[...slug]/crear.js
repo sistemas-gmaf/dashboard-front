@@ -4,32 +4,24 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import moment from "moment/moment";
+import { post } from "@/utils/httpClient";
+import { API } from "@/utils/constants";
+import { useRouter } from "next/navigation";
 
 export default function Crear() {
   const [ formData, setFormData ] = useState({});
+  const router = useRouter();
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:5000/transportes');
-      const transportes = await response.json();
-      const transporteMaxId = transportes.reduce((max, objeto) => (objeto.id > max ? objeto.id : max), 0);
-
-      await fetch('http://localhost:5000/transportes', {
-        method: 'POST',
-        headers: {
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({
-          ...formData,
-          id: transporteMaxId + 1
-        })
-      })
-
-      alert('Transporte creado');
-    } catch (error) {
-      alert('Error al crear transporte: ' + error);
-    }
+    post({
+      url: `${API.TRANSPORTES}`,
+      data: formData,
+      onSuccess: () => {
+        alert('Transporte creado');
+        router.push('/dashboard/transportes');
+      }
+    })
   }
 
   return (
@@ -45,7 +37,7 @@ export default function Crear() {
             onChange={e => setFormData({
               ...formData,
               [e.target.id]: e.target.value,
-              fecha_creacion: moment().format('YYYY-MM-DD')
+              fecha_creacion: moment().format('YYYY-MM-DD') /*@TODO: Esto lo debe manejar el backend*/
             })}
             fullWidth
             id="nombre" 
