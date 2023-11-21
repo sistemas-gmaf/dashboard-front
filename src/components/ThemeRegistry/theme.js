@@ -7,11 +7,18 @@ const roboto = Roboto({
   display: 'swap',
 });
 
+const primary = '#678489';
+const secondary = '#B222E0';
+
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#678489',
+      main: primary,
+      contrastText: 'white'
+    },
+    secondary: {
+      main: secondary,
       contrastText: 'white'
     }
   },
@@ -19,15 +26,38 @@ const theme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
   components: {
-    MuiAlert: {
+    MuiDataGrid: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
-          ...(ownerState.severity === 'info' && {
-            backgroundColor: '#60a5fa',
-          }),
-        }),
-      },
+        root: {
+          '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-columnHeaders .MuiButtonBase-root': {
+            color: 'white',
+            backgroundColor: '#678489'
+          }
+        },
+      }
     },
+    MuiDrawer: {
+      styleOverrides: {
+        root: {
+          '& .MuiPaper-root': {
+            backgroundColor: '#2B3233',
+            color: 'white'
+          },
+          '& .Mui-selected,': {
+            backgroundColor: `${primary} !important`,
+            color: 'white'
+          },
+          '& li:hover': {
+            backgroundColor: '#364547',
+            color: 'white'
+          },
+          '& .MuiSvgIcon-root': {
+            backgroundColor: 'none',
+            color: 'white'
+          }
+        }
+      }
+    }
   },
 });
 

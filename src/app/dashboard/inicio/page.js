@@ -27,7 +27,7 @@ export default function HomePage() {
   return (
     <Box>
       <Typography variant='h4' align='center'>
-        !Bienvenido Usuario de Maquetación!
+        !Bienvenido Emanuel!
       </Typography>
       <Box
         sx={{

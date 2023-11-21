@@ -1,70 +1,121 @@
 'use client'
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid';
+import { Box, Typography, Button, Stack } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-];
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
-
-export default function DataGridDemo() {
+function CustomToolbar() {
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
+    <GridToolbarContainer sx={{ 
+      display: 'flex', 
+      padding: '.5em', 
+      justifyContent: 'space-between',
+      flexDirection: {
+        xs: 'column-reverse',
+        sm: 'initial'
+      }
+    }}>
+      <GridToolbarQuickFilter
+        InputProps={{ placeholder: 'Buscar...' }}
       />
+      <Button
+        color='secondary'
+        href='/dashboard/transportes/crear'
+        LinkComponent={Link}
+        endIcon={<AddIcon />}
+      >
+        Crear Nuevo
+      </Button>
+    </GridToolbarContainer>
+  );
+}
+
+export default function TransportesPage() {
+  const [ rows, setRows ] = useState([]);
+  const [ reloadTable, setReloadTable ] = useState(Math.random());
+
+  useEffect(() => {
+    fetch('http://localhost:5000/transportes')
+      .then(res => res.json())
+      .then(transportes => setRows(transportes))
+      .catch(() => alert('error: no se pueden obtener los datos'))
+  }, [reloadTable]);
+
+  const columns = [
+    { field: 'id', headerName: 'ID' },
+    { field: 'nombre', headerName: 'Nombre', minWidth: 170, flex: 1 },
+    { field: 'descripcion', headerName: 'Descripción', minWidth: 170, flex: 1  },
+    { field: 'fecha_creacion', headerName: 'Fecha de Creación', minWidth: 170, flex: 1  },
+    { 
+      headerName: 'Acciones',
+      minWidth: 170, flex: 1,
+      renderCell: ({ id }) => <div>
+        <IconButton href={`/dashboard/transportes/detalle/${id}`} LinkComponent={Link}>
+          <VisibilityIcon />
+        </IconButton>
+        <IconButton href={`/dashboard/transportes/editar/${id}`} LinkComponent={Link}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={() => {
+          fetch(`http://localhost:5000/transportes/${id}`, {
+            method: 'DELETE'
+          })
+            .then(() => {
+              alert('Borrado con exito');
+              setReloadTable(Math.random());
+            })
+            .catch(() => {
+              alert('Error al borrar');
+            })
+        }}>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+    }
+  ];
+
+  return (
+    <Box>
+      <Typography variant='h5'>Transportes</Typography>
+      <div style={{ height: 450, width: '100%', marginTop: '3em' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableColumnMenu={true}
+          disableRowSelectionOnClick={true}
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 5 }
+            }
+          }}
+          slots={{
+            noRowsOverlay: () => (
+              <Stack height="100%" alignItems="center" justifyContent="center">
+                No hay filas
+              </Stack>
+            ),
+            noResultsOverlay: () => (
+              <Stack height="100%" alignItems="center" justifyContent="center">
+                Filtros sin resultados disponibles
+              </Stack>
+            ),
+            toolbar: CustomToolbar
+          }}
+          pageSizeOptions={[5, 10]}
+          slotProps={{
+            pagination: {
+              labelRowsPerPage: "Cantidad de Filas:"
+            }
+          }}
+        />
+      </div>
     </Box>
   );
 }

@@ -18,6 +18,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "moment": "^2.29.4",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",

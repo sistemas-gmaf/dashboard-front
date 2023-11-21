@@ -18,7 +18,7 @@ function SectionContainer({ children }) {
           md: `${sideMenuOpen ? DRAWER_WIDTH : DRAWER_WIDTH_CLOSED}px`,
         },
         mt: ['48px', '56px', '64px'],
-        p: 3,
+        p: 5,
         transition: 'margin-left 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
       }}
     >

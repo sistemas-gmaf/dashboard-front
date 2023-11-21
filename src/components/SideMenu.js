@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
 
 const LINKS = [
-  { text: 'Inicio', href: '/dashboard', icon: HomeIcon },
+  { text: 'Inicio', href: '/dashboard/inicio', icon: HomeIcon },
   { text: 'Transportes', href: '/dashboard/transportes', icon: LocalShippingIcon },
   { text: 'Vehículos', href: '/dashboard/vehiculos', icon: DirectionsCarFilledIcon },
   { text: 'Choferes', href: '/dashboard/choferes', icon: AirlineSeatReclineExtraIcon },
@@ -65,7 +65,7 @@ function SideMenu() {
             <ListItemButton
               component={Link}
               href={href}
-              selected={href === pathname}
+              selected={pathname.includes(href)}
               sx={{
                 width: sideMenuOpen ? 'initial': `${DRAWER_WIDTH_CLOSED}px`,
                 maxHeight: '48px'

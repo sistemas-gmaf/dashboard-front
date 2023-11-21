@@ -8,7 +8,7 @@ function LoginForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    router.push('/dashboard');
+    router.push('/dashboard/inicio');
   };
 
   return (
