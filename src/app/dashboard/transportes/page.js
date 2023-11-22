@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-import Table from '@/components/Table';
+import Table from '@/components/Table/Table';
 import { API } from '@/utils/constants';
 
 export default function TransportesPage() {
@@ -17,6 +17,7 @@ export default function TransportesPage() {
       <Table
         url={API.TRANSPORTES}
         columns={columns}
+        section={'transportes'}
         createRoute={'/dashboard/transportes/crear'}
         detailRoute={'/dashboard/transportes/detalle'}
         editRoute={'/dashboard/transportes/editar'}
