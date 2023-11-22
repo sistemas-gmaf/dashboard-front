@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaginationModelState, setSortModelState } from '@/store/slices/tables';
 import { deepClone } from '@/utils/deepClone';
+import { DEFAULT_TABLE_FILTERS_MODEL } from '@/utils/constants';
 
 export const useTable = ({ url, section }) => {
   const apiClient = new ApiClient({ url });
@@ -32,7 +33,11 @@ export const useTable = ({ url, section }) => {
       initialState: {
         pagination: { paginationModel: deepClone(paginationModel) }, 
         sorting: { sortModel: deepClone(sortModel) }, 
-        filter: { filterModel: JSON.parse(sessionStorage.getItem(section + '/filter/model')) },
+        filter: { 
+          filterModel: typeof window != 'undefined' 
+                          ? JSON.parse(sessionStorage.getItem(section + '/filter/model')) 
+                          : DEFAULT_TABLE_FILTERS_MODEL
+        },
       }, 
       onPaginationModelChange,
       onSortModelChange,
