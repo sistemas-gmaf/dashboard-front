@@ -30,13 +30,13 @@ export const useForm = ({ url, id, callback }) => {
         ...formData,
         fecha_creacion: moment().format('YYYY-MM-DD') /*@TODO: Esto lo debe manejar el backend*/ 
       }, 
-      onSuccess
+      onSuccess: callback
     });
   }
 
   const handleEdit = e => {
     e.preventDefault();
-    apiClient.patch({ id, data: formData, onSuccess });
+    apiClient.patch({ id, data: formData, onSuccess: callback });
   }
   
   let response = { 

@@ -2,11 +2,10 @@
 
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import { useEffect, useState } from "react";
+
 import { useRouter } from "next/navigation";
-import { get, patch } from "@/utils/httpClient";
-import { API } from "@/utils/constants";
 import { useForm } from "@/hooks/useForm";
+import { API } from "@/utils/constants";
 
 export default function Editar({ id }) {
   const router = useRouter();
