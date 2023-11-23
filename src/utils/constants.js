@@ -17,3 +17,12 @@ export const DEFAULT_TABLE_FILTERS_MODEL = {
 export const API = {
   TRANSPORTES: `${process.env.API_URL}/transportes`,
 };
+
+export const TABLE_COLUMNS = {
+  TRANSPORTES: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'nombre', headerName: 'Nombre', minWidth: 170, flex: 1 },
+    { field: 'descripcion', headerName: 'Descripción', minWidth: 170, flex: 1  },
+    { field: 'fecha_creacion', headerName: 'Fecha de Creación', minWidth: 170, flex: 1  },
+  ]
+};
