@@ -22,9 +22,8 @@ export class ApiClient {
   
       if (onError) {
         onError();
-      } else {
-        alert('Error al obtener datos');
       }
+      alert('Error al obtener todos los datos');
     }
   }
 
@@ -42,9 +41,8 @@ export class ApiClient {
   
       if (onError) {
         onError();
-      } else {
-        alert('Error al obtener datos');
       }
+      alert('Error al obtener datos');
     }
   }
 
@@ -63,17 +61,15 @@ export class ApiClient {
       store.dispatch(setBackdropState(false));
       if (onSuccess) {
         onSuccess();
-      } else {
-        alert('Datos actualizados con éxito')
       }
+      alert('Datos actualizados con éxito')
     } catch (error) {
       store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();
-      } else {
-        alert('Error al actualizar datos');
       }
+      alert('Error al actualizar datos');
     }
   }
 
@@ -92,17 +88,15 @@ export class ApiClient {
       store.dispatch(setBackdropState(false));
       if (onSuccess) {
         onSuccess();
-      } else {
-        alert('Datos creados con éxito')
-      }
+      } 
+      alert('Datos creados con éxito')
     } catch (error) {
       store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();
-      } else {
-        alert('Error al crear datos');
       }
+      alert('Error al crear datos');
     }
   }
 
@@ -124,9 +118,8 @@ export class ApiClient {
   
       if (onError) {
         onError();
-      } else {
-        alert('Error al borrar datos');
       }
+      alert('Error al borrar datos');
     }
   }
 
