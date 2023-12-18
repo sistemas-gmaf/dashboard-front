@@ -1,3 +1,5 @@
+'use client'
+
 import SideMenu from '@/components/SideMenu';
 import Header from '@/components/Header';
 import SectionContainer from '@/components/SectionContainer';

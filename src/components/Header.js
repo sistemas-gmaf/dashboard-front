@@ -5,15 +5,44 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logoImg from '@/img/logo.png';
 
 import { toggleSideMenuState } from '@/store/slices/sidemenu';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { logout } from '@/utils/auth';
+import { ApiClient } from '@/utils/apiClient';
+import { API } from '@/utils/constants';
+import { setUserData } from '@/store/slices/user';
 
-export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = useState(null);
+export default function Header() {
+  const apiClient = new ApiClient({ url: API.PERFIL });
   const dispatch = useDispatch();
-  const router = useRouter();
+  
+  const [ displayName, setDisplayName ] = useState(false);
+  const [ anchorEl, setAnchorEl ] = useState(null);
+  const [ isClient, setIsClient ] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    let userDataLocalstorage = false;
+    if (typeof localStorage !== 'undefined') {
+      userDataLocalstorage = localStorage.getItem('user.data');
+    }
+    if (Boolean(userDataLocalstorage)) {
+      const userDataLocalStorage = JSON.parse(userDataLocalstorage);
+      dispatch(setUserData(userDataLocalStorage));
+      setDisplayName(userDataLocalStorage.displayName);
+    } else {
+      apiClient.getAll({
+        onSuccess: data => {
+          dispatch(setUserData(data));
+          setDisplayName(data.displayName);
+        }
+      });
+    }
+  }, []);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -43,7 +72,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => router.push('/')}>Cerrar Sesión</MenuItem>
+      <MenuItem onClick={() => logout()}>Cerrar Sesión</MenuItem>
     </Menu>
   );
 
@@ -67,7 +96,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Emanuel (Admin)
+            {isClient ? displayName : 'cargando...'}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { md: 'flex' } }}>

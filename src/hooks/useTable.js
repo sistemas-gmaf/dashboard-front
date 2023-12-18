@@ -1,4 +1,4 @@
-import { ApiClient } from '@/utils/ApiClient';
+import { ApiClient } from '@/utils/apiClient';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaginationModelState, setSortModelState } from '@/store/slices/tables';
@@ -15,7 +15,7 @@ export const useTable = ({ url, section }) => {
   const [ reloadTable, setReloadTable ] = useState(Math.random());
 
   useEffect(() => {
-    apiClient.getAll({ onSuccess: setRows });
+    apiClient.getAll({ onSuccess: ({data}) => setRows(data) });
   }, [reloadTable]);
 
   const reloadDataTable = () => setReloadTable(Math.random());

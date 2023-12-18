@@ -1,9 +1,11 @@
+'use client'
 import { Paper, Box, Grid, Typography } from '@mui/material';
 
 import backgroundLoginImg from '@/img/background-login.jpg';
 import { VERSION } from '@/utils/constants';
 
 import LoginForm from '@/components/LoginForm';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 function Version(props) {
   return (
@@ -14,6 +16,15 @@ function Version(props) {
 }
 
 export default function Login() {
+  const searchParams = useSearchParams();
+  const alertMessage = searchParams.get('alert');
+  const router = useRouter();
+
+  if (alertMessage && typeof alert !== 'undefined') {
+    alert(alertMessage);
+    router.replace('/');
+  }
+
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
       <Grid

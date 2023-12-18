@@ -2,13 +2,16 @@
 import { DEFAULT_TABLE_PAGINATION_MODEL, DEFAULT_TABLE_SORT_MODEL } from "@/utils/constants";
 import { createSlice } from "@reduxjs/toolkit";
 
+const defaultValues = {
+  paginationModel: DEFAULT_TABLE_PAGINATION_MODEL,
+  sortModel: DEFAULT_TABLE_SORT_MODEL,
+};
+
 export const SliceTables = createSlice({
   name: 'tables',
   initialState: {
-    transportes: {
-      paginationModel: DEFAULT_TABLE_PAGINATION_MODEL,
-      sortModel: DEFAULT_TABLE_SORT_MODEL,
-    },
+    transportes: defaultValues,
+    vehiculos: defaultValues,
   },
   reducers: {
     setPaginationModelState: (state, { payload: { section, model } }) => {

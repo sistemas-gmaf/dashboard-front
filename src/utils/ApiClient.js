@@ -1,5 +1,6 @@
 import { setBackdropState } from "@/store/slices/backdrop";
 import store from "@/store/store";
+import { logout } from "./auth";
 
 export class ApiClient {
 
@@ -8,17 +9,30 @@ export class ApiClient {
     this.id = id || false;
   }
 
-  async getAll({ onSuccess, onError }) {
+  async getAll({ onSuccess, onError, backdrop = true }) {
     try {
-      store.dispatch(setBackdropState(true));
-      
-      const response = await fetch(this.url);
+      backdrop && store.dispatch(setBackdropState(true));
+
+      const response = await fetch(this.url, { credentials: 'include' });
+
+      if (response.status === 401) {
+        alert('La sesión expiró, debe reiniciar sesión');
+        backdrop && store.dispatch(setBackdropState(false));
+        return logout();
+      }
+
+      if (response.status >= 300 || response.status < 200) {
+        throw new Error('Error en la solicitud');
+      }
+
       const result = await response.json();
-      
-      store.dispatch(setBackdropState(false));
+
+      backdrop && store.dispatch(setBackdropState(false));
       onSuccess(result);
+
+      return result;
     } catch (error) {
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();
@@ -27,17 +41,30 @@ export class ApiClient {
     }
   }
 
-  async get({ id, onSuccess, onError }) {
+  async get({ id, onSuccess, onError, backdrop = true }) {
     try {
-      store.dispatch(setBackdropState(true));
+      backdrop && store.dispatch(setBackdropState(true));
       
-      const response = await fetch(`${this.url}/${this.id || id }`);
+      const response = await fetch(`${this.url}/${this.id || id }`, { credentials: 'include' });
+
+      if (response.status === 401) {
+        alert('La sesión expiró, debe reiniciar sesión');
+        backdrop && store.dispatch(setBackdropState(false));
+        return logout();
+      }
+
+      if (response.status >= 300 || response.status < 200) {
+        throw new Error('Error en la solicitud');
+      }
+
       const result = await response.json();
       
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
       onSuccess(result);
+
+      return result;
     } catch (error) {
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();
@@ -46,25 +73,43 @@ export class ApiClient {
     }
   }
 
-  async patch({ id, data, onSuccess, onError }) {
+  async patch({ id, data, onSuccess, onError, backdrop = true }) {
     try {
-      store.dispatch(setBackdropState(true));
-      
-      await fetch(`${this.url}/${this.id || id}`, {
-        method: 'PATCH',
-        headers: {
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(data)
+      backdrop && store.dispatch(setBackdropState(true));
+
+      const formData = new FormData();
+
+      Object.keys(data).forEach(key => {
+        formData.append(key, data[key] || 'genericdata');
       });
+      
+      const response = await fetch(`${this.url}/${this.id || id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData
+      });
+      
+      if (response.status === 401) {
+        alert('La sesión expiró, debe reiniciar sesión');
+        backdrop && store.dispatch(setBackdropState(false));
+        return logout();
+      }
+
+      if (response.status >= 300 || response.status < 200) {
+        throw new Error('Error en la solicitud');
+      }
   
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
+
+      alert('Datos actualizados con éxito');
+
       if (onSuccess) {
         onSuccess();
       }
-      alert('Datos actualizados con éxito')
+      
+      return response;
     } catch (error) {
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();
@@ -73,26 +118,42 @@ export class ApiClient {
     }
   }
 
-  async post({ data, onSuccess, onError }) {
+  async post({ data, onSuccess, onError, backdrop = true }) {
     try {
-      store.dispatch(setBackdropState(true));
-      
-      await fetch(this.url, {
-        method: 'POST',
-        headers: {
-          "Content-Type": 'application/json'
-        },
-        body: JSON.stringify(data)
+      backdrop && store.dispatch(setBackdropState(true));
+
+      const formData = new FormData();
+
+      Object.keys(data).forEach(key => {
+        formData.append(key, data[key] || 'genericdata');
       });
+      
+      const response = await fetch(this.url, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData
+      });
+
+      if (response.status === 401) {
+        alert('La sesión expiró, debe reiniciar sesión');
+        backdrop && store.dispatch(setBackdropState(false));
+        return logout();
+      }
+
+      if (response.status >= 300 || response.status < 200) {
+        throw new Error('Error en la solicitud');
+      }
   
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
       if (onSuccess) {
         onSuccess();
       } 
-      alert('Datos creados con éxito')
+      alert('Datos creados con éxito');
+      
+      return response;
     } catch (error) {
-      store.dispatch(setBackdropState(false));
-  
+      backdrop && store.dispatch(setBackdropState(false));
+
       if (onError) {
         onError();
       }
@@ -100,21 +161,34 @@ export class ApiClient {
     }
   }
 
-  async delete({ id, onSuccess, onError }) {
+  async delete({ id, onSuccess, onError, backdrop = true }) {
     try {
-      store.dispatch(setBackdropState(true));
+      backdrop && store.dispatch(setBackdropState(true));
       
-      await fetch(`${this.url}/${this.id || id}`, {
-        method: 'DELETE'
+      const response = await fetch(`${this.url}/${this.id || id}`, {
+        method: 'DELETE',
+        credentials: 'include'
       });
+
+      if (response.status === 401) {
+        alert('La sesión expiró, debe reiniciar sesión');
+        backdrop && store.dispatch(setBackdropState(false));
+        return logout();
+      }
+
+      if (response.status >= 300 || response.status < 200) {
+        throw new Error('Error en la solicitud');
+      }
   
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
       if (onSuccess) {
         onSuccess();
       }
-      alert('Borrado con éxito')
+      alert('Borrado con éxito');
+      
+      return response;
     } catch (error) {
-      store.dispatch(setBackdropState(false));
+      backdrop && store.dispatch(setBackdropState(false));
   
       if (onError) {
         onError();

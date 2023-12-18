@@ -1,23 +1,16 @@
 'use client'
 
+import { login } from "@/utils/auth";
 import { Box, Button } from "@mui/material";
-import { useRouter } from "next/navigation";
 
 function LoginForm() {
-  const router = useRouter();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    router.push('/dashboard/inicio');
-  };
-
   return (
-    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+    <Box sx={{ mt: 1 }}>
       <Button
-        type="submit"
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
+        onClick={() => login()}
       >
         Iniciar Sesión con Microsoft
       </Button>

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ApiClient } from '@/utils/ApiClient';
+import { ApiClient } from '@/utils/apiClient';
 import { useEffect, useState } from 'react';
 
 export const useForm = ({ url, id, callback }) => {
@@ -42,11 +42,12 @@ export const useForm = ({ url, id, callback }) => {
   let response = { 
     inputProps: { 
       onChange
-    } 
+    },
+    formData
   };
 
   if (id) {
-    response = { ...response, formData, handleEdit };
+    response = { ...response, handleEdit };
   } else {
     response = { ...response, handleCreate };
   }

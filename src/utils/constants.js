@@ -15,7 +15,13 @@ export const DEFAULT_TABLE_FILTERS_MODEL = {
 };
 
 export const API = {
+  LOGIN: `${process.env.API_URL}/auth/login`,
+  LOGOUT: `${process.env.API_URL}/auth/logout`,
+  PERFIL: `${process.env.API_URL}/perfil`,
   TRANSPORTES: `${process.env.API_URL}/transportes`,
+  VEHICULOS: `${process.env.API_URL}/vehiculos`,
+  CHOFERES: `${process.env.API_URL}/choferes`,
+  VEHICULOS_TIPOS: `${process.env.API_URL}/vehiculos-tipos`,
 };
 
 export const TABLE_COLUMNS = {
@@ -24,5 +30,12 @@ export const TABLE_COLUMNS = {
     { field: 'nombre', headerName: 'Nombre', minWidth: 170, flex: 1 },
     { field: 'descripcion', headerName: 'Descripción', minWidth: 170, flex: 1  },
     { field: 'fecha_creacion', headerName: 'Fecha de Creación', minWidth: 170, flex: 1  },
+  ],
+  VEHICULOS: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'chofer_nombre', headerName: 'Chofer', minWidth: 170, flex: 1 },
+    { field: 'vehiculo_patente', headerName: 'Patente', minWidth: 80, flex: 1  },
+    { field: 'vehiculo_tipo_descripcion', headerName: 'Tipo de Vehículo', minWidth: 150, flex: 1  },
+    { field: 'transporte_nombre', headerName: 'Transporte', minWidth: 170, flex: 1  },
   ]
 };

@@ -15,6 +15,18 @@ const nextConfig = {
         port: '',
         pathname: '/wp-content/uploads/2023/04/Work-in-Progress.jpg',
       },
+      {
+        protocol: 'https',
+        hostname: '1drv.ms',
+      },
+      {
+        protocol: 'https',
+        hostname: 'onedrive.live.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'yqpagg.ph.files.1drv.com'
+      }
     ],
   },
   env: {
