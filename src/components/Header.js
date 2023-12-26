@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logoImg from '@/img/logo.png';
 
 import { toggleSideMenuState } from '@/store/slices/sidemenu';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { logout } from '@/utils/auth';
@@ -17,7 +17,9 @@ export default function Header() {
   const apiClient = new ApiClient({ url: API.PERFIL });
   const dispatch = useDispatch();
   
-  const [ displayName, setDisplayName ] = useState(false);
+  const [ displayName, setDisplayName ] = useState((typeof localStorage !== 'undefined') 
+    ? JSON.parse(localStorage.getItem('user.data')).displayName
+    : false);
   const [ anchorEl, setAnchorEl ] = useState(null);
   const [ isClient, setIsClient ] = useState(false);
 
@@ -33,7 +35,6 @@ export default function Header() {
     if (Boolean(userDataLocalstorage)) {
       const userDataLocalStorage = JSON.parse(userDataLocalstorage);
       dispatch(setUserData(userDataLocalStorage));
-      setDisplayName(userDataLocalStorage.displayName);
     } else {
       apiClient.getAll({
         onSuccess: data => {

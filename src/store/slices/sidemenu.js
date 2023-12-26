@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const SliceSideMenu = createSlice({
   name: 'sidemenu',
   initialState: {
-    open: false,
+    open: true,
   },
   reducers: {
     toggleSideMenuState: (state) => {

@@ -8,7 +8,6 @@ import 'moment/locale/es';
 import { API } from "@/utils/constants";
 import { ApiClient } from "@/utils/apiClient";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 
 export default function Detalle({ id }) {
   const apiClient = new ApiClient({ url: API.VEHICULOS, id });
@@ -43,10 +42,14 @@ export default function Detalle({ id }) {
         DNI del chofer: {data?.chofer_dni || 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Documentación verificación técnica:
-        <IconButton onClick={() => setOpenModal(true)}>
-          <PreviewIcon fontSize="large" />
-        </IconButton>
+        {
+          data?.vtv_url && <>
+            Documentación verificación técnica:
+            <IconButton onClick={() => setOpenModal(true)}>
+              <PreviewIcon fontSize="large" />
+            </IconButton>
+          </>
+        }
       </Typography>
       <Dialog
         open={openModal}

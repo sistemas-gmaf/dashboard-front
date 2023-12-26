@@ -34,9 +34,7 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
           {...{
             ...field,
             onChange: (_, data) => {
-              if (data) {
-                field.onChange(data);
-              }
+              field.onChange(data || undefined);
             }
           }}
         />
