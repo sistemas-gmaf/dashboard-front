@@ -156,7 +156,7 @@ export const useFormCustom = ({
     if (mode == 'edit') {
       apiClient.get({
         id,
-        onSuccess: (data) => {
+        onSuccess: ({ data }) => {
           const defaultData = handleGetDefaultData ? handleGetDefaultData(data) : data;
 
           setDefaultValues(defaultData);
