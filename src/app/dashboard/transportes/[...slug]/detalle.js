@@ -8,6 +8,7 @@ import 'moment/locale/es';
 import { API } from "@/utils/constants";
 import { useEffect, useState } from "react";
 import { ApiClient } from "@/utils/apiClient";
+import DocVisualize from "@/components/DocVisualize";
 
 export default function Detalle({ id }) {
   const apiClient = new ApiClient({ url: API.TRANSPORTES, id });
@@ -29,6 +30,11 @@ export default function Detalle({ id }) {
         Fecha de Creacion:
         {data?.fecha_creacion ? `${moment(data?.fecha_creacion, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
       </Typography>
+      <DocVisualize
+        url={data?.constancia_afip_url}
+        type={data?.constancia_afip_filetype}
+        title={'Constancia de AFIP'}
+      />
     </Box>
   )
 }

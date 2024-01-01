@@ -8,6 +8,12 @@ import { useFormCustom } from "@/hooks/useFormCustom";
 
 export default function Editar({ id }) {
   const router = useRouter();
+
+  const handleGetDefaultData = (data) => {
+    const { constancia_afip_url, constancia_afip_filetype } = data;
+
+    return { ...data, constancia_afip: { url: constancia_afip_url, type: constancia_afip_filetype } };
+  };
   
   const onSuccess = () => {
     router.push('/dashboard/transportes');
@@ -25,10 +31,16 @@ export default function Editar({ id }) {
       label: 'Descripcion acerca de la empresa', 
       name: 'descripcion',
     },
+    {
+      type: 'file',
+      label: 'Constancia de AFIP',
+      name: 'constancia_afip'
+    }
   ];
 
   const { Form } = useFormCustom({ 
     url: API.TRANSPORTES,
+    handleGetDefaultData,
     mode: 'edit',
     onSuccess,
     fields,

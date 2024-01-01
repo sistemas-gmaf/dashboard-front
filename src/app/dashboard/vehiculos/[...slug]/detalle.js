@@ -1,24 +1,17 @@
 'use client'
 
-import { Box, Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
-import PreviewIcon from '@mui/icons-material/Preview';
+import { Box, Typography } from "@mui/material";
 
 import 'moment/locale/es';
 
 import { API } from "@/utils/constants";
 import { ApiClient } from "@/utils/apiClient";
 import { useEffect, useState } from "react";
-import PDFViewer from "@/components/PDFViewer";
-import Image from "next/image";
+import DocVisualize from "@/components/DocVisualize";
 
 export default function Detalle({ id }) {
   const apiClient = new ApiClient({ url: API.VEHICULOS, id });
   const [ data, setData ] = useState({});
-  const [ openModal, setOpenModal ] = useState(false);
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  }
 
   useEffect(() => {
     apiClient.get({ onSuccess: ({data: resp}) => {
@@ -43,47 +36,11 @@ export default function Detalle({ id }) {
       <Typography variant="h5" textAlign={'center'}>
         DNI del chofer: {data?.chofer_dni || 'Cargando...'}
       </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        {
-          data?.vtv_url && <>
-            Documentación verificación técnica:
-            <IconButton onClick={() => setOpenModal(true)}>
-              <PreviewIcon fontSize="large" />
-            </IconButton>
-          </>
-        }
-      </Typography>
-      <Dialog
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="Previsualización de documento"
-        aria-describedby="Previsualización de documento"
-        sx={{
-          zIndex: 5000
-        }}
-      >
-        <DialogContent>
-          {
-            data?.vtv_filetype?.includes('pdf')
-            ? <PDFViewer
-                pdfUrl={data?.vtv_url}
-                width={500}
-                height={500}
-              />
-            : <img
-                src={data?.vtv_url}
-                width={500}
-                height={500}
-                style={{
-                  objectFit: 'contain'
-                }}
-              />
-          }          
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Cerrar</Button>
-        </DialogActions>
-      </Dialog>
+      <DocVisualize
+        url={data?.vtv_url}
+        type={data?.vtv_filetype}
+        title={'Documentación verificación técnica'}
+      />
     </Box>
   )
 }

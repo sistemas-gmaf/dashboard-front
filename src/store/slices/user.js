@@ -1,16 +1,11 @@
 'use client'
+import { getFromStorage } from "@/utils/getFromStorage";
 import { createSlice } from "@reduxjs/toolkit";
-
-let initialData = {};
-
-if (typeof localStorage !== 'undefined') {
-  initialData = JSON.parse(localStorage.getItem('user.data'));
-}
 
 export const SliceUser = createSlice({
   name: 'user',
   initialState: {
-    data: initialData
+    data: getFromStorage('user.data') || {}
   },
   reducers: {
     setUserData: (state, { payload }) => {
