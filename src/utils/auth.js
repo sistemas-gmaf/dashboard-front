@@ -5,5 +5,6 @@ export const login = () => {
 };
 
 export const logout = () => {
+  localStorage.removeItem('user.data');
   window.location.href = API.LOGOUT;
 }

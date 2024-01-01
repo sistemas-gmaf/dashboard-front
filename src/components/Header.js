@@ -18,7 +18,7 @@ export default function Header() {
   const dispatch = useDispatch();
   
   const [ displayName, setDisplayName ] = useState((typeof localStorage !== 'undefined') 
-    ? JSON.parse(localStorage.getItem('user.data')).displayName
+    ? (JSON.parse(localStorage.getItem('user.data'))?.displayName || false)
     : false);
   const [ anchorEl, setAnchorEl ] = useState(null);
   const [ isClient, setIsClient ] = useState(false);

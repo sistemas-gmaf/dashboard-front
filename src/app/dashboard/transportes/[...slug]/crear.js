@@ -18,6 +18,11 @@ export default function Crear() {
       label: 'Descripcion acerca de la empresa', 
       name: 'descripcion',
     },
+    {
+      type: 'file',
+      label: 'Constancia de AFIP',
+      name: 'constancia_afip'
+    }
   ];
 
   const { Form } = useFormCustom({ 

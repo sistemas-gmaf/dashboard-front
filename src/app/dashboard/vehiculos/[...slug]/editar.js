@@ -10,14 +10,15 @@ import { useFormCustom } from "@/hooks/useFormCustom";
 export default function Editar({ id }) {
   const router = useRouter();
   
-  const handleGetDefaultData = ({ data: {
-    transporte_id, transporte_nombre,
-    chofer_id, chofer_nombre, chofer_dni,
-    vehiculo_patente,
-    vehiculo_tipo_id, vehiculo_tipo_descripcion,
-    vtv_url,
-    vtv_filetype
-  } }) => {
+  const handleGetDefaultData = (data) => {
+    const {
+      transporte_id, transporte_nombre,
+      chofer_id, chofer_nombre, chofer_dni,
+      vehiculo_patente,
+      vehiculo_tipo_id, vehiculo_tipo_descripcion,
+      vtv_url,
+      vtv_filetype
+    } = data;
     const transporte = { id: transporte_id, nombre: transporte_nombre };
     const chofer = { id: chofer_id, nombre: chofer_nombre, dni: chofer_dni };
     const patente = vehiculo_patente;

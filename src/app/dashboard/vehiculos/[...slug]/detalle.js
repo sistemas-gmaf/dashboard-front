@@ -8,6 +8,8 @@ import 'moment/locale/es';
 import { API } from "@/utils/constants";
 import { ApiClient } from "@/utils/apiClient";
 import { useEffect, useState } from "react";
+import PDFViewer from "@/components/PDFViewer";
+import Image from "next/image";
 
 export default function Detalle({ id }) {
   const apiClient = new ApiClient({ url: API.VEHICULOS, id });
@@ -61,12 +63,22 @@ export default function Detalle({ id }) {
         }}
       >
         <DialogContent>
-          <Box
-            component={'object'}
-            data={data?.vtv_url}
-            width={500}
-            height={500}
-          />
+          {
+            data?.vtv_filetype?.includes('pdf')
+            ? <PDFViewer
+                pdfUrl={data?.vtv_url}
+                width={500}
+                height={500}
+              />
+            : <img
+                src={data?.vtv_url}
+                width={500}
+                height={500}
+                style={{
+                  objectFit: 'contain'
+                }}
+              />
+          }          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal}>Cerrar</Button>

@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import PreviewIcon from '@mui/icons-material/Preview';
 import Image from "next/image";
 import { isMobile } from "@/utils/mobile";
+import PDFViewer from "./PDFViewer";
 
 export default function FileInput({ 
   name, 
@@ -177,12 +178,22 @@ export default function FileInput({
       >
         <DialogTitle textAlign={'center'} id="prev-document">Previsualización de documento</DialogTitle>
         <DialogContent>
-          <Box
-            component={'embed'}
-            src={fileToShowUrl}
-            width={500}
-            height={500}
-          />
+        {
+            fileToShow?.type?.includes('pdf')
+            ? <PDFViewer
+                pdfUrl={fileToShowUrl}
+                width={500}
+                height={500}
+              />
+            : <img
+                src={fileToShowUrl}
+                width={500}
+                height={500}
+                style={{
+                  objectFit: 'contain'
+                }}
+              />
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal}>Cerrar</Button>
