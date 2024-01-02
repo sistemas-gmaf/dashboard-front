@@ -125,7 +125,9 @@ export class ApiClient {
       const formData = new FormData();
 
       Object.keys(data).forEach(key => {
-        formData.append(key, data[key] || 'genericdata');
+        if (data[key]) {
+          formData.append(key, data[key]);
+        }
       });
       
       const response = await fetch(this.url, {

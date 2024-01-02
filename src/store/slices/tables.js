@@ -12,10 +12,14 @@ export const SliceTables = createSlice({
   initialState: {
     transportes: defaultValues,
     vehiculos: defaultValues,
+    choferes: defaultValues,
   },
   reducers: {
     setPaginationModelState: (state, { payload: { section, model } }) => {
       state[section].paginationModel = model;
+    },
+    setSortModelState: (state, { payload: { section, model } }) => {
+      state[section].sortModel = model;
     },
     setSortModelState: (state, { payload: { section, model } }) => {
       state[section].sortModel = model;

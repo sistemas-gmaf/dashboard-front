@@ -37,5 +37,12 @@ export const TABLE_COLUMNS = {
     { field: 'vehiculo_patente', headerName: 'Patente', minWidth: 80, flex: 1  },
     { field: 'vehiculo_tipo_descripcion', headerName: 'Tipo de Vehículo', minWidth: 150, flex: 1  },
     { field: 'transporte_nombre', headerName: 'Transporte', minWidth: 170, flex: 1  },
+  ],
+  CHOFERES: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'nombre', headerName: 'Chofer', minWidth: 170, flex: 1 },
+    { field: 'dni', headerName: 'DNI', minWidth: 170, flex: 1 },
+    { field: 'celular', headerName: 'Celular', minWidth: 100, flex: 1  },
+    { field: 'correo', headerName: 'Email', minWidth: 150, flex: 1  },
   ]
 };

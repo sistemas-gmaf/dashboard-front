@@ -1,26 +1,20 @@
+import { Box, Typography } from '@mui/material';
 
-import MediaCard from '@/components/MediaCard';
-import { Alert, AlertTitle, Box } from '@mui/material';
+import Table from '@/components/Table/Table';
+import { API, TABLE_COLUMNS } from '@/utils/constants';
 
-import Grid from '@mui/material/Unstable_Grid2';
-
-export default function HomePage() {
+export default function ChoferesPage() {
   return (
     <Box>
-      <div>
-        <Alert severity="info" sx={{ mt: 2, mb: 5 }}>
-          <AlertTitle>Hola 👋</AlertTitle>
-          Esta aplicación está en construcción
-        </Alert>
-        <Grid container rowSpacing={3} columnSpacing={3}>
-          <Grid xs={6} xsOffset={3}>
-            <MediaCard
-              heading="Estamos trabajando en la aplicación"
-              text="Esta es una pantalla de prueba inicial para verificar que el proyecto se visualiza correctamente..."
-            />
-          </Grid>
-        </Grid>
-      </div>
+      <Typography variant='h5'>Choferes</Typography>
+      <Table
+        url={API.CHOFERES}
+        columns={TABLE_COLUMNS.CHOFERES}
+        section={'choferes'}
+        createRoute={'/dashboard/choferes/crear'}
+        detailRoute={'/dashboard/choferes/detalle'}
+        editRoute={'/dashboard/choferes/editar'}
+      />
     </Box>
   );
 }

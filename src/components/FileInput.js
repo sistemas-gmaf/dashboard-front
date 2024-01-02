@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, ImageList, ImageListItem, ImageListItemBar, InputAdornment, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, ImageList, ImageListItem, ImageListItemBar, InputAdornment, TextField, Tooltip, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -8,7 +8,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import PreviewIcon from '@mui/icons-material/Preview';
-import Image from "next/image";
 import { isMobile } from "@/utils/mobile";
 import PDFViewer from "./PDFViewer";
 
