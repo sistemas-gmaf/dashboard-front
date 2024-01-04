@@ -22,6 +22,7 @@ export const API = {
   VEHICULOS: `${process.env.API_URL}/vehiculos`,
   CHOFERES: `${process.env.API_URL}/choferes`,
   VEHICULOS_TIPOS: `${process.env.API_URL}/vehiculos-tipos`,
+  CLIENTES: `${process.env.API_URL}/clientes`,
 };
 
 export const TABLE_COLUMNS = {
@@ -43,6 +44,13 @@ export const TABLE_COLUMNS = {
     { field: 'nombre', headerName: 'Chofer', minWidth: 170, flex: 1 },
     { field: 'dni', headerName: 'DNI', minWidth: 170, flex: 1 },
     { field: 'celular', headerName: 'Celular', minWidth: 100, flex: 1  },
+    { field: 'correo', headerName: 'Email', minWidth: 150, flex: 1  },
+  ],
+  CLIENTES: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'cuit', headerName: 'Cuit', minWidth: 170, flex: 1 },
+    { field: 'razon_social', headerName: 'Razón Social', minWidth: 170, flex: 1 },
+    { field: 'abreviacion_razon_social', headerName: 'Abreviacion RS', minWidth: 100, flex: 1  },
     { field: 'correo', headerName: 'Email', minWidth: 150, flex: 1  },
   ]
 };
