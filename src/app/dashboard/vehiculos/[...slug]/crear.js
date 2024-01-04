@@ -41,7 +41,7 @@ export default function Crear() {
     { 
       type: 'autocomplete', 
       url: API.VEHICULOS_TIPOS, 
-      label: 'Transporte', 
+      label: 'Tipo de vehiculo', 
       name: 'vehiculo_tipo',
       optionLabels: ['descripcion'],
       required: true

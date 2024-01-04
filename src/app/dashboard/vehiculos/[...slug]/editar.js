@@ -58,7 +58,7 @@ export default function Editar({ id }) {
     { 
       type: 'autocomplete', 
       url: API.VEHICULOS_TIPOS, 
-      label: 'Transporte', 
+      label: 'Tipo de Vehiculo', 
       name: 'vehiculo_tipo',
       optionLabels: ['descripcion'],
       required: true
