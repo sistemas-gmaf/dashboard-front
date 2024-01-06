@@ -23,6 +23,7 @@ export const API = {
   CHOFERES: `${process.env.API_URL}/choferes`,
   VEHICULOS_TIPOS: `${process.env.API_URL}/vehiculos-tipos`,
   CLIENTES: `${process.env.API_URL}/clientes`,
+  RECORDATORIOS: `${process.env.API_URL}/recordatorios`,
 };
 
 export const TABLE_COLUMNS = {
@@ -52,5 +53,12 @@ export const TABLE_COLUMNS = {
     { field: 'razon_social', headerName: 'Razón Social', minWidth: 170, flex: 1 },
     { field: 'abreviacion_razon_social', headerName: 'Abreviacion RS', minWidth: 100, flex: 1  },
     { field: 'correo', headerName: 'Email', minWidth: 150, flex: 1  },
-  ]
+  ],
+  RECORDATORIOS: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'titulo', headerName: 'Titulo', minWidth: 170, flex: 1 },
+    { field: 'descripcion', headerName: 'Descripcion', minWidth: 170, flex: 1 },
+    { field: 'fecha_limite_formateada', headerName: 'Fecha Limite', minWidth: 170, flex: 1  },
+    { field: 'cantidad_dias_aviso', headerName: 'Dias de Aviso', minWidth: 120, flex: 1  },
+  ],
 };

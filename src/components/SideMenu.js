@@ -1,6 +1,6 @@
 'use client'
 
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
@@ -29,7 +29,7 @@ const LINKS = [
   { text: 'Viajes', href: '/dashboard/viajes', icon: EmojiTransportationIcon },
   { text: 'Cheques', href: '/dashboard/cheques', icon: LocalAtmIcon },
   { text: 'Compromisos', href: '/dashboard/compromisos', icon: ReceiptIcon },
-  { text: 'Alertas', href: '/dashboard/alertas', icon: NotificationsIcon },
+  { text: 'Recordatorios', href: '/dashboard/recordatorios', icon: NotificationsIcon },
   { text: 'Gestión de Usuarios', href: '/dashboard/usuarios', icon: SupervisedUserCircleIcon },
 ];
 
@@ -57,41 +57,43 @@ function SideMenu() {
     >
       <List>
         {LINKS.map(({text, href, icon: Icon}) => (
-          <ListItem 
-            key={text} 
-            disablePadding 
-            sx={{ display: 'block' }}
-          >
-            <ListItemButton
-              component={Link}
-              href={href}
-              selected={pathname.includes(href)}
-              sx={{
-                width: sideMenuOpen ? 'initial': `${DRAWER_WIDTH_CLOSED}px`,
-                maxHeight: '48px'
-              }}
+          <Tooltip title={text} placement='right' disableHoverListener={sideMenuOpen}>
+            <ListItem 
+              key={text} 
+              disablePadding 
+              sx={{ display: 'block' }}
             >
-              <ListItemIcon
+              <ListItemButton
+                component={Link}
+                href={href}
+                selected={pathname.includes(href)}
                 sx={{
-                  minWidth: 0,
-                  mr: sideMenuOpen ? 3 : 'auto',
-                  justifyContent: 'center',
+                  width: sideMenuOpen ? 'initial': `${DRAWER_WIDTH_CLOSED}px`,
+                  maxHeight: '48px'
                 }}
               >
-                <Icon />
-              </ListItemIcon>
-              <ListItemText 
-                primary={text} 
-                sx={{ 
-                  opacity: sideMenuOpen ? 1 : 0,
-                  '& span': {
-                    whiteSpace: 'pre',
-                    textOverflow: 'ellipsis',
-                  }
-                }} 
-              />
-            </ListItemButton>
-          </ListItem>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: sideMenuOpen ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Icon />
+                </ListItemIcon>
+                <ListItemText 
+                  primary={text} 
+                  sx={{ 
+                    opacity: sideMenuOpen ? 1 : 0,
+                    '& span': {
+                      whiteSpace: 'pre',
+                      textOverflow: 'ellipsis',
+                    }
+                  }} 
+                />
+              </ListItemButton>
+            </ListItem>
+          </Tooltip>
         ))}
       </List>
     </Drawer>

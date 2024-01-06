@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Box, Button, TextField } from "@mui/material";
 import Autocomplete from "@/components/Autocomplete";
 import FileInput from "@/components/FileInput";
+import DateInput from "@/components/DateInput";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import * as yup from "yup";
@@ -27,6 +28,20 @@ const fieldTypeProps = {
       helperText: Boolean(errors[name]) ? errors[name].message : ' ',
       ...register(name)
     }),
+  number: ({ label, name, register, errors }) => 
+    ({
+      fullWidth: true, label, variant: "outlined", autoComplete: "off",
+      sx: { mt: 1 }, inputProps: { style: { textTransform: "uppercase" } },
+      error: Boolean(errors[name]), 
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
+      ...register(name)
+    }),
+  date: ({ label, control, name, errors }) => 
+    ({
+      label, control, name,
+      error: Boolean(errors[name]),  
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
+    }),
   file: ({ name, control, label, resetField, errors, defaultValues }) => 
     ({
       name, control, label, callbackReset: () => resetField(name),
@@ -39,6 +54,8 @@ const fieldTypeProps = {
 const fieldTypeComponents = {
   autocomplete: Autocomplete,
   textfield: TextField,
+  number: TextField,
+  date: DateInput,
   file: FileInput
 };
 
@@ -53,6 +70,24 @@ const fieldsSchema = (fields = []) => {
     },
     textfield: (required = false) => {
       let fieldSchema =yup.string();
+      if (required) { fieldSchema = fieldSchema.required('Este campo es requerido'); }
+      return fieldSchema;
+    },
+    number: (required = false) => {
+      let fieldSchema = yup.mixed()
+        .test('isNumber', 'Debe ser un numero', value => {
+          return !isNaN(value);
+        });
+      if (required) { 
+        fieldSchema = fieldSchema
+          .test('isRequired', 'Este campo es requerido', value => {
+            return value !== '';
+          });
+      }
+      return fieldSchema;
+    },
+    date: (required = false) => {
+      let fieldSchema = yup.date();
       if (required) { fieldSchema = fieldSchema.required('Este campo es requerido'); }
       return fieldSchema;
     },
@@ -101,9 +136,9 @@ export const useFormCustom = ({
     if (mode == 'edit') {
       // Lógica para verificar solo los valores que han cambiado 
       const changedValues = {};
-      Object.keys(formdata).forEach((key) => {
-        if (!isEqual(formdata[key], defaultValues[key])) {
-          changedValues[key] = formdata[key];
+      Object.keys(data).forEach((key) => {
+        if (!isEqual(data[key], defaultValues[key])) {
+          changedValues[key] = data[key];
         }
       });
 
