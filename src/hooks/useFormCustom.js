@@ -13,12 +13,14 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { deepClone } from "@/utils/deepClone";
 import { isEqual } from "lodash";
+import CurrencyInput from "@/components/CurrencyInput";
 
 const fieldTypeProps = {
-  autocomplete: ({ url, label, name, control, optionLabels, errors }) => 
+  autocomplete: ({ url, label, name, control, optionLabels, errors, freeSolo = false }) => 
     ({
-      url, inputLabel: label, name, control, optionLabels, error: Boolean(errors[name]),
-      helperText: Boolean(errors[name]) ? errors[name].message : ' '
+      url, inputLabel: label, name, control, optionLabels, 
+      error: Boolean(errors[name]?.id), freeSolo,
+      helperText: Boolean(errors[name]?.id) ? errors[name]?.id?.message : ' '
     }),
   textfield: ({ label, name, register, errors }) => 
     ({
@@ -35,6 +37,12 @@ const fieldTypeProps = {
       error: Boolean(errors[name]), 
       helperText: Boolean(errors[name]) ? errors[name].message : ' ',
       ...register(name)
+    }),
+  currency: ({ label, control, name, errors }) => 
+    ({
+      label, control, name,
+      error: Boolean(errors[name]),  
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
     }),
   date: ({ label, control, name, errors }) => 
     ({
@@ -55,6 +63,7 @@ const fieldTypeComponents = {
   autocomplete: Autocomplete,
   textfield: TextField,
   number: TextField,
+  currency: CurrencyInput,
   date: DateInput,
   file: FileInput
 };
@@ -62,9 +71,13 @@ const fieldTypeComponents = {
 const fieldsSchema = (fields = []) => {
   const mapFieldSchema = {
     autocomplete: (required = false) => {
-      let fieldSchema = yup.object();
+      let fieldSchema;
       if (required) { 
-        fieldSchema = fieldSchema.required('Este campo es requerido'); 
+        fieldSchema = yup.object().shape({
+          id: yup.string().required('Este campo es requerido'),
+        })
+      } else {
+        fieldSchema = yup.mixed();
       }
       return fieldSchema;
     },
@@ -84,6 +97,11 @@ const fieldsSchema = (fields = []) => {
             return value !== '';
           });
       }
+      return fieldSchema;
+    },
+    currency: (required = false) => {
+      let fieldSchema = yup.string();
+      if (required) { fieldSchema = fieldSchema.required('Este campo es requerido'); }
       return fieldSchema;
     },
     date: (required = false) => {
@@ -132,7 +150,7 @@ export const useFormCustom = ({
 
   const onSubmit = handleSubmit(formdata => {
     let data = handleSubmitCustomFormdata ? handleSubmitCustomFormdata(formdata) : formdata;
-    
+
     if (mode == 'edit') {
       // Lógica para verificar solo los valores que han cambiado 
       const changedValues = {};

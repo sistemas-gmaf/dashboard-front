@@ -24,6 +24,11 @@ export const API = {
   VEHICULOS_TIPOS: `${process.env.API_URL}/vehiculos-tipos`,
   CLIENTES: `${process.env.API_URL}/clientes`,
   RECORDATORIOS: `${process.env.API_URL}/recordatorios`,
+  COMPROMISOS: `${process.env.API_URL}/compromisos`,
+  COMPROMISOS_CATEGORIAS: `${process.env.API_URL}/compromisos-categorias`,
+  COMPROMISOS_RAZONES_SOCIALES: `${process.env.API_URL}/compromisos-razones-sociales`,
+  COMPROMISOS_REFERENCIAS: `${process.env.API_URL}/compromisos-referencias`,
+  COMPROMISOS_ESTADOS: `${process.env.API_URL}/compromisos-estados`,
 };
 
 export const TABLE_COLUMNS = {
@@ -60,5 +65,13 @@ export const TABLE_COLUMNS = {
     { field: 'descripcion', headerName: 'Descripcion', minWidth: 170, flex: 1 },
     { field: 'fecha_limite_formateada', headerName: 'Fecha Limite', minWidth: 170, flex: 1  },
     { field: 'cantidad_dias_aviso', headerName: 'Dias de Aviso', minWidth: 120, flex: 1  },
+  ],
+  COMPROMISOS: [
+    { field: 'id', headerName: 'ID' },
+    { field: 'categoria', headerName: 'Categoria', minWidth: 170, flex: 1 },
+    { field: 'razon_social', headerName: 'Razon Social', minWidth: 170, flex: 1 },
+    { field: 'referencia', headerName: 'Referencia', minWidth: 170, flex: 1  },
+    { field: 'fecha_formateada', headerName: 'Fecha', minWidth: 120, flex: 1  },
+    { field: 'estado', headerName: 'Estado', minWidth: 120, flex: 1  },
   ],
 };

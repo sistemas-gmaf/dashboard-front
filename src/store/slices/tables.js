@@ -15,6 +15,8 @@ export const SliceTables = createSlice({
     choferes: defaultValues,
     clientes: defaultValues,
     recordatorios: defaultValues,
+    compromisos: defaultValues,
+    cheques: defaultValues,
   },
   reducers: {
     setPaginationModelState: (state, { payload: { section, model } }) => {

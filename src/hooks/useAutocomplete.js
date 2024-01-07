@@ -2,7 +2,7 @@ import { ApiClient } from "@/utils/apiClient";
 import { CircularProgress, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export function useAutocomplete({ inputLabel, url, optionLabels, error, helperText, dataField }) {
+export function useAutocomplete({ inputLabel, url, optionLabels, error, helperText, dataField, freeSolo }) {
   const apiClient = new ApiClient({ url });
 
   const [open, setOpen] = useState(false);
@@ -66,7 +66,11 @@ export function useAutocomplete({ inputLabel, url, optionLabels, error, helperTe
   };
 
   const isOptionEqualToValue = (option, value) => {
-    return option[dataField] === value[dataField];
+    if (!freeSolo) {
+      return option[dataField] === value[dataField];
+    } else {
+      return true;
+    }
   }
 
   const getOptionLabel = option => {

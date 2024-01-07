@@ -12,14 +12,15 @@ import { Autocomplete } from "@mui/material";
  * @param {string} dataField - Que propiedad se va a tener en cuenta para enviar en el onSubmit, por default id
  * @param {object} control - Necesario para react-hook-form
  */
-export default function AutocompleteCustom({ url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText }) {
+export default function AutocompleteCustom({ url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText, freeSolo }) {
   const autocompleteProps = useAutocomplete({ 
     url,
     inputLabel,
     optionLabels,
     error,
     helperText,
-    dataField
+    dataField,
+    freeSolo
   });
 
   return (
@@ -33,8 +34,40 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
           {...autocompleteProps}
           {...{
             ...field,
+            freeSolo,
             onChange: (_, data) => {
-              field.onChange(data || undefined);
+              if (!freeSolo) {
+                field.onChange(data || {});
+              } else {
+                if (data?.id) {
+                  field.onChange(data || {});
+                } else {
+                  field.onChange(data ? {
+                    id: data,
+                    descripcion: data
+                  } : {});
+                }
+              }
+            },
+            onInputChange: (_, data) => {
+              if (freeSolo) {
+                field.onChange(data ? {
+                  [dataField]: data,
+                  descripcion: data
+                } : {});
+              }
+            },
+            onBlur: (e) => {
+              field.onBlur(e);
+
+              if (freeSolo && !field.value?.id) {
+                const data = e.target.value;
+                
+                field.onChange(data ? {
+                  [dataField]: data,
+                  descripcion: data
+                } : {});
+              }
             }
           }}
         />
