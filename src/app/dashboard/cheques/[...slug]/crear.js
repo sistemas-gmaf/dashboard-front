@@ -9,26 +9,63 @@ import moment from "moment";
 export default function Crear() {
   const fields = [
     { 
-      type: 'textfield', 
-      label: 'Titulo', 
-      name: 'titulo',
+      type: 'date', 
+      label: 'Fecha Emision', 
+      name: 'fecha_emision',
       required: true,
     },
     { 
-      type: 'textfield', 
-      label: 'Descripcion', 
-      name: 'descripcion',
-    },
-    { 
       type: 'date', 
-      label: 'Fecha Limite', 
-      name: 'fecha_limite',
+      label: 'Fecha Pago', 
+      name: 'fecha_pago',
       required: true,
     },
     { 
       type: 'number', 
-      label: 'Dias de Aviso', 
-      name: 'cantidad_dias_aviso',
+      label: 'Numero', 
+      name: 'numero',
+      required: true,
+    },
+    { 
+      type: 'autocomplete', 
+      label: 'Banco', 
+      name: 'banco',
+      url: API.CHEQUES_BANCOS,
+      optionLabels: ['descripcion'],
+      freeSolo: true,
+      required: true,
+    },
+    { 
+      type: 'currency', 
+      label: 'Importe', 
+      name: 'importe',
+      required: true,
+    },
+    { 
+      type: 'autocomplete', 
+      label: 'Referencia', 
+      name: 'referencia',
+      url: API.CHEQUES_REFERENCIAS,
+      optionLabels: ['descripcion'],
+      freeSolo: true,
+      required: true,
+    },
+    { 
+      type: 'autocomplete', 
+      label: 'Proveedor', 
+      name: 'proveedor',
+      url: API.CHEQUES_PROVEEDORES,
+      optionLabels: ['descripcion'],
+      freeSolo: true,
+      required: true,
+    },
+    { 
+      type: 'autocomplete', 
+      label: 'Estado', 
+      name: 'estado',
+      url: API.CHEQUES_ESTADOS,
+      optionLabels: ['descripcion'],
+      freeSolo: true,
       required: true,
     },
   ];
@@ -36,20 +73,25 @@ export default function Crear() {
   const handleSubmitCustomFormdata = (formdata) => {
     return { 
       ...formdata, 
-      fecha_limite: moment(formdata.fecha_limite).format('YYYYMMDD') 
+      fecha_emision: moment(formdata.fecha_emision).format('YYYYMMDD'),
+      fecha_pago: moment(formdata.fecha_pago).format('YYYYMMDD'),
+      estado: formdata.estado.id,
+      proveedor: formdata.proveedor.id,
+      referencia: formdata.referencia.id,
+      banco: formdata.banco.id
     };
   };
 
   const { Form } = useFormCustom({ 
     handleSubmitCustomFormdata,
-    url: API.RECORDATORIOS,
+    url: API.CHEQUES,
     fields
   });
 
   return (
     <Box>
       <Typography variant="h5" textAlign={'center'}>
-        Crear Recordatorio
+        Crear Cheque
       </Typography>
       <Stack alignItems={'center'}>
         <Form />

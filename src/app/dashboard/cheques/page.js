@@ -3,17 +3,17 @@ import { Box, Typography } from '@mui/material';
 import Table from '@/components/Table/Table';
 import { API, TABLE_COLUMNS } from '@/utils/constants';
 
-export default function RecordatoriosPage() {
+export default function ChequesPage() {
   return (
     <Box>
-      <Typography variant='h5'>Recordatorios</Typography>
+      <Typography variant='h5'>Cheques</Typography>
       <Table
-        url={API.RECORDATORIOS}
-        columns={TABLE_COLUMNS.RECORDATORIOS}
-        section={'recordatorios'}
-        createRoute={'/dashboard/recordatorios/crear'}
-        detailRoute={'/dashboard/recordatorios/detalle'}
-        editRoute={'/dashboard/recordatorios/editar'}
+        url={API.CHEQUES}
+        columns={TABLE_COLUMNS.CHEQUES}
+        section={'cheques'}
+        createRoute={'/dashboard/cheques/crear'}
+        detailRoute={'/dashboard/cheques/detalle'}
+        editRoute={'/dashboard/cheques/editar'}
       />
     </Box>
   );

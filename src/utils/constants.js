@@ -29,6 +29,11 @@ export const API = {
   COMPROMISOS_RAZONES_SOCIALES: `${process.env.API_URL}/compromisos-razones-sociales`,
   COMPROMISOS_REFERENCIAS: `${process.env.API_URL}/compromisos-referencias`,
   COMPROMISOS_ESTADOS: `${process.env.API_URL}/compromisos-estados`,
+  CHEQUES: `${process.env.API_URL}/cheques`,
+  CHEQUES_BANCOS: `${process.env.API_URL}/cheques-bancos`,
+  CHEQUES_REFERENCIAS: `${process.env.API_URL}/cheques-referencias`,
+  CHEQUES_PROVEEDORES: `${process.env.API_URL}/cheques-proveedores`,
+  CHEQUES_ESTADOS: `${process.env.API_URL}/cheques-estados`,
 };
 
 export const TABLE_COLUMNS = {
@@ -73,5 +78,16 @@ export const TABLE_COLUMNS = {
     { field: 'referencia', headerName: 'Referencia', minWidth: 170, flex: 1  },
     { field: 'fecha_formateada', headerName: 'Fecha', minWidth: 120, flex: 1  },
     { field: 'estado', headerName: 'Estado', minWidth: 120, flex: 1  },
+  ],
+  CHEQUES: [
+    { field: 'id', headerName: 'ID', minWidth: 50, flex: 1 },
+    { field: 'fecha_emision_formateada', headerName: 'Fecha de Emision', minWidth: 150, flex: 1 },
+    { field: 'fecha_pago_formateada', headerName: 'Fecha de Pago', minWidth: 150, flex: 1 },
+    { field: 'numero', headerName: 'Numero', minWidth: 100, flex: 1  },
+    { field: 'banco', headerName: 'Banco', minWidth: 120, flex: 1  },
+    { field: 'importe_formateado', headerName: 'Importe', minWidth: 100, flex: 1  },
+    { field: 'referencia', headerName: 'Referencia', minWidth: 120, flex: 1  },
+    { field: 'proveedor', headerName: 'Proveedor', minWidth: 120, flex: 1  },
+    { field: 'estado', headerName: 'Estado', minWidth: 80, flex: 1  },
   ],
 };
