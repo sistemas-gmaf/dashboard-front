@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { ApiClient } from "@/utils/apiClient";
 
 export default function Detalle({ id }) {
-  const apiClient = new ApiClient({ url: API.RECORDATORIOS, id });
+  const apiClient = new ApiClient({ url: API.CHEQUES, id });
   const [ data, setData ] = useState({});
 
   useEffect(() => {
@@ -19,22 +19,31 @@ export default function Detalle({ id }) {
 
   return (
     <Box mt={5} sx={{ display: 'flex', flexDirection: 'column', gap: '.5em' }}>
-      <Typography variant="h4" textAlign={'center'}>
-        Titulo: {data?.titulo || 'Cargando...'}
+      <Typography variant="h5" textAlign={'center'}>
+        Fecha de Emisión: 
+        {data?.fecha_emision ? `${moment(data?.fecha_emision, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Descripcion: {data?.descripcion || 'Cargando...'}
+        Fecha de Emisión: 
+        {data?.fecha_pago ? `${moment(data?.fecha_pago, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Fecha Limite: 
-        {data?.fecha_limite ? `${moment(data?.fecha_limite, 'YYYYMMDD').format('LL')}` : 'Cargando...'}
+        Numero: {data?.numero || 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Cantidad de dias de aviso: {data?.cantidad_dias_aviso || 'Cargando...'}
+        Banco: {data?.banco || 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Fecha de Creacion:
-        {data?.fecha_creacion ? `${moment(data?.fecha_creacion, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
+        Importe: {data?.importe_formateado || 'Cargando...'}
+      </Typography>
+      <Typography variant="h5" textAlign={'center'}>
+        Referencia: {data?.referencia || 'Cargando...'}
+      </Typography>
+      <Typography variant="h5" textAlign={'center'}>
+        Proveedor: {data?.proveedor || 'Cargando...'}
+      </Typography>
+      <Typography variant="h5" textAlign={'center'}>
+        Estado: {data?.estado || 'Cargando...'}
       </Typography>
     </Box>
   )
