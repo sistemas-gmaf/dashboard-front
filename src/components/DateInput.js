@@ -7,13 +7,15 @@ const DateInput = ({
   control, 
   label,
   error, 
-  helperText
+  helperText,
+  disabled
 }) => {
   return <Controller
     name={name}
     control={control}
     rules={{ valueAsDate: true }}
     render={({ field: { onChange, onBlur, value } }) => <TextField 
+      disabled={disabled}
       fullWidth
       variant="outlined"
       sx={{ mt: 1 }}

@@ -6,6 +6,7 @@ import { VERSION } from '@/utils/constants';
 
 import LoginForm from '@/components/LoginForm';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 function Version(props) {
   return (
@@ -21,7 +22,10 @@ export default function Login() {
   const router = useRouter();
 
   if (alertMessage && typeof alert !== 'undefined') {
-    alert(alertMessage);
+    Swal.fire({
+      icon: 'info',
+      text: alertMessage
+    });
     router.replace('/');
   }
 

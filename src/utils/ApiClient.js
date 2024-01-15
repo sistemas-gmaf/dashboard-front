@@ -1,6 +1,7 @@
 import { setBackdropState } from "@/store/slices/backdrop";
 import store from "@/store/store";
 import { logout } from "./auth";
+import Swal from "sweetalert2";
 
 export class ApiClient {
 
@@ -16,8 +17,11 @@ export class ApiClient {
       const response = await fetch(this.url, { credentials: 'include' });
 
       if (response.status === 401) {
-        alert('La sesión expiró, debe reiniciar sesión');
         backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'La sesión expiró, debe reiniciar sesión',
+          icon: 'info'
+        });
         return logout();
       }
 
@@ -37,7 +41,10 @@ export class ApiClient {
       if (onError) {
         onError();
       }
-      alert('Error al obtener todos los datos');
+      await Swal.fire({
+        icon: 'error',
+        text: 'Error al obtener todos los datos, oprima F5'
+      });
     }
   }
 
@@ -48,8 +55,11 @@ export class ApiClient {
       const response = await fetch(`${this.url}/${this.id || id }`, { credentials: 'include' });
 
       if (response.status === 401) {
-        alert('La sesión expiró, debe reiniciar sesión');
         backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          icon: 'error',
+          text: 'La sesión expiró, debe reiniciar sesión'
+        });
         return logout();
       }
 
@@ -69,7 +79,10 @@ export class ApiClient {
       if (onError) {
         onError();
       }
-      alert('Error al obtener datos');
+      await Swal.fire({
+        icon: 'error',
+        text: 'Error al obtener todos los datos, oprima F5'
+      });
     }
   }
 
@@ -92,8 +105,11 @@ export class ApiClient {
       });
       
       if (response.status === 401) {
-        alert('La sesión expiró, debe reiniciar sesión');
         backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          icon: 'error',
+          text: 'La sesión expiró, debe reiniciar sesión'
+        });
         return logout();
       }
 
@@ -103,7 +119,10 @@ export class ApiClient {
   
       backdrop && store.dispatch(setBackdropState(false));
 
-      alert('Datos actualizados con éxito');
+      await Swal.fire({
+        icon: 'success',
+        text: 'Datos actualizados con exito'
+      });
 
       if (onSuccess) {
         onSuccess();
@@ -116,7 +135,11 @@ export class ApiClient {
       if (onError) {
         onError();
       }
-      alert('Error al actualizar datos');
+
+      await Swal.fire({
+        icon: 'error',
+        text: 'Error al actualizar datos'
+      });
     }
   }
 
@@ -139,9 +162,25 @@ export class ApiClient {
       });
 
       if (response.status === 401) {
-        alert('La sesión expiró, debe reiniciar sesión');
         backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          icon: 'error',
+          text: 'La sesión expiró, debe reiniciar sesión'
+        });
         return logout();
+      }
+
+      if (response.status === 409) { //se maneja desde otro lado
+        backdrop && store.dispatch(setBackdropState(false));
+        if (onSuccess) {
+          onSuccess(response);
+        } else {
+          await Swal.fire({
+            icon: 'error',
+            text: 'Datos en conflicto'
+          });
+        }
+        return;
       }
 
       if (response.status >= 300 || response.status < 200) {
@@ -150,9 +189,14 @@ export class ApiClient {
   
       backdrop && store.dispatch(setBackdropState(false));
       if (onSuccess) {
-        onSuccess();
-      } 
-      alert('Datos creados con éxito');
+        onSuccess(response);
+      } else {
+        await Swal.fire({
+          icon: 'success',
+          text: 'Datos creados con exito'
+        });
+      }
+
       
       return response;
     } catch (error) {
@@ -161,12 +205,25 @@ export class ApiClient {
       if (onError) {
         onError();
       }
-      alert('Error al crear datos');
+      await Swal.fire({
+        icon: 'error',
+        text: 'Error al crear datos'
+      });
     }
   }
 
   async delete({ id, onSuccess, onError, backdrop = true }) {
     try {
+      const userConfirm = await Swal.fire({
+        title: '¿Está seguro que desea borrar este registro?',
+        confirmButtonText: 'Si, quiero',
+        cancelButtonText: 'Cancelar',
+        showCancelButton: true,
+        icon: 'question'
+      })
+
+      if (!userConfirm.isConfirmed) { return; }
+      
       backdrop && store.dispatch(setBackdropState(true));
       
       const response = await fetch(`${this.url}/${this.id || id}`, {
@@ -175,8 +232,11 @@ export class ApiClient {
       });
 
       if (response.status === 401) {
-        alert('La sesión expiró, debe reiniciar sesión');
         backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          icon: 'error',
+          text: 'La sesión expiró, debe reiniciar sesión'
+        });
         return logout();
       }
 
@@ -188,7 +248,11 @@ export class ApiClient {
       if (onSuccess) {
         onSuccess();
       }
-      alert('Borrado con éxito');
+
+      await Swal.fire({
+        icon: 'success',
+        text: 'Borrado con exito'
+      });
       
       return response;
     } catch (error) {
@@ -197,7 +261,11 @@ export class ApiClient {
       if (onError) {
         onError();
       }
-      alert('Error al borrar datos');
+
+      await Swal.fire({
+        icon: 'error',
+        text: 'Error al borrar datos'
+      });
     }
   }
 

@@ -95,7 +95,7 @@ export default function Header() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: 'block' }}
           >
             {isClient ? displayName : 'cargando...'}
           </Typography>

@@ -1,5 +1,5 @@
 'use client'
-import { getFromStorage } from "@/utils/getFromStorage";
+import { getFromStorage } from "@/utils/localStorage";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const SliceSideMenu = createSlice({

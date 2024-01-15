@@ -2,7 +2,7 @@ import { ApiClient } from "@/utils/apiClient";
 import { CircularProgress, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export function useAutocomplete({ inputLabel, url, optionLabels, error, helperText, dataField, freeSolo }) {
+export function useAutocomplete({ inputLabel, url, optionLabels, error, helperText, dataField, freeSolo, disabled }) {
   const apiClient = new ApiClient({ url });
 
   const [open, setOpen] = useState(false);
@@ -39,6 +39,7 @@ export function useAutocomplete({ inputLabel, url, optionLabels, error, helperTe
   const renderInput = (params) => {
     return (
       <TextField
+        disabled={disabled}
         {...params}
         error={error}
         helperText={helperText}
@@ -58,10 +59,12 @@ export function useAutocomplete({ inputLabel, url, optionLabels, error, helperTe
   
   //const open = open;
   const onOpen = () => {
+    if (disabled) { return; }
     setOpen(true);
   };
   
   const onClose = () => {
+    if (disabled) { return; }
     setOpen(false);
   };
 

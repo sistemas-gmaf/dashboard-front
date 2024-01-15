@@ -17,13 +17,15 @@ export const SliceTables = createSlice({
     recordatorios: defaultValues,
     compromisos: defaultValues,
     cheques: defaultValues,
+    'tarifario-clientes': defaultValues,
+    'tarifario-transportes': defaultValues,
+    'tarifario-transportes-especiales': defaultValues,
+    'tarifario-viajes-especiales': defaultValues,
+    viajes: defaultValues,
   },
   reducers: {
     setPaginationModelState: (state, { payload: { section, model } }) => {
       state[section].paginationModel = model;
-    },
-    setSortModelState: (state, { payload: { section, model } }) => {
-      state[section].sortModel = model;
     },
     setSortModelState: (state, { payload: { section, model } }) => {
       state[section].sortModel = model;

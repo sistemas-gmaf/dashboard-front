@@ -12,7 +12,7 @@ import { Autocomplete } from "@mui/material";
  * @param {string} dataField - Que propiedad se va a tener en cuenta para enviar en el onSubmit, por default id
  * @param {object} control - Necesario para react-hook-form
  */
-export default function AutocompleteCustom({ url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText, freeSolo }) {
+export default function AutocompleteCustom({ url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText, freeSolo, disabled }) {
   const autocompleteProps = useAutocomplete({ 
     url,
     inputLabel,
@@ -20,7 +20,8 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
     error,
     helperText,
     dataField,
-    freeSolo
+    freeSolo,
+    disabled
   });
 
   return (
@@ -31,6 +32,9 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
         return (
         <Autocomplete
           sx={{ mt: 1 }}
+          disabled={disabled}
+          disableClearable={disabled}
+          readOnly={disabled}
           {...autocompleteProps}
           {...{
             ...field,

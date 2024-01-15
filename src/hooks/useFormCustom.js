@@ -14,49 +14,53 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { deepClone } from "@/utils/deepClone";
 import { isEqual } from "lodash";
 import CurrencyInput from "@/components/CurrencyInput";
+import CheckboxInput from "@/components/CheckboxInput";
+import Swal from "sweetalert2";
 
 const fieldTypeProps = {
-  autocomplete: ({ url, label, name, control, optionLabels, errors, freeSolo = false }) => 
+  autocomplete: ({ url, label, name, control, optionLabels, errors, freeSolo = false, disabled = false }) => 
     ({
       url, inputLabel: label, name, control, optionLabels, 
       error: Boolean(errors[name]?.id), freeSolo,
-      helperText: Boolean(errors[name]?.id) ? errors[name]?.id?.message : ' '
+      helperText: Boolean(errors[name]?.id) ? errors[name]?.id?.message : ' ', disabled
     }),
-  textfield: ({ label, name, register, errors }) => 
+  textfield: ({ label, name, register, errors, disabled = false }) => 
     ({
       fullWidth: true, label, variant: "outlined", autoComplete: "off",
       sx: { mt: 1 }, inputProps: { style: { textTransform: "uppercase" } },
       error: Boolean(errors[name]), 
       helperText: Boolean(errors[name]) ? errors[name].message : ' ',
-      ...register(name)
+      ...register(name), disabled
     }),
-  number: ({ label, name, register, errors }) => 
+  number: ({ label, name, register, errors, disabled = false }) => 
     ({
       fullWidth: true, label, variant: "outlined", autoComplete: "off",
       sx: { mt: 1 }, inputProps: { style: { textTransform: "uppercase" } },
       error: Boolean(errors[name]), 
       helperText: Boolean(errors[name]) ? errors[name].message : ' ',
-      ...register(name)
+      ...register(name), disabled
     }),
-  currency: ({ label, control, name, errors }) => 
+  currency: ({ label, control, name, errors, disabled = false }) => 
+    ({
+      label, control, name,
+      error: Boolean(errors[name]), disabled, 
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
+    }),
+  date: ({ label, control, name, errors, disabled = false }) => 
     ({
       label, control, name,
       error: Boolean(errors[name]),  
-      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ', disabled
     }),
-  date: ({ label, control, name, errors }) => 
-    ({
-      label, control, name,
-      error: Boolean(errors[name]),  
-      helperText: Boolean(errors[name]) ? errors[name].message : ' ',
-    }),
-  file: ({ name, control, label, resetField, errors, defaultValues }) => 
+  file: ({ name, control, label, resetField, errors, defaultValues, disabled = false }) => 
     ({
       name, control, label, callbackReset: () => resetField(name),
       error: Boolean(errors[name]), fileToShowUrlDefault: defaultValues[name]?.url || undefined,
       fileToShowDefault: { type: defaultValues[name]?.type || undefined },
-      helperText: Boolean(errors[name]) ? errors[name].message : ' '
+      helperText: Boolean(errors[name]) ? errors[name].message : ' ', disabled
     }),
+  checkbox: ({ label, control, name, disabled = false }) => 
+    ({ name, control, label, disabled }),
 };
 
 const fieldTypeComponents = {
@@ -65,7 +69,8 @@ const fieldTypeComponents = {
   number: TextField,
   currency: CurrencyInput,
   date: DateInput,
-  file: FileInput
+  file: FileInput,
+  checkbox: CheckboxInput,
 };
 
 const fieldsSchema = (fields = []) => {
@@ -105,13 +110,21 @@ const fieldsSchema = (fields = []) => {
       return fieldSchema;
     },
     date: (required = false) => {
-      let fieldSchema = yup.date();
-      if (required) { fieldSchema = fieldSchema.required('Este campo es requerido'); }
+      let fieldSchema;
+      if (required) { 
+        fieldSchema = yup.date().typeError('Este campo es requerido').required('Este campo es requerido'); 
+      } else {
+        fieldSchema = yup.mixed().nullable();
+      }
       return fieldSchema;
     },
     file: (required = false) => {
       let fieldSchema = yup.mixed();
       if (required) { fieldSchema = fieldSchema.required('Este campo es requerido'); }
+      return fieldSchema;
+    },
+    checkbox: () => {
+      let fieldSchema = yup.string();
       return fieldSchema;
     },
   };
@@ -126,13 +139,14 @@ const fieldsSchema = (fields = []) => {
 }
 
 export const useFormCustom = ({ 
-  url, 
+  url = '', 
   id = false, 
   handleSubmitCustomFormdata = false,
   handleGetDefaultData = false,
+  customSubmit = false,
   onSuccess = false,
   fields = [],
-  mode = 'create'
+  mode = 'create',
 }) => {
   const apiClient = new ApiClient({ url });
   
@@ -140,7 +154,7 @@ export const useFormCustom = ({
 
   const { register, handleSubmit, control, resetField, reset, formState: { errors } } = useForm({
     resolver: yupResolver(fieldsSchema(fields)),
-    reValidateMode: 'onBlur'
+    reValidateMode: 'onBlur',
   });
 
   const resetForm = () => {
@@ -148,9 +162,7 @@ export const useFormCustom = ({
     setFormKey(Math.random());
   }
 
-  const onSubmit = handleSubmit(formdata => {
-    let data = handleSubmitCustomFormdata ? handleSubmitCustomFormdata(formdata) : formdata;
-
+  const submitFn = (data) => {
     if (mode == 'edit') {
       // Lógica para verificar solo los valores que han cambiado 
       const changedValues = {};
@@ -174,7 +186,10 @@ export const useFormCustom = ({
       }, {});
 
       if (Object.keys(data).length === 0) {
-        alert('No se realizó ningún cambio');
+        Swal.fire({
+          text: 'No se realizó ningún cambio',
+          icon: 'info'
+        });
         return;
       }
     }
@@ -182,12 +197,12 @@ export const useFormCustom = ({
     if (mode == 'create') {
       apiClient.post({ 
         data,
-        onSuccess: () => {
+        onSuccess: (response) => {
           /**
            * onSuccess(resetFormCallback)
            */
           if (onSuccess) {
-            onSuccess(resetForm);
+            onSuccess(resetForm, response);
           } else {
             resetForm();
           }
@@ -201,6 +216,18 @@ export const useFormCustom = ({
         onSuccess
       });
     }
+  }
+  
+  const onSubmit = handleSubmit(formdata => {
+    let data = handleSubmitCustomFormdata ? handleSubmitCustomFormdata(formdata) : formdata;
+    
+    if (customSubmit) {
+      customSubmit(data, submitFn);
+      return;
+    }
+
+    submitFn(data);
+    
   });
 
   const [ defaultValues, setDefaultValues ] = useState({});
@@ -219,13 +246,11 @@ export const useFormCustom = ({
   }, []);
 
   useEffect(() => {
-    if (mode == 'edit') {
-      reset(deepClone(defaultValues));
-      setFormKey(Math.random());
-    }
+    reset(deepClone(defaultValues));
+    setFormKey(Math.random());
   }, [defaultValues]);
 
-  const Form = () => <Box key={formKey} component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: { xs: '100%', md: 500 } }}>
+  const Form = ({children, maxWidth = undefined}) => <Box key={formKey} component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: { xs: '100%', md: 400 }, maxWidth }}>
     {/* COMPONENTES DE FORMULARIO */}
     {
       fields.map(field => {
@@ -235,7 +260,7 @@ export const useFormCustom = ({
         return <Component key={Math.random()} {...props} />;
       })
     }
-    <Button
+    {!children && <Button
       fullWidth
       type="submit"
       variant="contained"
@@ -244,10 +269,12 @@ export const useFormCustom = ({
       endIcon={mode === 'create' ? <AddIcon /> : <EditIcon />}
     >
       {mode === 'create' ? 'Crear' : 'Editar'}
-    </Button>
+    </Button>}
+    {children}
   </Box>;
 
   return {
-    Form
+    Form,
+    setDefaultValues,
   };
 }

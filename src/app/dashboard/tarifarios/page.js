@@ -1,26 +1,77 @@
+'use client'
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 
-import MediaCard from '@/components/MediaCard';
-import { Alert, AlertTitle, Box } from '@mui/material';
+import Table from '@/components/Table/Table';
+import { API, TABLE_COLUMNS } from '@/utils/constants';
+import { useState } from 'react';
+import { getFromStorage } from '@/utils/localStorage';
 
-import Grid from '@mui/material/Unstable_Grid2';
+export default function TarifariosPage() {
+  const [ tabIndex, setTabIndex ] = useState(getFromStorage('tarifarios/tabIndex') || 0);
+  
+  const handleChangeTab = (e, index) => {
+    setTabIndex(index);
+    localStorage?.setItem('tarifarios/tabIndex', index);
+  }
+  
+  const tabProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+      style: { maxWidth: 130 }
+    };
+  }
 
-export default function HomePage() {
   return (
     <Box>
-      <div>
-        <Alert severity="info" sx={{ mt: 2, mb: 5 }}>
-          <AlertTitle>Hola 👋</AlertTitle>
-          Esta aplicación está en construcción
-        </Alert>
-        <Grid container rowSpacing={3} columnSpacing={3}>
-          <Grid xs={6} xsOffset={3}>
-            <MediaCard
-              heading="Estamos trabajando en la aplicación"
-              text="Esta es una pantalla de prueba inicial para verificar que el proyecto se visualiza correctamente..."
-            />
-          </Grid>
-        </Grid>
-      </div>
+      <Typography variant='h5'>Tarifarios</Typography>
+      <Tabs 
+        value={tabIndex}
+        onChange={handleChangeTab}
+        aria-label='tarifarios tabs' 
+        allowScrollButtonsMobile
+        variant="scrollable"
+      >
+        <Tab label='Clientes' {...tabProps(0)} />
+        <Tab label='Transportes' {...tabProps(1)} />
+        <Tab label='Transportes Especiales' {...tabProps(2)} />
+        <Tab label='Aprobacion de Viajes' {...tabProps(3)} />
+      </Tabs>
+      <Box>
+        {tabIndex === 0 && <Table
+          url={API.TARIFARIO_CLIENTES}
+          columns={TABLE_COLUMNS.TARIFARIO_CLIENTES}
+          section={'tarifario-clientes'}
+          createRoute={'/dashboard/tarifarios/clientes-crear'}
+          detailRoute={'/dashboard/tarifarios/clientes-detalle'}
+          editRoute={'/dashboard/tarifarios/clientes-editar'}
+        />}
+        {tabIndex === 1 && <Table
+          url={API.TARIFARIO_TRANSPORTES}
+          columns={TABLE_COLUMNS.TARIFARIO_TRANSPORTES}
+          section={'tarifario-transportes'}
+          createRoute={'/dashboard/tarifarios/transportes-crear'}
+          detailRoute={'/dashboard/tarifarios/transportes-detalle'}
+          editRoute={'/dashboard/tarifarios/transportes-editar'}
+          />}
+        {tabIndex === 2 && <Table
+          url={API.TARIFARIO_TRANSPORTES_ESPECIALES}
+          columns={TABLE_COLUMNS.TARIFARIO_TRANSPORTES_ESPECIALES}
+          section={'tarifario-transportes-especiales'}
+          createRoute={'/dashboard/tarifarios/transportes-especiales-crear'}
+          detailRoute={'/dashboard/tarifarios/transportes-especiales-detalle'}
+          editRoute={'/dashboard/tarifarios/transportes-especiales-editar'}
+          />}
+        {tabIndex === 3 && <Table
+          disableCreate={true}
+          disableDetail={true}
+          disableDelete={true}
+          url={API.TARIFARIO_VIAJES_ESPECIALES}
+          columns={TABLE_COLUMNS.TARIFARIO_VIAJES_ESPECIALES}
+          section={'tarifario-viajes-especiales'}
+          editRoute={'/dashboard/tarifarios/viajes-especiales-editar'}
+        />}
+      </Box>
     </Box>
   );
 }
