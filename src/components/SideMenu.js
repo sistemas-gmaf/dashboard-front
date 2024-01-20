@@ -12,7 +12,6 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import ExploreIcon from '@mui/icons-material/Explore';
 
 import Link from 'next/link';
 
@@ -26,7 +25,6 @@ const LINKS = [
   { text: 'Choferes', href: '/dashboard/choferes', icon: AirlineSeatReclineExtraIcon },
   { text: 'Vehículos', href: '/dashboard/vehiculos', icon: DirectionsCarFilledIcon },
   { text: 'Clientes', href: '/dashboard/clientes', icon: PeopleAltIcon },
-  { text: 'Zonas', href: '/dashboard/zonas', icon: ExploreIcon },
   { text: 'Tarifarios', href: '/dashboard/tarifarios', icon: ReceiptLongIcon },
   { text: 'Viajes', href: '/dashboard/viajes', icon: EmojiTransportationIcon },
   { text: 'Cheques', href: '/dashboard/cheques', icon: LocalAtmIcon },

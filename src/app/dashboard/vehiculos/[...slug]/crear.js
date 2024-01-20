@@ -44,6 +44,7 @@ export default function Crear() {
       label: 'Tipo de vehiculo', 
       name: 'vehiculo_tipo',
       optionLabels: ['descripcion'],
+      freeSolo: true,
       required: true
     },
     { 
