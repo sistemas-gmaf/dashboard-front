@@ -54,13 +54,7 @@ export default function FileInput({
 
   return (
     <>
-      <Box sx={{
-        maxWidth: {
-          xs: 'initial',
-          xl: '34vw',
-          
-        }
-      }}>
+      <Box>
         <Controller
           name={name}
           control={control}
