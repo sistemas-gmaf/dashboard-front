@@ -57,7 +57,7 @@ function SideMenu() {
     >
       <List>
         {LINKS.map(({text, href, icon: Icon}) => (
-          <Tooltip title={text} placement='right' disableHoverListener={sideMenuOpen}>
+          <Tooltip key={text} title={text} placement='right' disableHoverListener={sideMenuOpen}>
             <ListItem 
               key={text} 
               disablePadding 

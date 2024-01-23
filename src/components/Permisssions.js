@@ -21,7 +21,7 @@ export default function Permissions({ permisos, permisosStatus, setPermisos, rol
         <MenuItem value={{}}><em>DESELECCIONAR TODOS</em></MenuItem>
         {
           Object.keys(rolesPermisos).map(rol =>
-            <MenuItem value={rolesPermisos[rol]}>{rol}</MenuItem>
+            <MenuItem key={rol} value={rolesPermisos[rol]}>{rol}</MenuItem>
           )
         }
       </Select>
@@ -32,7 +32,7 @@ export default function Permissions({ permisos, permisosStatus, setPermisos, rol
     >
       {
         permisos?.map(permiso => 
-          <FormGroup>
+          <FormGroup key={permiso.id}>
             <FormControlLabel 
               control={<Switch 
                 checked={permisosStatus[permiso.id]}

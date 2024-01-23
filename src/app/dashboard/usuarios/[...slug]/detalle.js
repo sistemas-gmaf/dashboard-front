@@ -41,7 +41,7 @@ export default function Detalle({ id }) {
         {
           data?.permisos && data?.permisos
             .filter(permiso => permiso.habilitado === true)
-            .map(permiso => <Typography variant="body1" textAlign={'center'}>°{permiso.descripcion}°</Typography>)
+            .map(permiso => <Typography key={permiso} variant="body1" textAlign={'center'}>°{permiso.descripcion}°</Typography>)
         }
       </Box>
     </Box>
