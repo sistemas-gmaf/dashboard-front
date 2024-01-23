@@ -19,7 +19,7 @@ export class ApiClient {
       if (response.status === 401) {
         backdrop && store.dispatch(setBackdropState(false));
         await Swal.fire({
-          text: 'La sesión expiró, debe reiniciar sesión',
+          text: 'La sesión no es válida, debe reiniciar sesión',
           icon: 'info'
         });
         return logout();
@@ -60,7 +60,7 @@ export class ApiClient {
         backdrop && store.dispatch(setBackdropState(false));
         await Swal.fire({
           icon: 'error',
-          text: 'La sesión expiró, debe reiniciar sesión'
+          text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
       }
@@ -110,7 +110,7 @@ export class ApiClient {
         backdrop && store.dispatch(setBackdropState(false));
         await Swal.fire({
           icon: 'error',
-          text: 'La sesión expiró, debe reiniciar sesión'
+          text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
       }
@@ -167,7 +167,7 @@ export class ApiClient {
         backdrop && store.dispatch(setBackdropState(false));
         await Swal.fire({
           icon: 'error',
-          text: 'La sesión expiró, debe reiniciar sesión'
+          text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
       }
@@ -237,7 +237,7 @@ export class ApiClient {
         backdrop && store.dispatch(setBackdropState(false));
         await Swal.fire({
           icon: 'error',
-          text: 'La sesión expiró, debe reiniciar sesión'
+          text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
       }
