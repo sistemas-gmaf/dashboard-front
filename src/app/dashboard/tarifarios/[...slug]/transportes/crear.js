@@ -28,6 +28,7 @@ export default function Crear() {
       url: API.ZONAS,
       optionLabels: ['descripcion'],
       required: true,
+      freeSolo: true
     },
     { 
       type: 'currency', 

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { GridToolbarContainer, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
@@ -17,14 +17,26 @@ export default function CustomToolbar({ createRoute, disableCreate }) {
       <GridToolbarQuickFilter
         InputProps={{ placeholder: 'Buscar...' }}
       />
-      {!disableCreate && <Button
-        color='secondary'
-        href={createRoute}
-        LinkComponent={Link}
-        endIcon={<AddIcon />}
+      <Box 
+        sx={{
+          display: {
+            xs: 'flex',
+            md: 'initial'
+          }
+        }}
       >
-        Crear Nuevo
-      </Button>}
+        {!disableCreate && <Button
+          fullWidth
+          color='secondary'
+          href={createRoute}
+          LinkComponent={Link}
+          variant="contained"
+          size="small"
+          endIcon={<AddIcon />}
+        >
+          Crear Nuevo
+        </Button>}
+      </Box>
     </GridToolbarContainer>
   );
 }

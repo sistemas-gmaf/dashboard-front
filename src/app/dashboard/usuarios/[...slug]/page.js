@@ -11,7 +11,7 @@ export default function Detail({ params: { slug } }) {
     <Box>
       <div>
         <Button
-          href='/dashboard/cheques'
+          href='/dashboard/usuarios'
           variant='contained'
           LinkComponent={Link}
         >

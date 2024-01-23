@@ -6,14 +6,14 @@ import { API, TABLE_COLUMNS } from '@/utils/constants';
 export default function ChequesPage() {
   return (
     <Box>
-      <Typography variant='h5'>Cheques</Typography>
+      <Typography variant='h5'>Gestión de Usuarios</Typography>
       <Table
-        url={API.CHEQUES}
-        columns={TABLE_COLUMNS.CHEQUES}
-        section={'cheques'}
-        createRoute={'/dashboard/cheques/crear'}
-        detailRoute={'/dashboard/cheques/detalle'}
-        editRoute={'/dashboard/cheques/editar'}
+        url={API.USUARIOS}
+        columns={TABLE_COLUMNS.USUARIOS}
+        section={'usuarios'}
+        createRoute={'/dashboard/usuarios/crear'}
+        detailRoute={'/dashboard/usuarios/detalle'}
+        editRoute={'/dashboard/usuarios/editar'}
       />
     </Box>
   );

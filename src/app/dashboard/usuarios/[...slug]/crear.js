@@ -1,100 +1,92 @@
 'use client'
 
-import { useFormCustom } from "@/hooks/useFormCustom";
-import { API } from "@/utils/constants";
-import { Box, Stack, Typography } from "@mui/material";
-import moment from "moment";
+import { Box, Button, Stack, Typography } from "@mui/material";
 
+import { useRouter } from "next/navigation";
+import { API } from "@/utils/constants";
+import { useFormCustom } from "@/hooks/useFormCustom";
+import Permissions from "@/components/Permisssions";
+import { useEffect, useState } from "react";
+import { ApiClient } from "@/utils/apiClient";
 
 export default function Crear() {
+  const [ permisos, setPermisos ] = useState(false);
+  const [ permisosStatus, setPermisosStatus ] = useState(false);
+  const [ rolesPermisos, setRolesPermisos ] = useState({});
+  const [ permisosKey, setPermisosKey ] = useState(Math.random());
+
+  const router = useRouter();
+  
+  const onSuccess = () => {
+    router.push('/dashboard/usuarios');
+  };
+
   const fields = [
     { 
-      type: 'date', 
-      label: 'Fecha Emision', 
-      name: 'fecha_emision',
+      type: 'textfield', 
+      label: 'Correo', 
+      name: 'correo',
       required: true,
-    },
-    { 
-      type: 'date', 
-      label: 'Fecha Pago', 
-      name: 'fecha_pago',
-      required: true,
-    },
-    { 
-      type: 'number', 
-      label: 'Numero', 
-      name: 'numero',
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Banco', 
-      name: 'banco',
-      url: API.CHEQUES_BANCOS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'currency', 
-      label: 'Importe', 
-      name: 'importe',
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Referencia', 
-      name: 'referencia',
-      url: API.CHEQUES_REFERENCIAS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Proveedor', 
-      name: 'proveedor',
-      url: API.CHEQUES_PROVEEDORES,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Estado', 
-      name: 'estado',
-      url: API.CHEQUES_ESTADOS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
+    }
   ];
 
-  const handleSubmitCustomFormdata = (formdata) => {
-    return { 
-      ...formdata, 
-      fecha_emision: moment(formdata.fecha_emision).format('YYYYMMDD'),
-      fecha_pago: moment(formdata.fecha_pago).format('YYYYMMDD'),
-      estado: formdata.estado.id,
-      proveedor: formdata.proveedor.id,
-      referencia: formdata.referencia.id,
-      banco: formdata.banco.id
-    };
+  const customSubmit = (formdata) => {
+    const apiClient = new ApiClient({ url: API.USUARIOS });
+
+    apiClient.post({
+      data: { 
+        correo: formdata.correo,
+        permisos: JSON.stringify(permisosStatus)
+      },
+      onSuccess
+    });
   };
 
   const { Form } = useFormCustom({ 
-    handleSubmitCustomFormdata,
-    url: API.CHEQUES,
-    fields
+    url: API.USUARIOS,
+    customSubmit,
+    onSuccess,
+    fields,
   });
+
+  useEffect(() => {
+    const apiClient = new ApiClient({ url: API.USUARIOS + '-roles-permisos' });
+    apiClient.getAll({ 
+      onSuccess: result => {
+        const mappedRolesPermisos = result?.data?.reduce((acc, rolPermiso) => {
+          acc[rolPermiso.rol] = { ...acc[rolPermiso.rol], [rolPermiso.id]: rolPermiso.habilitado };
+          return acc;
+        }, {});
+
+        const mappedPermisos = result?.data?.reduce((acc, rolPermiso) => {
+          acc[rolPermiso.id] = false;
+          return acc;
+        }, {});
+    
+        setRolesPermisos(mappedRolesPermisos);
+        setPermisosStatus(mappedPermisos);
+        setPermisos(result?.data);
+        setPermisosKey(Math.random());
+      }
+    });
+  }, []);
 
   return (
     <Box>
       <Typography variant="h5" textAlign={'center'}>
-        Crear Cheque
+        Crear Usuario
       </Typography>
       <Stack alignItems={'center'}>
-        <Form />
+        <Form>
+          {!!permisos && !!rolesPermisos && <Permissions 
+            keySelect={permisosKey}
+            permisos={permisos} 
+            permisosStatus={permisosStatus} 
+            setPermisos={setPermisosStatus} 
+            rolesPermisos={rolesPermisos}
+          />}
+          <Button variant="contained" fullWidth sx={{ marginTop: 3 }} type="submit">Crear Usuario</Button>
+        </Form>
       </Stack>
     </Box>
   )

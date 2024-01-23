@@ -37,6 +37,8 @@ export class ApiClient {
       return result;
     } catch (error) {
       backdrop && store.dispatch(setBackdropState(false));
+      
+      console.error(error);
   
       if (onError) {
         onError();
@@ -51,7 +53,7 @@ export class ApiClient {
   async get({ id, onSuccess, onError, backdrop = true }) {
     try {
       backdrop && store.dispatch(setBackdropState(true));
-      
+
       const response = await fetch(`${this.url}/${this.id || id }`, { credentials: 'include' });
 
       if (response.status === 401) {
@@ -68,14 +70,14 @@ export class ApiClient {
       }
 
       const result = await response.json();
-      
+
       backdrop && store.dispatch(setBackdropState(false));
       onSuccess(result);
 
       return result;
     } catch (error) {
       backdrop && store.dispatch(setBackdropState(false));
-  
+
       if (onError) {
         onError();
       }

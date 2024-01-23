@@ -40,6 +40,7 @@ export const API = {
   TARIFARIO_TRANSPORTES_ESPECIALES: `${process.env.API_URL}/tarifario-transportes-especiales`,
   TARIFARIO_VIAJES_ESPECIALES: `${process.env.API_URL}/tarifario-viajes-especiales`,
   ZONAS: `${process.env.API_URL}/zonas`,
+  USUARIOS: `${process.env.API_URL}/usuarios`,
 };
 
 export const TABLE_COLUMNS = {
@@ -144,5 +145,11 @@ export const TABLE_COLUMNS = {
     { field: 'vehiculo_tipo', headerName: 'Tipo de Vehiculo', minWidth: 150, flex: 1 },
     { field: 'zona', headerName: 'Zona', minWidth: 90, flex: 1 },
     { field: 'estado', headerName: 'Estado', minWidth: 120, flex: 1 },
+  ],
+  USUARIOS: [
+    { field: 'id', headerName: 'ID', minWidth: 30, },
+    { field: 'correo', headerName: 'Correo', minWidth: 190, flex: 1 },
+    { field: 'fecha_creacion_formateada', headerName: 'Fecha de Creación', minWidth: 150, flex: 1 },
+    { field: 'activo', headerName: 'Activo', minWidth: 100, flex: 1 },
   ],
 };

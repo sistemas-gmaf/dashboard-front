@@ -22,6 +22,7 @@ export const SliceTables = createSlice({
     'tarifario-transportes-especiales': defaultValues,
     'tarifario-viajes-especiales': defaultValues,
     viajes: defaultValues,
+    usuarios: defaultValues,
   },
   reducers: {
     setPaginationModelState: (state, { payload: { section, model } }) => {

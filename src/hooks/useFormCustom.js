@@ -276,5 +276,6 @@ export const useFormCustom = ({
   return {
     Form,
     setDefaultValues,
+    defaultValues
   };
 }

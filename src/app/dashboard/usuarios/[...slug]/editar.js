@@ -1,119 +1,108 @@
 'use client'
 
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 
 import { useRouter } from "next/navigation";
 import { API } from "@/utils/constants";
 import { useFormCustom } from "@/hooks/useFormCustom";
-import moment from "moment";
+import Permissions from "@/components/Permisssions";
+import { useEffect, useState } from "react";
+import { ApiClient } from "@/utils/apiClient";
 
 export default function Editar({ id }) {
+  const [ permisos, setPermisos ] = useState(false);
+  const [ rolesPermisos, setRolesPermisos ] = useState({});
+  const [ permisosKey, setPermisosKey ] = useState(Math.random());
+
   const router = useRouter();
   
   const onSuccess = () => {
-    router.push('/dashboard/cheques');
+    router.push('/dashboard/usuarios');
   };
 
   const fields = [
     { 
-      type: 'date', 
-      label: 'Fecha Emision', 
-      name: 'fecha_emision',
+      type: 'textfield', 
+      label: 'Correo', 
+      name: 'correo',
       required: true,
-    },
-    { 
-      type: 'date', 
-      label: 'Fecha Pago', 
-      name: 'fecha_pago',
-      required: true,
-    },
-    { 
-      type: 'number', 
-      label: 'Numero', 
-      name: 'numero',
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Banco', 
-      name: 'banco',
-      url: API.CHEQUES_BANCOS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'currency', 
-      label: 'Importe', 
-      name: 'importe',
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Referencia', 
-      name: 'referencia',
-      url: API.CHEQUES_REFERENCIAS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Proveedor', 
-      name: 'proveedor',
-      url: API.CHEQUES_PROVEEDORES,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
-    { 
-      type: 'autocomplete', 
-      label: 'Estado', 
-      name: 'estado',
-      url: API.CHEQUES_ESTADOS,
-      optionLabels: ['descripcion'],
-      freeSolo: true,
-      required: true,
-    },
+      disabled: true,
+    }
   ];
 
   const handleGetDefaultData = (formdata) => {
-    return { 
-      ...formdata, 
-      fecha_emision: moment(formdata.fecha_emision, 'YYYYMMDD'),
-      fecha_pago: moment(formdata.fecha_pago, 'YYYYMMDD'),
-      estado: { id: formdata.estado, descripcion: formdata.estado },
-      proveedor: { id: formdata.proveedor, descripcion: formdata.proveedor },
-      referencia: { id: formdata.referencia, descripcion: formdata.referencia },
-      banco: { id: formdata.banco, descripcion: formdata.banco }
+    return {
+      ...formdata,
+      correo: formdata.usuario.correo
     };
   }
 
-  const handleSubmitCustomFormdata = (formdata) => {
-    return { 
-      ...formdata, 
-      fecha_emision: moment(formdata.fecha_emision).format('YYYYMMDD'),
-      fecha_pago: moment(formdata.fecha_pago).format('YYYYMMDD')
-    };
-  }
+  const customSubmit = (formdata) => {
+    const apiClient = new ApiClient({ url: API.USUARIOS, id });
 
-  const { Form } = useFormCustom({ 
-    handleSubmitCustomFormdata,
-    url: API.CHEQUES,
+    apiClient.patch({
+      data: { 
+        correo: formdata.correo,
+        permisos: JSON.stringify(permisos)
+      },
+      onSuccess
+    });
+  };
+
+  const { Form, defaultValues: dataUsuario, setDefaultValues } = useFormCustom({ 
     handleGetDefaultData,
+    url: API.USUARIOS,
+    customSubmit,
     mode: 'edit',
     onSuccess,
     fields,
     id,
   });
 
+  
+  useEffect(() => {
+    if (!permisos) {
+      const permisosMapeados = dataUsuario?.permisos?.reduce((acc, permiso) => {
+        acc[permiso.id] = permiso.habilitado;
+        return acc;
+      }, {});
+      
+      setPermisos(permisosMapeados);
+      dataUsuario?.usuario?.correo && setDefaultValues({ ...dataUsuario, correo: dataUsuario?.usuario?.correo });
+    }
+  }, [dataUsuario.permisos]);
+
+  useEffect(() => {
+    const apiClient = new ApiClient({ url: API.USUARIOS + '-roles-permisos' });
+    apiClient.getAll({ 
+      onSuccess: result => {
+        const mappedResult = result?.data?.reduce((acc, rolPermiso) => {
+          acc[rolPermiso.rol] = { ...acc[rolPermiso.rol], [rolPermiso.id]: rolPermiso.habilitado };
+          return acc;
+        }, {});
+    
+        setRolesPermisos(mappedResult);
+        setPermisosKey(Math.random());
+      }
+    });
+  }, []);
+
   return (
     <Box>
       <Typography variant="h5" textAlign={'center'}>
-        Editar cheque
+        Editar Usuario
       </Typography>
       <Stack alignItems={'center'}>
-        <Form />
+        <Form>
+          {!!permisos && !!rolesPermisos && <Permissions 
+            keySelect={permisosKey}
+            permisos={dataUsuario?.permisos || []} 
+            permisosStatus={permisos} 
+            setPermisos={setPermisos} 
+            rolesPermisos={rolesPermisos}
+          />}
+          <Button variant="contained" fullWidth sx={{ marginTop: 3 }} type="submit">Editar Usuario</Button>
+        </Form>
       </Stack>
     </Box>
   )

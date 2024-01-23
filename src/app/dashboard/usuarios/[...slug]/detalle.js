@@ -10,41 +10,40 @@ import { useEffect, useState } from "react";
 import { ApiClient } from "@/utils/apiClient";
 
 export default function Detalle({ id }) {
-  const apiClient = new ApiClient({ url: API.CHEQUES, id });
+  const apiClient = new ApiClient({ url: API.USUARIOS, id });
   const [ data, setData ] = useState({});
 
   useEffect(() => {
-    apiClient.get({ onSuccess: ({data}) => setData(data) });
+    apiClient.get({ onSuccess: ({data}) => {
+      setData(data);
+    }});
   }, []);
 
   return (
     <Box mt={5} sx={{ display: 'flex', flexDirection: 'column', gap: '.5em' }}>
       <Typography variant="h5" textAlign={'center'}>
-        Fecha de Emisión: 
-        {data?.fecha_emision ? `${moment(data?.fecha_emision, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
+        Correo: {data?.usuario?.correo ? data?.usuario?.correo : 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Fecha de Emisión: 
-        {data?.fecha_pago ? `${moment(data?.fecha_pago, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
+        Fecha de Creación: {data?.usuario?.fecha_creacion_formateada ? `${moment(data?.usuario?.fecha_creacion_formateada, 'DD/MM/YYYY').format('LL')}` : 'Cargando...'}
       </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Numero: {data?.numero || 'Cargando...'}
-      </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Banco: {data?.banco || 'Cargando...'}
-      </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Importe: {data?.importe_formateado || 'Cargando...'}
-      </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Referencia: {data?.referencia || 'Cargando...'}
-      </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Proveedor: {data?.proveedor || 'Cargando...'}
-      </Typography>
-      <Typography variant="h5" textAlign={'center'}>
-        Estado: {data?.estado || 'Cargando...'}
-      </Typography>
+      <Typography variant="h5" textAlign={'center'}>Permisos:</Typography>
+      <Box
+        sx={{ 
+          display: 'grid', 
+          gap: 3,
+          gridTemplateColumns: {
+            xs: '1fr',
+            md: 'repeat(3, 1fr)'
+          }
+        }}
+      >
+        {
+          data?.permisos && data?.permisos
+            .filter(permiso => permiso.habilitado === true)
+            .map(permiso => <Typography variant="body1" textAlign={'center'}>°{permiso.descripcion}°</Typography>)
+        }
+      </Box>
     </Box>
   )
 }

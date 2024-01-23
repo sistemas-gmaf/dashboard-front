@@ -1,5 +1,5 @@
 'use client'
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Button, Tab, Tabs, Typography } from '@mui/material';
 
 import Table from '@/components/Table/Table';
 import { API, TABLE_COLUMNS } from '@/utils/constants';
@@ -25,18 +25,43 @@ export default function TarifariosPage() {
   return (
     <Box>
       <Typography variant='h5'>Tarifarios</Typography>
-      <Tabs 
-        value={tabIndex}
-        onChange={handleChangeTab}
-        aria-label='tarifarios tabs' 
-        allowScrollButtonsMobile
-        variant="scrollable"
-      >
-        <Tab label='Clientes' {...tabProps(0)} />
-        <Tab label='Transportes' {...tabProps(1)} />
-        <Tab label='Transportes Especiales' {...tabProps(2)} />
-        <Tab label='Aprobacion de Viajes' {...tabProps(3)} />
-      </Tabs>
+      <Box sx={{
+        display: 'flex',
+        gap: 3,
+        justifyContent: {
+          xs: 'center',
+          md: 'space-between'
+        },
+        flexDirection: {
+          xs: 'column',
+          md: 'initial'
+        }
+      }}>
+        <Tabs 
+          value={tabIndex}
+          onChange={handleChangeTab}
+          aria-label='tarifarios tabs' 
+          allowScrollButtonsMobile
+          variant="scrollable"
+        >
+          <Tab label='Clientes' {...tabProps(0)} />
+          <Tab label='Transportes' {...tabProps(1)} />
+          <Tab label='Transportes Especiales' {...tabProps(2)} />
+          <Tab label='Aprobacion de Viajes' {...tabProps(3)} />
+        </Tabs>
+        <Button 
+          sx={{
+            alignSelf: {
+              xs: 'initial',
+              md: 'center'
+            }
+          }} 
+          variant='contained'
+          onClick={() => alert('accion de importar tarifarios')}
+        >
+          Importar Tarifarios
+        </Button>
+      </Box>
       <Box>
         {tabIndex === 0 && <Table
           url={API.TARIFARIO_CLIENTES}

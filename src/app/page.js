@@ -7,6 +7,7 @@ import { VERSION } from '@/utils/constants';
 import LoginForm from '@/components/LoginForm';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Swal from 'sweetalert2';
+import { useEffect } from 'react';
 
 function Version(props) {
   return (
@@ -21,13 +22,19 @@ export default function Login() {
   const alertMessage = searchParams.get('alert');
   const router = useRouter();
 
-  if (alertMessage && typeof alert !== 'undefined') {
-    Swal.fire({
-      icon: 'info',
-      text: alertMessage
-    });
-    router.replace('/');
-  }
+  useEffect(() => {
+    const alertFn = async () => {
+      if (alertMessage && typeof alert !== 'undefined') {
+        await Swal.fire({
+          icon: 'info',
+          text: alertMessage
+        });
+        router.replace('/');
+      }
+    };
+
+    alertFn();
+  }, [])
 
   return (
     <Grid container component="main" sx={{ height: '100vh' }}>
