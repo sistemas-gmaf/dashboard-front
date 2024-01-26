@@ -28,6 +28,7 @@ export const useTable = ({ url, section }) => {
 
   return { 
     tableKey: reloadTable,
+    reloadDataTable,
     rows, 
     deleteCallback,
     persistentTable: {

@@ -22,7 +22,7 @@ export default function Table({
   editRoute,
   customDeleteId = false
 }) {
-  const { tableKey, rows, deleteCallback, persistentTable } = useTable({ url, section });
+  const { tableKey, reloadDataTable, rows, deleteCallback, persistentTable } = useTable({ url, section });
   const actionsProps = { disableDetail, disableEdit, disableDelete, detailRoute, editRoute, deleteCallback };
 
   const tableColumns = disableActions ? columns : [
@@ -47,7 +47,7 @@ export default function Table({
         {...persistentTable}
 
         localeText={localeText}
-        slots={slots({ disableCreate, createRoute })}
+        slots={slots({ disableCreate, createRoute, reloadDataTable })}
         slotProps={slotProps}
 
         pageSizeOptions={[5, 10]}

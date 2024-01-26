@@ -1,9 +1,10 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { GridToolbarContainer, GridToolbarQuickFilter } from "@mui/x-data-grid";
+import CachedIcon from '@mui/icons-material/Cached';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function CustomToolbar({ createRoute, disableCreate }) {
+export default function CustomToolbar({ createRoute, disableCreate, reloadDataTable }) {
   return (
     <GridToolbarContainer sx={{ 
       display: 'flex', 
@@ -19,10 +20,9 @@ export default function CustomToolbar({ createRoute, disableCreate }) {
       />
       <Box 
         sx={{
-          display: {
-            xs: 'flex',
-            md: 'initial'
-          }
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2
         }}
       >
         {!disableCreate && <Button
@@ -36,6 +36,9 @@ export default function CustomToolbar({ createRoute, disableCreate }) {
         >
           Crear Nuevo
         </Button>}
+        <IconButton aria-label="reload" color="secondary" onClick={() => reloadDataTable()}>
+          <CachedIcon />
+        </IconButton>
       </Box>
     </GridToolbarContainer>
   );
