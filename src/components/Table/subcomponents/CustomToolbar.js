@@ -9,7 +9,7 @@ export default function CustomToolbar({ createRoute, disableCreate, reloadDataTa
     <GridToolbarContainer sx={{ 
       display: 'flex', 
       padding: '.5em', 
-      justifyContent: !disableCreate ? 'space-between' : 'flex-start',
+      justifyContent: 'space-between',
       flexDirection: {
         xs: 'column-reverse',
         sm: 'initial'
