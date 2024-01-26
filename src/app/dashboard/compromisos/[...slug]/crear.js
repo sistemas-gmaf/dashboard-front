@@ -65,7 +65,7 @@ export default function Crear() {
       razon_social: formdata.razon_social.id,
       referencia: formdata.referencia.id,
       estado: formdata.estado.id,
-      fecha: moment(formdata.fecha).format('YYYYDDMM')
+      fecha: moment(formdata.fecha).format('YYYYMMDD')
     };
   };
 
