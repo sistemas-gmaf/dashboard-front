@@ -6,9 +6,11 @@ import { API } from "@/utils/constants";
 
 import { useRouter } from "next/navigation";
 import { useFormCustom } from "@/hooks/useFormCustom";
+import { ApiClient } from "@/utils/apiClient";
 
 export default function Editar({ id }) {
   const router = useRouter();
+  const apiClient = new ApiClient({ url: API.VEHICULOS, id });
   
   const handleGetDefaultData = (data) => {
     const {
@@ -17,7 +19,8 @@ export default function Editar({ id }) {
       vehiculo_patente,
       vehiculo_tipo_id, vehiculo_tipo_descripcion,
       vtv_url,
-      vtv_filetype
+      vtv_filetype,
+      id_vehiculo
     } = data;
     const transporte = { id: transporte_id, nombre: transporte_nombre };
     const chofer = { id: chofer_id, nombre: chofer_nombre, dni: chofer_dni };
@@ -25,8 +28,26 @@ export default function Editar({ id }) {
     const vehiculo_tipo = { id: vehiculo_tipo_id, descripcion: vehiculo_tipo_descripcion };
     const vtv = vtv_url;
 
-    return { transporte, chofer, patente, vehiculo_tipo, vtv: { url: vtv, type: vtv_filetype } };
+    return { id: id_vehiculo, transporte, chofer, patente, vehiculo_tipo, vtv: { url: vtv, type: vtv_filetype } };
   };
+
+  const handleSubmitCustomFormdata = formdata => {
+    return {
+      ...formdata,
+      vtv: formdata.vtv.url !== null ? formdata.vtv : undefined
+    };
+  }
+
+  const customSubmit = (formdata, submitFn) => {
+    apiClient.patch({
+      data: {
+        patente: formdata.patente,
+        vehiculo_tipo: formdata.vehiculo_tipo.descripcion,
+        id: formdata.id
+      },
+      onSuccess
+    });
+  }
 
   const onSuccess = () => {
     router.push('/dashboard/vehiculos');
@@ -40,6 +61,7 @@ export default function Editar({ id }) {
       name: 'transporte',
       optionLabels: ['nombre'],
       required: true,
+      disabled: true
     },
     { 
       type: 'autocomplete', 
@@ -48,6 +70,7 @@ export default function Editar({ id }) {
       name: 'chofer',
       optionLabels: ['nombre', 'dni'],
       required: true,
+      disabled: true
     },
     { 
       type: 'textfield', 
@@ -61,6 +84,7 @@ export default function Editar({ id }) {
       label: 'Tipo de Vehiculo', 
       name: 'vehiculo_tipo',
       optionLabels: ['descripcion'],
+      freeSolo: true,
       required: true
     },
     { 
@@ -71,8 +95,10 @@ export default function Editar({ id }) {
   ];
 
   const { Form } = useFormCustom({ 
+    handleSubmitCustomFormdata,
     handleGetDefaultData,
     url: API.VEHICULOS,
+    customSubmit,
     mode: 'edit',
     onSuccess,
     fields,

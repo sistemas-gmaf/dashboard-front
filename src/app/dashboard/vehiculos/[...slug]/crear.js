@@ -11,9 +11,15 @@ export default function Crear() {
       ...formdata,
       transporte: formdata.transporte.id,
       chofer: formdata.chofer.id,
-      vehiculo_tipo: formdata.vehiculo_tipo.id
+      vehiculo_tipo: formdata.vehiculo_tipo.descripcion
     }
   };
+
+  const handleGetDefaultData = formdata => {
+    return {
+      ...formdata
+    };
+  }
 
   const fields = [
     { 
@@ -56,6 +62,7 @@ export default function Crear() {
 
   const { Form } = useFormCustom({ 
     handleSubmitCustomFormdata,
+    handleGetDefaultData,
     url: API.VEHICULOS,
     fields
   });

@@ -19,7 +19,8 @@ export default function Table({
   disableCreate = false,
   createRoute,
   detailRoute,
-  editRoute
+  editRoute,
+  customDeleteId = false
 }) {
   const { tableKey, rows, deleteCallback, persistentTable } = useTable({ url, section });
   const actionsProps = { disableDetail, disableEdit, disableDelete, detailRoute, editRoute, deleteCallback };
@@ -29,7 +30,7 @@ export default function Table({
     { 
       headerName: 'Acciones',
       minWidth: 170, flex: 1,
-      renderCell: ({ id }) => <Actions id={id} {...actionsProps} />
+      renderCell: ({ id, row }) => <Actions id={id} customDeleteId={row[customDeleteId]} {...actionsProps} />
     }
   ];
 

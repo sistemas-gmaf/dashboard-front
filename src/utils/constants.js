@@ -54,8 +54,8 @@ export const TABLE_COLUMNS = {
   VEHICULOS: [
     { field: 'id', headerName: 'ID' },
     { field: 'chofer_nombre', headerName: 'Chofer', minWidth: 170, flex: 1 },
-    { field: 'vehiculo_patente', headerName: 'Patente', minWidth: 80, flex: 1  },
-    { field: 'vehiculo_tipo_descripcion', headerName: 'Tipo de Vehículo', minWidth: 150, flex: 1  },
+    { field: 'vehiculo_patente', headerName: 'Patente', minWidth: 50, flex: 1  },
+    { field: 'vehiculo_tipo_descripcion', headerName: 'Tipo de Vehículo', minWidth: 170, flex: 1  },
     { field: 'transporte_nombre', headerName: 'Transporte', minWidth: 170, flex: 1  },
   ],
   CHOFERES: [

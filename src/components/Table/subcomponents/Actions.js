@@ -4,14 +4,15 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 
-export const Actions = ({ id, deleteCallback, detailRoute, editRoute, disableDetail, disableEdit, disableDelete }) => <div>
+export const Actions = ({ id, customDeleteId, deleteCallback, detailRoute, editRoute, disableDetail, disableEdit, disableDelete }) => <div>
+  {console.log({customDeleteId})}
   {!disableDetail && <IconButton href={`${detailRoute}/${id}`} LinkComponent={Link}>
     <VisibilityIcon />
   </IconButton>}
   {!disableEdit && <IconButton href={`${editRoute}/${id}`} LinkComponent={Link}>
     <EditIcon />
   </IconButton>}
-  {!disableDelete && <IconButton onClick={() => deleteCallback(id)}>
+  {!disableDelete && <IconButton onClick={() => deleteCallback(customDeleteId || id)}>
     <DeleteIcon />
   </IconButton>}
 </div>
