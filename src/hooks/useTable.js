@@ -27,6 +27,7 @@ export const useTable = ({ url, section }) => {
   const onFilterModelChange = model => sessionStorage.setItem(section + '/filter/model', JSON.stringify(model));
 
   return { 
+    tableKey: reloadTable,
     rows, 
     deleteCallback,
     persistentTable: {

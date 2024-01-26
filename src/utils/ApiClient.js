@@ -146,6 +146,7 @@ export class ApiClient {
   }
 
   async post({ data, onSuccess, onError, backdrop = true }) {
+    let response;
     try {
       backdrop && store.dispatch(setBackdropState(true));
 
@@ -157,7 +158,7 @@ export class ApiClient {
         }
       });
       
-      const response = await fetch(this.url, {
+      response = await fetch(this.url, {
         method: 'POST',
         credentials: 'include',
         body: formData
@@ -205,12 +206,13 @@ export class ApiClient {
       backdrop && store.dispatch(setBackdropState(false));
 
       if (onError) {
-        onError();
+        onError(response);
+      } else {
+        await Swal.fire({
+          icon: 'error',
+          text: 'Error al crear datos'
+        });
       }
-      await Swal.fire({
-        icon: 'error',
-        text: 'Error al crear datos'
-      });
     }
   }
 

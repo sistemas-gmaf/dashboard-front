@@ -21,7 +21,7 @@ export default function Table({
   detailRoute,
   editRoute
 }) {
-  const { rows, deleteCallback, persistentTable } = useTable({ url, section });
+  const { tableKey, rows, deleteCallback, persistentTable } = useTable({ url, section });
   const actionsProps = { disableDetail, disableEdit, disableDelete, detailRoute, editRoute, deleteCallback };
 
   const tableColumns = disableActions ? columns : [
@@ -34,7 +34,7 @@ export default function Table({
   ];
 
   return (
-    <div style={{ height: 470, width: '100%', marginTop: '3em' }}>
+    <div key={tableKey} style={{ height: 470, width: '100%', marginTop: '3em' }}>
       <DataGrid
         rows={rows}
         columns={tableColumns}

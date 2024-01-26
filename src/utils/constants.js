@@ -41,6 +41,7 @@ export const API = {
   TARIFARIO_VIAJES_ESPECIALES: `${process.env.API_URL}/tarifario-viajes-especiales`,
   ZONAS: `${process.env.API_URL}/zonas`,
   USUARIOS: `${process.env.API_URL}/usuarios`,
+  IMPORTAR_TARIFARIOS: `${process.env.API_URL}/importar-tarifarios`,
 };
 
 export const TABLE_COLUMNS = {
@@ -110,6 +111,7 @@ export const TABLE_COLUMNS = {
   TARIFARIO_TRANSPORTES: [
     { field: 'id', headerName: 'ID', minWidth: 50, flex: 1 },
     { field: 'vehiculo_tipo', headerName: 'Tipo Vehiculo', minWidth: 120, flex: 1 },
+    { field: 'cliente', headerName: 'Cliente', minWidth: 120, flex: 1 },
     { field: 'zona', headerName: 'Zona', minWidth: 120, flex: 1 },
     { field: 'monto_formateado', headerName: 'Monto', minWidth: 120, flex: 1 },
     { field: 'monto_por_ayudante_formateado', headerName: 'Monto Por Ayudante', minWidth: 150, flex: 1 },
@@ -120,6 +122,7 @@ export const TABLE_COLUMNS = {
     { field: 'id', headerName: 'ID', minWidth: 50, flex: 1 },
     { field: 'vehiculo_tipo', headerName: 'Tipo Vehiculo', minWidth: 120, flex: 1 },
     { field: 'transporte', headerName: 'Transporte', minWidth: 150, flex: 1 },
+    { field: 'cliente', headerName: 'Cliente', minWidth: 120, flex: 1 },
     { field: 'zona', headerName: 'Zona', minWidth: 120, flex: 1 },
     { field: 'monto_formateado', headerName: 'Monto', minWidth: 120, flex: 1 },
     { field: 'monto_por_ayudante_formateado', headerName: 'Monto Por Ayudante', minWidth: 150, flex: 1 },
@@ -128,9 +131,7 @@ export const TABLE_COLUMNS = {
   ],
   TARIFARIO_VIAJES_ESPECIALES: [
     { field: 'id', headerName: 'ID', minWidth: 50, flex: 1 },
-    { field: 'id_viaje', headerName: 'ID Viaje', minWidth: 100, flex: 1 },
     { field: 'fecha_salida_formateada', headerName: 'Fecha Salida', minWidth: 120, flex: 1 },
-    { field: 'chofer', headerName: 'Chofer', minWidth: 150, flex: 1 },
     { field: 'vehiculo_tipo', headerName: 'Tipo de Vehiculo', minWidth: 150, flex: 1 },
     { field: 'zona', headerName: 'Zona', minWidth: 120, flex: 1 },
     { field: 'cliente', headerName: 'Cliente', minWidth: 120, flex: 1 },
