@@ -49,7 +49,7 @@ export const TABLE_COLUMNS = {
     { field: 'id', headerName: 'ID' },
     { field: 'nombre', headerName: 'Nombre', minWidth: 170, flex: 1 },
     { field: 'descripcion', headerName: 'Descripción', minWidth: 170, flex: 1  },
-    { field: 'fecha_creacion', headerName: 'Fecha de Creación', minWidth: 170, flex: 1  },
+    { field: 'fecha_creacion_formateada', headerName: 'Fecha de Creación', minWidth: 170, flex: 1  },
   ],
   VEHICULOS: [
     { field: 'id', headerName: 'ID' },

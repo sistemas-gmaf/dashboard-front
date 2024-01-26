@@ -206,6 +206,10 @@ export const useFormCustom = ({
           } else {
             resetForm();
           }
+          Swal.fire({
+            icon: 'success',
+            text: 'Datos creados con exito'
+          });
         }
       });
     }
