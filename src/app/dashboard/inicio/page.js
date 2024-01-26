@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Card, CardContent, Typography } from '@mui/material';
 
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
@@ -8,6 +10,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
+import { useSelector } from 'react-redux';
 
 /**
  * @todo: ESTO SE DEBE TRAER DEL BACKEND
@@ -24,10 +27,11 @@ const CARDS = [
 ]
 
 export default function HomePage() {
+  const userData = useSelector(state => state.user.data);
   return (
     <Box>
       <Typography variant='h4' align='center'>
-        !Bienvenido Emanuel!
+        !Bienvenido {userData?.givenName}!
       </Typography>
       <Box
         sx={{
