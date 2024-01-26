@@ -35,6 +35,15 @@ export default function Editar({ id }) {
       disabled: true
     },
     { 
+      type: 'autocomplete', 
+      label: 'Cliente', 
+      name: 'cliente',
+      url: API.CLIENTES,
+      optionLabels: ['razon_social'],
+      required: true,
+      disabled: true
+    },
+    { 
       type: 'currency', 
       label: 'Monto', 
       name: 'monto',
@@ -68,6 +77,7 @@ export default function Editar({ id }) {
       fecha_hasta: moment(formdata.fecha_hasta, 'YYYYMMDD'),
       vehiculo_tipo: { id: formdata.id_vehiculo_tipo, descripcion: formdata.vehiculo_tipo },
       zona: { id: formdata.id_zona, descripcion: formdata.zona },
+      cliente: { id: formdata.id_cliente, razon_social: formdata.cliente },
     };
   }
 
