@@ -20,6 +20,7 @@ export default function Crear() {
       url: API.VEHICULOS_TIPOS,
       optionLabels: ['descripcion'],
       required: true,
+      freeSolo: true
     },
     { 
       type: 'autocomplete', 
@@ -69,8 +70,8 @@ export default function Crear() {
       fecha_desde: moment(formdata.fecha_desde).format('YYYYMMDD'),
       fecha_hasta: formdata.fecha_hasta && formdata.fecha_hasta != 'Fecha inválida' && moment(formdata.fecha_hasta).format('YYYYMMDD'),
       cliente: formdata.cliente.id,
-      zona: formdata.zona.id,
-      vehiculo_tipo: formdata.vehiculo_tipo.id,
+      zona: formdata.zona.descripcion,
+      vehiculo_tipo: formdata.vehiculo_tipo.descripcion,
     };
 
     return submitData;
