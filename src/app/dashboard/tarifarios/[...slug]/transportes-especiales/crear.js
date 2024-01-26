@@ -23,11 +23,20 @@ export default function Crear() {
     },
     { 
       type: 'autocomplete', 
+      label: 'Cliente', 
+      name: 'cliente',
+      url: API.CLIENTES,
+      optionLabels: ['razon_social'],
+      required: true,
+    },
+    { 
+      type: 'autocomplete', 
       label: 'Tipo de Vehiculo', 
       name: 'vehiculo_tipo',
       url: API.VEHICULOS_TIPOS,
       optionLabels: ['descripcion'],
       required: true,
+      freeSolo: true
     },
     { 
       type: 'autocomplete', 
@@ -68,9 +77,10 @@ export default function Crear() {
       ...formdata, 
       fecha_desde: moment(formdata.fecha_desde).format('YYYYMMDD'),
       fecha_hasta: formdata.fecha_hasta && formdata.fecha_hasta != 'Fecha inválida' && moment(formdata.fecha_hasta).format('YYYYMMDD'),
-      vehiculo_tipo: formdata.vehiculo_tipo.id,
-      zona: formdata.zona.id,
-      transporte: formdata.transporte.id
+      transporte: formdata.transporte.id,
+      cliente: formdata.cliente.id,
+      zona: formdata.zona.descripcion,
+      vehiculo_tipo: formdata.vehiculo_tipo.descripcion,
     };
 
     return submitData;

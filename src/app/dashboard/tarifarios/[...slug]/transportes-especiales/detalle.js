@@ -41,8 +41,7 @@ export default function Detalle({ id }) {
         {data?.fecha_desde ? `${moment(data?.fecha_desde, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
       </Typography>
       <Typography variant="h5" textAlign={'center'}>
-        Fecha Validez Hasta:
-        {data?.fecha_hasta ? `${moment(data?.fecha_hasta, 'YYYY-MM-DD').format('LL')}` : 'Cargando...'}
+        {data?.fecha_hasta ? `Fecha Validez Hasta: ${moment(data?.fecha_hasta, 'YYYY-MM-DD').format('LL')}` : ''}
       </Typography>
     </Box>
   )
