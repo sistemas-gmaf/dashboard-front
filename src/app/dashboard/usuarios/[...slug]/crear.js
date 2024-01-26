@@ -8,6 +8,7 @@ import { useFormCustom } from "@/hooks/useFormCustom";
 import Permissions from "@/components/Permisssions";
 import { useEffect, useState } from "react";
 import { ApiClient } from "@/utils/apiClient";
+import Swal from "sweetalert2";
 
 export default function Crear() {
   const [ permisos, setPermisos ] = useState(false);
@@ -18,6 +19,10 @@ export default function Crear() {
   const router = useRouter();
   
   const onSuccess = () => {
+    Swal.fire({
+      text: 'Usuario registrado',
+      icon: 'success'
+    })
     router.push('/dashboard/usuarios');
   };
 
