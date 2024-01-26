@@ -264,7 +264,6 @@ export const useFormCustom = ({
         if (field.type === 'autocomplete') {
           allProps = {...allProps, watch};
         }
-        console.log({props})
         return <Component key={Math.random()} {...allProps} />;
       })
     }

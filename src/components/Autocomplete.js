@@ -35,7 +35,6 @@ export default function AutocompleteCustom({ resetField, getValues, customValue,
   });
 
   useEffect(() => {
-    console.log({watchInputFIltered})
     const haveAllValues = !watchInputFIltered ? false : watchInputFIltered.every(inputValue => {
       return inputValue != null
         && inputValue != undefined

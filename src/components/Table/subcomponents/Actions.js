@@ -5,7 +5,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Link from 'next/link';
 
 export const Actions = ({ id, customDeleteId, deleteCallback, detailRoute, editRoute, disableDetail, disableEdit, disableDelete }) => <div>
-  {console.log({customDeleteId})}
   {!disableDetail && <IconButton href={`${detailRoute}/${id}`} LinkComponent={Link}>
     <VisibilityIcon />
   </IconButton>}
