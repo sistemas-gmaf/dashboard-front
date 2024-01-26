@@ -36,11 +36,12 @@ export default function DatosViaje({dataViaje}) {
         <Typography variant="body1" textAlign={'left'}>
           Cantidad de Ayudantes: {dataViaje.viaje.cantidad_ayudantes}
         </Typography>
-        <Typography variant="body1" textAlign={'left'}>
+      {/* @TODO: Queda pendiente analizar lo del segundo viaje */}
+        {/* <Typography variant="body1" textAlign={'left'}>
           {dataViaje.viaje.segundo_viaje === "true"
             ? `Segundo viaje con %${dataViaje.viaje.segundo_viaje_porcentaje} de descuento`
             : 'Sin segundo viaje'}
-        </Typography>
+        </Typography> */}
       </Box>
       <Box sx={{ flexBasis: 300 }}>
         <Typography variant="h5" textAlign={'left'} mb={3}>
@@ -81,7 +82,8 @@ export default function DatosViaje({dataViaje}) {
           )}
         </Typography>
       </Box>
-      {dataViaje.viaje.segundo_viaje === "true" && <Box sx={{ flexBasis: 300 }}>
+      {/* @TODO: Queda pendiente analizar lo del segundo viaje */}
+    {/*   {dataViaje.viaje.segundo_viaje === "true" && <Box sx={{ flexBasis: 300 }}>
         <Typography variant="h5" textAlign={'left'} mb={3}>
           Datos de Tarifa Segundo Viaje con Descuento
         </Typography>
@@ -148,7 +150,7 @@ export default function DatosViaje({dataViaje}) {
             )
           )}
         </Typography>
-      </Box>}
+      </Box>} */}
     </Box>
   )
 }

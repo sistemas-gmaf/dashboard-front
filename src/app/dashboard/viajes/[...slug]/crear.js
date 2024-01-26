@@ -45,16 +45,18 @@ export default function Crear() {
       name: 'vehiculo',
       url: API.VEHICULOS,
       optionLabels: ['transporte_nombre', 'vehiculo_tipo_descripcion', 'vehiculo_patente'],
+      customValue: 'id_vehiculo',
       required: true,
     },
     { 
       type: 'autocomplete', 
       label: 'Zona', 
       name: 'zona',
-      url: API.ZONAS,
+      url: API.ZONAS_TARIFARIO,
       optionLabels: ['descripcion'],
-      freeSolo: true,
       required: true,
+      filteredBy: ['fecha_salida', 'cliente', 'vehiculo'],
+      filteredByValues: ['id', 'id', 'id_vehiculo']
     },
     { 
       type: 'number', 
@@ -62,7 +64,8 @@ export default function Crear() {
       name: 'cantidad_ayudantes',
       required: true,
     },
-    {
+    /* @TODO: Queda pendiente analizar lo de segundo viaje */
+    /* {
       type: 'checkbox',
       name: 'segundo_viaje',
       label: 'Habilitar Segundo Viaje con Descuento'
@@ -72,7 +75,7 @@ export default function Crear() {
       name: 'segundo_viaje_porcentaje',
       label: 'Porcentaje de Descuento del Segundo Viaje',
       required: true
-    },
+    }, */
   ];
 
   const handleSubmitCustomFormdataViaje = (formdata) => {
@@ -171,7 +174,7 @@ export default function Crear() {
       </Typography>
       <Stack alignItems={'center'}>
         <LinearStepper steps={steps} activeStep={activeStep} style={{ marginBottom: 30 }} />
-        {activeStep === 0 && <ViajeForm maxWidth={{ xs: '100%', md: '50% !important' }}>
+        {activeStep === 0 && <ViajeForm maxWidth={{ xs: '100%', md: '65% !important' }}>
           <Box sx={{ display: 'flex', justifyContent: 'end' }}>
             <Button variant='contained' type='submit'>Calcular Tarifa</Button>
           </Box>

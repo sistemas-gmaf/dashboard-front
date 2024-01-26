@@ -18,10 +18,10 @@ import CheckboxInput from "@/components/CheckboxInput";
 import Swal from "sweetalert2";
 
 const fieldTypeProps = {
-  autocomplete: ({ url, label, name, control, optionLabels, errors, freeSolo = false, disabled = false }) => 
+  autocomplete: ({ resetField, getValues, url, label, name, control, optionLabels, errors, freeSolo = false, disabled = false, filteredByValues = [], filteredBy = false, dataField, customValue = 'id' }) => 
     ({
-      url, inputLabel: label, name, control, optionLabels, 
-      error: Boolean(errors[name]?.id), freeSolo,
+      url, inputLabel: label, name, control, optionLabels, customValue, resetField, getValues,
+      error: Boolean(errors[name]?.id), freeSolo, filteredBy, dataField, filteredByValues,
       helperText: Boolean(errors[name]?.id) ? errors[name]?.id?.message : ' ', disabled
     }),
   textfield: ({ label, name, register, errors, disabled = false }) => 
@@ -152,7 +152,7 @@ export const useFormCustom = ({
   
   const [ formKey, setFormKey ] = useState(Math.random());
 
-  const { register, handleSubmit, control, resetField, reset, formState: { errors } } = useForm({
+  const { register, handleSubmit, control, resetField, reset, getValues, watch, formState: { errors } } = useForm({
     resolver: yupResolver(fieldsSchema(fields)),
     reValidateMode: 'onBlur',
   });
@@ -259,9 +259,13 @@ export const useFormCustom = ({
     {
       fields.map(field => {
         const Component = fieldTypeComponents[field.type];
-        const props = fieldTypeProps[field.type](({ ...field, register, control, resetField, errors, defaultValues }));
-
-        return <Component key={Math.random()} {...props} />;
+        const props = fieldTypeProps[field.type](({ ...field, register, control, resetField, getValues, errors, defaultValues }));
+        let allProps = {...props};
+        if (field.type === 'autocomplete') {
+          allProps = {...allProps, watch};
+        }
+        console.log({props})
+        return <Component key={Math.random()} {...allProps} />;
       })
     }
     {!children && <Button

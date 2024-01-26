@@ -1,6 +1,9 @@
+'use client'
+
 import { useAutocomplete } from "@/hooks/useAutocomplete";
 import { Controller } from "react-hook-form";
 import { Autocomplete } from "@mui/material";
+import { useEffect } from "react";
 
 /**
  * @desc Componente de input de Autocompletar
@@ -12,7 +15,11 @@ import { Autocomplete } from "@mui/material";
  * @param {string} dataField - Que propiedad se va a tener en cuenta para enviar en el onSubmit, por default id
  * @param {object} control - Necesario para react-hook-form
  */
-export default function AutocompleteCustom({ url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText, freeSolo, disabled }) {
+export default function AutocompleteCustom({ resetField, getValues, customValue, watch, url, inputLabel, optionLabels, name, dataField = 'id', control, error, helperText, freeSolo, disabled, filteredBy, filteredByValues }) {
+  const watchInputFIltered = filteredBy ? watch(filteredBy) : null;
+  let disabledByInput = filteredBy ? true : false;
+  let prevValue = getValues(name)
+
   const autocompleteProps = useAutocomplete({ 
     url,
     inputLabel,
@@ -21,8 +28,24 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
     helperText,
     dataField,
     freeSolo,
-    disabled
+    filteredBy,
+    filteredByValues,
+    disabled: watchInputFIltered ? disabled : disabledByInput,
+    watchInputFIltered,
   });
+
+  useEffect(() => {
+    console.log({watchInputFIltered})
+    const haveAllValues = !watchInputFIltered ? false : watchInputFIltered.every(inputValue => {
+      return inputValue != null
+        && inputValue != undefined
+        && inputValue != "Fecha inválida"
+        && JSON.stringify(inputValue) != "{}" 
+    });
+    disabledByInput = !haveAllValues;
+
+    /* @TODO: replantear el tema del reseteo del autocomplete dependiendo de las dependencias */
+  }, [watchInputFIltered]);
 
   return (
     <Controller
@@ -44,7 +67,7 @@ export default function AutocompleteCustom({ url, inputLabel, optionLabels, name
                 field.onChange(data || {});
               } else {
                 if (data?.id) {
-                  field.onChange(data || {});
+                  field.onChange(!!data[customValue] ? {...data, id: data[customValue]} : data);
                 } else {
                   field.onChange(data ? {
                     id: data,

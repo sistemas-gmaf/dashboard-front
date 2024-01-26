@@ -40,6 +40,7 @@ export const API = {
   TARIFARIO_TRANSPORTES_ESPECIALES: `${process.env.API_URL}/tarifario-transportes-especiales`,
   TARIFARIO_VIAJES_ESPECIALES: `${process.env.API_URL}/tarifario-viajes-especiales`,
   ZONAS: `${process.env.API_URL}/zonas`,
+  ZONAS_TARIFARIO: `${process.env.API_URL}/zonas-tarifario`,
   USUARIOS: `${process.env.API_URL}/usuarios`,
   IMPORTAR_TARIFARIOS: `${process.env.API_URL}/importar-tarifarios`,
 };
