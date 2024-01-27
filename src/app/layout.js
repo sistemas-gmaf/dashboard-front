@@ -1,3 +1,4 @@
+import DatepickerProvider from '@/components/DatepickerProvider';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import StoreProvider from '@/store/provider';
 
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
       <body>
         <StoreProvider>
           <ThemeRegistry>
-            {children}
+            <DatepickerProvider>
+              {children}
+            </DatepickerProvider>
           </ThemeRegistry>
         </StoreProvider>
       </body>

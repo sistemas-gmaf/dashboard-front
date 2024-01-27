@@ -16,6 +16,7 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@mui/x-data-grid": "^6.17.0",
+    "@mui/x-date-pickers": "^6.19.2",
     "@reduxjs/toolkit": "^1.9.7",
     "eslint": "latest",
     "eslint-config-next": "latest",
