@@ -254,7 +254,7 @@ export const useFormCustom = ({
     setFormKey(Math.random());
   }, [defaultValues]);
 
-  const Form = ({children, maxWidth = undefined}) => <Box key={formKey} component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: { xs: '100%', md: 400 }, maxWidth }}>
+  const Form = ({children, maxWidth = undefined}) => <Box key={formKey} component="form" onSubmit={onSubmit} sx={{ mt: 1, minWidth: { xs: '100%', md: '50%' }, maxWidth }}>
     {/* COMPONENTES DE FORMULARIO */}
     {
       fields.map(field => {

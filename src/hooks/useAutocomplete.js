@@ -1,6 +1,7 @@
 import { ApiClient } from "@/utils/apiClient";
 import { CircularProgress, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export function useAutocomplete({ inputLabel, url, watchInputFIltered, filteredByValues, filteredBy, optionLabels, error, helperText, dataField, freeSolo, disabled }) {
   
@@ -39,6 +40,12 @@ export function useAutocomplete({ inputLabel, url, watchInputFIltered, filteredB
       onSuccess: ({data}) => {
         if (active) {
           setOptions(data);
+          if (data.length === 0) {
+            Swal.fire({
+              text: 'No se encontraron datos',
+              icon: 'info'
+            })
+          }
         }
       }
     });

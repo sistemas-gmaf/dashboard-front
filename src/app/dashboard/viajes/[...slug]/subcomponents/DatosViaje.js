@@ -1,17 +1,20 @@
 import { formatNumberToCurrency } from "@/utils/numbers";
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import moment from "moment";
 
 export default function DatosViaje({dataViaje}) {
   return (
     <Box sx={{ 
-      display: 'flex', 
-      marginBottom: 5, 
-      flexWrap: 'wrap', 
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+      gap: '1em',
       justifyContent: 'center',
-      gap: 10
+      width: {
+        xs: '90%',
+        md: '45%',
+      },
     }}>
-      <Box sx={{ flexBasis: 300 }}>
+      <Box sx={{ /* flexBasis: 300 */ }}>
         <Typography variant="h5" textAlign={'left'} mb={3}>
           Datos del viaje
         </Typography>
@@ -43,44 +46,68 @@ export default function DatosViaje({dataViaje}) {
             : 'Sin segundo viaje'}
         </Typography> */}
       </Box>
-      <Box sx={{ flexBasis: 300 }}>
+      <Box sx={{ /* flexBasis: 300 */ overflow: 'hidden' }}>
         <Typography variant="h5" textAlign={'left'} mb={3}>
           Datos de Tarifa
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
-          Tarifa del Cliente: {formatNumberToCurrency(dataViaje.tarifas.cliente_monto)}
+          Tarifa del Cliente: {formatNumberToCurrency(dataViaje.tarifasViaje.cliente_monto)}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
           Tarifa Total al Cliente por Ayudantes: 
           {formatNumberToCurrency(
-            dataViaje.tarifas.cliente_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
+            dataViaje.tarifasViaje.cliente_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
           )}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
-          Tarifa del Transporte: {formatNumberToCurrency(dataViaje.tarifas.transporte_monto)}
+          Tarifa del Transporte: {formatNumberToCurrency(dataViaje.tarifasViaje.transporte_monto)}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
           Tarifa Total del Transporte por Ayudantes: 
           {formatNumberToCurrency(
-            dataViaje.tarifas.transporte_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
+            dataViaje.tarifasViaje.transporte_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
           )}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
           Valor Neto Total:
           {formatNumberToCurrency(
             (
-              Number(dataViaje.tarifas.cliente_monto) + 
-              Number(dataViaje.tarifas.cliente_monto_por_ayudante) * 
+              Number(dataViaje.tarifasViaje.cliente_monto) + 
+              Number(dataViaje.tarifasViaje.cliente_monto_por_ayudante) * 
               Number(dataViaje.viaje.cantidad_ayudantes)
             )
             -
             (
-              Number(dataViaje.tarifas.transporte_monto) + 
-              Number(dataViaje.tarifas.transporte_monto_por_ayudante) * 
+              Number(dataViaje.tarifasViaje.transporte_monto) + 
+              Number(dataViaje.tarifasViaje.transporte_monto_por_ayudante) * 
               Number(dataViaje.viaje.cantidad_ayudantes)
             )
           )}
         </Typography>
+      </Box>
+      <Box sx={{ /* flexBasis: 300 */ }}>
+        <Typography variant="h5" textAlign={'left'} mb={3}>
+          Datos de Remito
+        </Typography>
+        <Typography>
+          Nro Remito/Hoja de Ruta: 
+          <p style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{dataViaje.nroRemito}</p>
+        </Typography>
+      </Box>
+      <Box>
+      <Typography variant="h5">
+          Observaciones:
+        </Typography>
+        <Box sx={{ maxHeight: '20vh', overflowY: 'scroll', padding: '1em' }}>
+          {dataViaje.bitacoras.map((bitacora, idx) => 
+            <Paper
+              elevation={1} 
+              key={Math.random() + idx}
+              dangerouslySetInnerHTML={{ __html: `<b>${idx+1} -</b> ${bitacora}` }} 
+              sx={{ overflow: 'hidden', textOverflow: 'ellipsis', padding: '.5em', marginBottom: '1em' }}
+            />
+          )}
+        </Box>
       </Box>
       {/* @TODO: Queda pendiente analizar lo del segundo viaje */}
     {/*   {dataViaje.viaje.segundo_viaje === "true" && <Box sx={{ flexBasis: 300 }}>
@@ -89,7 +116,7 @@ export default function DatosViaje({dataViaje}) {
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
           Tarifa del Cliente: {formatNumberToCurrency(
-            dataViaje.tarifas.cliente_monto
+            dataViaje.tarifasViaje.cliente_monto
             *
             (
               0.01 *
@@ -100,7 +127,7 @@ export default function DatosViaje({dataViaje}) {
         <Typography variant="body1" textAlign={'left'}>
           Tarifa Total al Cliente por Ayudantes: 
           {formatNumberToCurrency(
-            dataViaje.tarifas.cliente_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
+            dataViaje.tarifasViaje.cliente_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
             *
             (
               0.01 *
@@ -110,7 +137,7 @@ export default function DatosViaje({dataViaje}) {
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
           Tarifa del Transporte: {formatNumberToCurrency(
-            dataViaje.tarifas.transporte_monto
+            dataViaje.tarifasViaje.transporte_monto
             *
             (
               0.01 *
@@ -121,7 +148,7 @@ export default function DatosViaje({dataViaje}) {
         <Typography variant="body1" textAlign={'left'}>
           Tarifa Total del Transporte por Ayudantes: 
           {formatNumberToCurrency(
-            dataViaje.tarifas.transporte_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
+            dataViaje.tarifasViaje.transporte_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
             *
             (
               0.01 *
@@ -133,14 +160,14 @@ export default function DatosViaje({dataViaje}) {
           Valor Neto Total (Del Segundo Viaje con Descuento):
           {formatNumberToCurrency(
             ((
-              Number(dataViaje.tarifas.cliente_monto) + 
-              Number(dataViaje.tarifas.cliente_monto_por_ayudante) * 
+              Number(dataViaje.tarifasViaje.cliente_monto) + 
+              Number(dataViaje.tarifasViaje.cliente_monto_por_ayudante) * 
               Number(dataViaje.viaje.cantidad_ayudantes)
             )
             -
             (
-              Number(dataViaje.tarifas.transporte_monto) + 
-              Number(dataViaje.tarifas.transporte_monto_por_ayudante) * 
+              Number(dataViaje.tarifasViaje.transporte_monto) + 
+              Number(dataViaje.tarifasViaje.transporte_monto_por_ayudante) * 
               Number(dataViaje.viaje.cantidad_ayudantes)
             ))
             *

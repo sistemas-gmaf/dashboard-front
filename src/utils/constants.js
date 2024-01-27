@@ -35,6 +35,7 @@ export const API = {
   CHEQUES_PROVEEDORES: `${process.env.API_URL}/cheques-proveedores`,
   CHEQUES_ESTADOS: `${process.env.API_URL}/cheques-estados`,
   VIAJES: `${process.env.API_URL}/viajes`,
+  VIAJES_CALCULAR_TARIFAS: `${process.env.API_URL}/viajes-calcular-tarifa`,
   TARIFARIO_CLIENTES: `${process.env.API_URL}/tarifario-clientes`,
   TARIFARIO_TRANSPORTES: `${process.env.API_URL}/tarifario-transportes`,
   TARIFARIO_TRANSPORTES_ESPECIALES: `${process.env.API_URL}/tarifario-transportes-especiales`,
