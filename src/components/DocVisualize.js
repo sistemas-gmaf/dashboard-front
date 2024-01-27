@@ -1,13 +1,34 @@
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from "@mui/material";
 import PreviewIcon from '@mui/icons-material/Preview';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { useState } from "react";
 import PDFViewer from "./PDFViewer";
+import Swal from "sweetalert2";
 
 export default function DocVisualize({ url, type, title }) {
   const [ openModal, setOpenModal ] = useState(false);
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  }
+
+  const handleDownload = async () => {
+    const userConfirm = await Swal.fire({
+      title: `¿Desea descargar el archivo de ${title}?`,
+      icon: 'info',
+      confirmButtonText: 'Descargar',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true
+    });
+
+    if (!userConfirm.isConfirmed) { return; }
+
+    const link = document.createElement("a");
+    link.download = title;
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
@@ -18,6 +39,9 @@ export default function DocVisualize({ url, type, title }) {
             {title}:
             <IconButton onClick={() => setOpenModal(true)}>
               <PreviewIcon fontSize="large" />
+            </IconButton>
+            <IconButton onClick={() => handleDownload()}>
+              <FileDownloadIcon fontSize="large" />
             </IconButton>
           </>
         }
