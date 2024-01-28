@@ -128,7 +128,6 @@ export default function TarifariosPage() {
           <Tab label='Clientes' {...tabProps(0)} />
           <Tab label='Transportes' {...tabProps(1)} />
           <Tab label='Transportes Especiales' {...tabProps(2)} />
-          <Tab label='Aprobacion de Viajes' {...tabProps(3)} />
         </Tabs>
         <Box sx={{
           display: 'flex',
@@ -163,15 +162,6 @@ export default function TarifariosPage() {
           detailRoute={'/dashboard/tarifarios/transportes-especiales-detalle'}
           editRoute={'/dashboard/tarifarios/transportes-especiales-editar'}
           />}
-        {tabIndex === 3 && <Table
-          disableCreate={true}
-          disableDetail={true}
-          disableDelete={true}
-          url={API.TARIFARIO_VIAJES_ESPECIALES}
-          columns={TABLE_COLUMNS.TARIFARIO_VIAJES_ESPECIALES}
-          section={'tarifario-viajes-especiales'}
-          editRoute={'/dashboard/tarifarios/viajes-especiales-editar'}
-        />}
       </Box>
     </Box>
   );

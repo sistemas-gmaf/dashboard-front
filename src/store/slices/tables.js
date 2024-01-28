@@ -20,7 +20,7 @@ export const SliceTables = createSlice({
     'tarifario-clientes': defaultValues,
     'tarifario-transportes': defaultValues,
     'tarifario-transportes-especiales': defaultValues,
-    'tarifario-viajes-especiales': defaultValues,
+    'viajes-especiales': defaultValues,
     viajes: defaultValues,
     usuarios: defaultValues,
   },

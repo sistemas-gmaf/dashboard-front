@@ -13,8 +13,6 @@ import CrearTransporteEspecial from "./transportes-especiales/crear";
 import DetalleTransporteEspecial from "./transportes-especiales/detalle";
 import EditarTransporteEspecial from "./transportes-especiales/editar";
 
-import EditarViajeEspecial from "./aprobacion-viajes/editar";
-
 export default function Detail({ params: { slug } }) {
   const mode = slug[0];
   
@@ -40,8 +38,6 @@ export default function Detail({ params: { slug } }) {
       { mode === 'transportes-especiales-crear'   && <CrearTransporteEspecial /> }
       { mode === 'transportes-especiales-detalle' && <DetalleTransporteEspecial id={slug[1]} /> }
       { mode === 'transportes-especiales-editar'  && <EditarTransporteEspecial id={slug[1]} /> }
-
-      { mode === 'viajes-especiales-editar' && <EditarViajeEspecial id={slug[1]} /> }
     </Box>
   )
 }

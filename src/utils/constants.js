@@ -39,7 +39,7 @@ export const API = {
   TARIFARIO_CLIENTES: `${process.env.API_URL}/tarifario-clientes`,
   TARIFARIO_TRANSPORTES: `${process.env.API_URL}/tarifario-transportes`,
   TARIFARIO_TRANSPORTES_ESPECIALES: `${process.env.API_URL}/tarifario-transportes-especiales`,
-  TARIFARIO_VIAJES_ESPECIALES: `${process.env.API_URL}/tarifario-viajes-especiales`,
+  VIAJES_ESPECIALES: `${process.env.API_URL}/viajes-especiales`,
   ZONAS: `${process.env.API_URL}/zonas`,
   ZONAS_TARIFARIO: `${process.env.API_URL}/zonas-tarifario`,
   USUARIOS: `${process.env.API_URL}/usuarios`,
@@ -131,7 +131,7 @@ export const TABLE_COLUMNS = {
     { field: 'fecha_desde_formateada', headerName: 'Fecha Vigencia Desde', minWidth: 170, flex: 1 },
     { field: 'fecha_hasta_formateada', headerName: 'Fecha Vigencia Hasta', minWidth: 170, flex: 1 },
   ],
-  TARIFARIO_VIAJES_ESPECIALES: [
+  VIAJES_ESPECIALES: [
     { field: 'id', headerName: 'ID', minWidth: 50, flex: 1 },
     { field: 'fecha_salida_formateada', headerName: 'Fecha Salida', minWidth: 120, flex: 1 },
     { field: 'vehiculo_tipo', headerName: 'Tipo de Vehiculo', minWidth: 150, flex: 1 },
