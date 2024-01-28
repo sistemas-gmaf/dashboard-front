@@ -12,6 +12,7 @@ import { logout } from '@/utils/auth';
 import { ApiClient } from '@/utils/apiClient';
 import { API } from '@/utils/constants';
 import { setUserData } from '@/store/slices/user';
+import { getFromStorage } from '@/utils/localStorage';
 
 export default function Header() {
   const apiClient = new ApiClient({ url: API.PERFIL });
@@ -29,12 +30,15 @@ export default function Header() {
 
   useEffect(() => {
     let userDataLocalstorage = false;
+    let sidemenuOpen = true;
     if (typeof localStorage !== 'undefined') {
-      userDataLocalstorage = localStorage.getItem('user.data');
+      userDataLocalstorage = getFromStorage('user.data');
+      sidemenuOpen = getFromStorage("sidemenu.open");
     }
     if (Boolean(userDataLocalstorage)) {
-      const userDataLocalStorage = JSON.parse(userDataLocalstorage);
+      const userDataLocalStorage = userDataLocalstorage;
       dispatch(setUserData(userDataLocalStorage));
+      dispatch(toggleSideMenuState(sidemenuOpen));
     } else {
       apiClient.getAll({
         onSuccess: data => {

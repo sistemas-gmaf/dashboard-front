@@ -11,6 +11,7 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 /**
  * @todo: ESTO SE DEBE TRAER DEL BACKEND
@@ -27,11 +28,16 @@ const CARDS = [
 ]
 
 export default function HomePage() {
+  const [ userName, setUserName ] = useState('');
   const userData = useSelector(state => state.user.data);
+
+  useEffect(() => {
+    setUserName(userData.givenName)
+  }, [])
   return (
     <Box>
       <Typography variant='h4' align='center'>
-        !Bienvenido {userData?.givenName}!
+        !Bienvenido {userName}!
       </Typography>
       <Box
         sx={{

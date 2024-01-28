@@ -16,8 +16,11 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import Link from 'next/link';
 
 import { DRAWER_WIDTH, DRAWER_WIDTH_CLOSED } from '@/utils/constants';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+import { setSideMenuState } from '@/store/slices/sidemenu';
+import { getFromStorage } from '@/utils/localStorage';
 
 const LINKS = [
   { text: 'Inicio', href: '/dashboard/inicio', icon: HomeIcon },
@@ -34,8 +37,14 @@ const LINKS = [
 ];
 
 function SideMenu() {
+  const sideMenuOpenFromStorage = getFromStorage('sidemenu.open');
   const sideMenuOpen = useSelector(state => state.sidemenu.open);
   const pathname = usePathname();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setSideMenuState(sideMenuOpenFromStorage));
+  }, []);
 
   return (
     <Drawer 
