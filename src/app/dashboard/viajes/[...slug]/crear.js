@@ -13,9 +13,11 @@ import DatosViaje from "./subcomponents/DatosViaje";
 import { ApiClient } from "@/utils/apiClient";
 import Swal from "sweetalert2";
 import { deepClone } from "@/utils/deepClone";
+import { useRouter } from "next/navigation";
 
 
 export default function Crear() {
+  const router = useRouter();
   const steps = [
     'Datos de Viaje',
     'Calcular Tarifas',
@@ -101,6 +103,7 @@ export default function Crear() {
     const params = [
       { name: 'id_vehiculo_tipo', value: formdata.vehiculoData.vehiculo_tipo_id }, 
       { name: 'id_zona', value: formdata.zona }, 
+      { name: 'id_transporte', value: formdata.vehiculoData.transporte_id },
       { name: 'id_cliente', value: formdata.cliente }, 
       { name: 'fecha_salida', value: formdata.fecha_salida }
     ];
@@ -109,8 +112,6 @@ export default function Crear() {
 
     apiClient.getAll({
       onSuccess: ({data}) => {
-        console.log(data);
-        console.log(formdata);
         setDataViaje({
           ...dataViaje,
           viaje: formdata,
@@ -172,7 +173,6 @@ export default function Crear() {
   ];
 
   const customSubmitTarifas = (formdata) => {
-    console.log({formdata})
     setDataViaje({
       ...dataViaje,
       tarifasViaje: formdata,
@@ -186,11 +186,50 @@ export default function Crear() {
   });
 
   const handleSaveViaje = async () => {
-    Swal.fire({
-      text: 'Funcion de guardado en progreso',
-      icon: 'info'
-    });
-    console.log({dataViaje});
+    const apiClient = new ApiClient({ url: API.VIAJES });
+    const { tarifasViaje, tarifas, viaje } = dataViaje;
+    const tarifarioIsChanged = (
+      tarifasViaje.cliente_monto != tarifas[0].monto ||
+      tarifasViaje.cliente_monto_por_ayudante != tarifas[0].monto_por_ayudante ||
+      tarifasViaje.transporte_monto != tarifas[1].monto ||
+      tarifasViaje.transporte_monto_por_ayudante != tarifas[1].monto_por_ayudante
+    );
+
+    /* @TODO: Permiso de Aprobar tarifario excepcional no necesita este alert */
+    if (tarifarioIsChanged) {
+      await Swal.fire({
+        title: 'El viaje debe ser aprobado',
+        text: 'Al cambiar los montos por defecto este viaje debe ser aprobado por alguien con autorizacion',
+        icon: 'info'
+      });
+    }
+
+    const data = {
+      remito: JSON.stringify({
+        numero: dataViaje.nroRemito,
+        observaciones: dataViaje.bitacoras
+      }),
+      viaje: JSON.stringify({
+        id_cliente: viaje.cliente,
+        id_vehiculo: viaje.vehiculoData.id_vehiculo,
+        id_vehiculo_tipo: viaje.vehiculoData.vehiculo_tipo_id,
+        id_zona: viaje.zona,
+        fecha_salida: viaje.fecha_salida,
+        cantidad_ayudantes: viaje.cantidad_ayudantes
+      }),
+      tarifas: JSON.stringify({
+        cliente: tarifasViaje.cliente_monto,
+        cliente_por_ayudante: tarifasViaje.cliente_monto_por_ayudante,
+        transporte: tarifasViaje.transporte_monto,
+        transporte_por_ayudante: tarifasViaje.transporte_monto_por_ayudante,
+      })
+    }
+
+    const result = await apiClient.post({
+      data
+    })
+    
+    router.push('/dashboard/viajes');
   }
 
   const observationInputHtml = (value = '') => `
@@ -286,6 +325,7 @@ export default function Crear() {
                 fullWidth
                 label={'Nro Remito/Hoja de Ruta'}
                 onChange={e => setDataViaje({...dataViaje, nroRemito: e.target.value })}
+                autoComplete="off"
               />
             </Box>
             <Box mb={4}>

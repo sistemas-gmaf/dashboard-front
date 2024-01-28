@@ -24,7 +24,7 @@ export default function ViajesPage() {
   }
 
   return (
-    <Box>
+    <Box suppressHydrationWarning >
       <Typography variant='h5'>Viajes</Typography>
       <Tabs
         value={tabIndex}

@@ -54,6 +54,10 @@ export default function DatosViaje({dataViaje}) {
           Tarifa del Cliente: {formatNumberToCurrency(dataViaje.tarifasViaje.cliente_monto)}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
+          Tarifa del Cliente Por Ayudante: 
+          {formatNumberToCurrency(dataViaje.tarifasViaje.cliente_monto_por_ayudante)}
+        </Typography>
+        <Typography variant="body1" textAlign={'left'}>
           Tarifa Total al Cliente por Ayudantes: 
           {formatNumberToCurrency(
             dataViaje.tarifasViaje.cliente_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
@@ -63,12 +67,16 @@ export default function DatosViaje({dataViaje}) {
           Tarifa del Transporte: {formatNumberToCurrency(dataViaje.tarifasViaje.transporte_monto)}
         </Typography>
         <Typography variant="body1" textAlign={'left'}>
+          Tarifa del Transporte Por ayudante: 
+          {formatNumberToCurrency(dataViaje.tarifasViaje.transporte_monto_por_ayudante)}
+        </Typography>
+        <Typography variant="body1" textAlign={'left'}>
           Tarifa Total del Transporte por Ayudantes: 
           {formatNumberToCurrency(
             dataViaje.tarifasViaje.transporte_monto_por_ayudante * dataViaje.viaje.cantidad_ayudantes
           )}
         </Typography>
-        <Typography variant="body1" textAlign={'left'}>
+        <Typography variant="subtitle2" style={{ paddingTop: '1em' }} textAlign={'left'}>
           Valor Neto Total:
           {formatNumberToCurrency(
             (
