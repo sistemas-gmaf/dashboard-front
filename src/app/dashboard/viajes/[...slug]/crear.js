@@ -226,10 +226,9 @@ export default function Crear() {
     }
 
     const result = await apiClient.post({
-      data
+      data,
+      onSuccess: () => router.push('/dashboard/viajes'), 
     })
-    
-    router.push('/dashboard/viajes');
   }
 
   const observationInputHtml = (value = '') => `
@@ -318,6 +317,7 @@ export default function Crear() {
             <Button variant='contained' onClick={() => handleBack()} color='info'>Atras</Button>
             <Button variant='contained' type='submit' color='info'>Siguiente</Button>
           </Box>
+          <p>*La tarifa por ayudante es INDIVIDUAL, o sea que la tarifa por ayudante es por UN SOLO AYUDANTE</p>
         </TarifasForm>}
         {activeStep === 2 && <Box sx={{ width: { xs: '100%', md: '50%' } }}>
             <Box mb={4}>

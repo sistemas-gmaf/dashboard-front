@@ -16,8 +16,6 @@ export default function Detalle({ id }) {
 
   useEffect(() => {
     apiClient.get({ onSuccess: ({data}) => {
-      console.log(data)
-
       setData({
         ...data,
         bitacoras: data.bitacoras.map(({observacion}) => observacion)
