@@ -11,8 +11,8 @@ import { ApiClient } from "@/utils/apiClient";
 import { useFormCustom } from "@/hooks/useFormCustom";
 import { useRouter } from "next/navigation";
 
-export default function Detalle({ id }) {
-  const apiClient = new ApiClient({ url: API.TARIFARIO_VIAJES_ESPECIALES, id });
+export default function ViajesEspeciales({ id }) {
+  const apiClient = new ApiClient({ url: API.VIAJES_ESPECIALES, id });
   const [ data, setData ] = useState({});
   let action;
 
@@ -56,15 +56,24 @@ export default function Detalle({ id }) {
   ];
 
   const onSuccess = () => {
-    router.push('/dashboard/tarifarios');
+    router.push('/dashboard/viajes');
   };
 
   const customSubmit = (formdata) => {
-    console.log({action, formdata});
+    apiClient.patch({
+      data: { 
+        ...formdata, 
+        cantidad_ayudantes: Number(formdata.cantidad_ayudantes || data.cantidad_ayudantes).toString(),
+        action 
+      },
+      onSuccess: () => {
+        router.push('/dashboard/viajes');
+      }
+    })
   };
 
   const { Form } = useFormCustom({ 
-    url: API.TARIFARIO_VIAJES_ESPECIALES,
+    url: API.VIAJES_ESPECIALES,
     customSubmit,
     mode: 'edit',
     onSuccess,
@@ -74,39 +83,36 @@ export default function Detalle({ id }) {
 
   return (
     <Box mt={5} sx={{ display: 'flex', flexDirection: 'column', gap: '.5em', paddingX: { xs: 0, md: '20%' } }}>
-      <Typography variant="h4" textAlign={'center'}>
+      <Typography variant="h5" textAlign={'center'}>
         Datos de Viaje
       </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <Box sx={{ display: 'flex', gap: '1em', justifyContent: 'center', flexWrap: 'wrap' }}>
         <div>
-          <Typography variant="h5" textAlign={'center'}>
+          <Typography variant="body1" textAlign={'center'}>
             Estado de aprobacion: 
             {data?.estado || 'Cargando...'}
           </Typography>
-          <Typography variant="h5" textAlign={'center'}>
+          <Typography variant="body1" textAlign={'center'}>
             Tipo de Vehiculo: {data?.vehiculo_tipo || 'Cargando...'}
           </Typography>
-          <Typography variant="h5" textAlign={'center'}>
+          <Typography variant="body1" textAlign={'center'}>
             Zona: {data?.zona || 'Cargando...'}
-          </Typography>
-          <Typography variant="h5" textAlign={'center'}>
-            Cliente: {data?.cliente || 'Cargando...'}
           </Typography>
         </div>
         <div>
-          <Typography variant="h5" textAlign={'center'}>
+          <Typography variant="body1" textAlign={'center'}>
+            Cliente: {data?.cliente || 'Cargando...'}
+          </Typography>
+          <Typography variant="body1" textAlign={'center'}>
             Transporte: {data?.transporte || 'Cargando...'}
           </Typography>
-          <Typography variant="h5" textAlign={'center'}>
+          <Typography variant="body1" textAlign={'center'}>
             Fecha Salida: 
             {data?.fecha_salida ? `${moment(data?.fecha_salida, 'YYYYMMDD').format('LL')}` : 'Cargando...'}
           </Typography>
-          <Typography variant="h5" textAlign={'center'}>
-            Creado por: {data?.viaje_correo_ultima_edicion || 'Cargando...'}
-          </Typography>
         </div>
       </Box>
-      <Typography variant="h4" textAlign={'center'}>
+      <Typography variant="h5" textAlign={'center'}>
         Aprobación de Tarifas del Viaje
       </Typography>
       <Form>
@@ -134,17 +140,6 @@ export default function Detalle({ id }) {
           >
             Guardar y Aprobar
           </Button>
-
-          <Button 
-            style={{ flexGrow: 1, flexBasis: 300 }}
-            color="error" 
-            variant="contained"
-            type="submit"
-            onClick={() => action = 'rechazar'}
-          >
-            Rechazar
-          </Button>
-
         </Box>
       </Form>      
     </Box>
