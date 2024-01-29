@@ -44,6 +44,7 @@ export const API = {
   ZONAS_TARIFARIO: `${process.env.API_URL}/zonas-tarifario`,
   USUARIOS: `${process.env.API_URL}/usuarios`,
   IMPORTAR_TARIFARIOS: `${process.env.API_URL}/importar-tarifarios`,
+  INICIO: `${process.env.API_URL}/inicio`,
 };
 
 export const TABLE_COLUMNS = {
