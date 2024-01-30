@@ -25,6 +25,15 @@ export class ApiClient {
         return logout();
       }
 
+      if (response.status === 403) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'No posee permisos para visualizar los datos',
+          icon: 'warning'
+        });
+        return;
+      }
+
       if (response.status >= 300 || response.status < 200) {
         throw new Error('Error en la solicitud');
       }
@@ -63,6 +72,15 @@ export class ApiClient {
           text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
+      }
+
+      if (response.status === 403) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'No posee permisos para visualizar los datos',
+          icon: 'warning'
+        });
+        return;
       }
 
       if (response.status >= 300 || response.status < 200) {
@@ -113,6 +131,15 @@ export class ApiClient {
           text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
+      }
+
+      if (response.status === 403) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'No posee permisos para actualizar los datos',
+          icon: 'warning'
+        });
+        return;
       }
 
       if (response.status >= 300 || response.status < 200) {
@@ -171,6 +198,15 @@ export class ApiClient {
           text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
+      }
+
+      if (response.status === 403) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'No posee permisos para enviar los datos',
+          icon: 'warning'
+        });
+        return;
       }
 
       if (response.status === 409) { //se maneja desde otro lado
@@ -242,6 +278,15 @@ export class ApiClient {
           text: 'La sesión no es válida, debe reiniciar sesión'
         });
         return logout();
+      }
+
+      if (response.status === 403) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'No posee permisos para eliminar los datos',
+          icon: 'warning'
+        });
+        return;
       }
 
       if (response.status >= 300 || response.status < 200) {
