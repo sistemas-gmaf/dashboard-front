@@ -19,11 +19,11 @@ import { deepClone } from '@/utils/deepClone';
 import { formatNumberToCurrency } from '@/utils/numbers';
 
 const CARDS = [
-  { title: 'Viajes Realizados', icon: EmojiTransportationIcon, permiso: 'VER_INICIO_VIAJES_FINALIZADOS' },
-  { title: 'Vehículos Utilizados', icon: DirectionsCarFilledIcon, permiso: 'VER_INICIO_VEHICULOS_UTILIZADOS' },
-  { title: 'Ventas', icon: SellIcon, permiso: 'VER_INICIO_TOTAL_VENTAS' },
-  { title: 'Compras', icon: ShoppingCartIcon, permiso: 'VER_INICIO_TOTAL_COMPRAS' },
-  { title: 'Ganancia', icon: AttachMoneyIcon, permiso: 'VER_INICIO_TOTAL_BENEFICIO' },
+  { title: 'Viajes Cargados del Mes', icon: EmojiTransportationIcon, permiso: 'VER_INICIO_VIAJES_FINALIZADOS' },
+  { title: 'Vehículos Utilizados del Mes', icon: DirectionsCarFilledIcon, permiso: 'VER_INICIO_VEHICULOS_UTILIZADOS' },
+  { title: 'Ventas del Mes', icon: SellIcon, permiso: 'VER_INICIO_TOTAL_VENTAS' },
+  { title: 'Compras del Mes', icon: ShoppingCartIcon, permiso: 'VER_INICIO_TOTAL_COMPRAS' },
+  { title: 'Ganancia del Mes', icon: AttachMoneyIcon, permiso: 'VER_INICIO_TOTAL_BENEFICIO' },
   { title: 'Cheques Pendientes', icon: RequestQuoteIcon, permiso: 'VER_INICIO_CHEQUES_PENDIENTES' },
   { title: 'Compromisos Pendientes', icon: ReceiptIcon, permiso: 'VER_INICIO_COMPROMISOS_PENDIENTES' },
   { title: 'Viajes Pendientes de Aprobación', icon: DepartureBoardIcon, permiso: 'VER_INICIO_VIAJES_PENDIENTES_APROBACION' },
