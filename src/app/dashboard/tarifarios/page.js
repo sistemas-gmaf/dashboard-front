@@ -135,7 +135,7 @@ export default function TarifariosPage() {
           display: 'flex',
           flexDirection: 'column'
         }}>
-          {permisos.includes('IMPORTAR_TARIFARIOS_MASIVO') && <>
+          {permisos?.includes('IMPORTAR_TARIFARIOS_MASIVO') && <>
             <ImportRates onImportData={handleImportRates} />
             <Typography variant='caption'>*Tarifarios de Clientes/Transportes</Typography>
           </>}

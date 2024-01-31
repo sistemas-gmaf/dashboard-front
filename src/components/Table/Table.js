@@ -39,8 +39,8 @@ export default function Table({
         <Actions 
           id={id} 
           customDeleteId={row[customDeleteId]} 
-          editPermission={permisos.includes(editPermission)}
-          deletePermission={permisos.includes(deletePermission)}
+          editPermission={permisos?.includes(editPermission)}
+          deletePermission={permisos?.includes(deletePermission)}
           {...actionsProps} 
         />
     }
@@ -60,7 +60,7 @@ export default function Table({
 
         localeText={localeText}
         slots={slots({ 
-          createPermission: permisos.includes(createPermission), 
+          createPermission: permisos?.includes(createPermission), 
           disableCreate, 
           createRoute, 
           reloadDataTable 

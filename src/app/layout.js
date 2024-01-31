@@ -1,6 +1,7 @@
 import DatepickerProvider from '@/components/DatepickerProvider';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import StoreProvider from '@/store/provider';
+import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Dashboard Grupo MAF',
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           <ThemeRegistry>
             <DatepickerProvider>
-              {children}
+              <Suspense fallback={<>Cargando...</>}>
+                {children}
+              </Suspense>
             </DatepickerProvider>
           </ThemeRegistry>
         </StoreProvider>
