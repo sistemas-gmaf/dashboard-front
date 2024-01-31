@@ -7,7 +7,7 @@ import 'moment/locale/es';
 
 import { API } from "@/utils/constants";
 import { useEffect, useState } from "react";
-import { ApiClient } from "@/utils/apiClient";
+import { ApiClient } from "@/utils/ApiClient";
 
 export default function Detalle({ id }) {
   const apiClient = new ApiClient({ url: API.CHEQUES, id });
