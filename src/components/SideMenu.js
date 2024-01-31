@@ -23,22 +23,23 @@ import { setSideMenuState } from '@/store/slices/sidemenu';
 import { getFromStorage } from '@/utils/localStorage';
 
 const LINKS = [
-  { text: 'Inicio', href: '/dashboard/inicio', icon: HomeIcon },
-  { text: 'Transportes', href: '/dashboard/transportes', icon: LocalShippingIcon },
-  { text: 'Choferes', href: '/dashboard/choferes', icon: AirlineSeatReclineExtraIcon },
-  { text: 'Vehículos', href: '/dashboard/vehiculos', icon: DirectionsCarFilledIcon },
-  { text: 'Clientes', href: '/dashboard/clientes', icon: PeopleAltIcon },
-  { text: 'Tarifarios', href: '/dashboard/tarifarios', icon: ReceiptLongIcon },
-  { text: 'Viajes', href: '/dashboard/viajes', icon: EmojiTransportationIcon },
-  { text: 'Cheques', href: '/dashboard/cheques', icon: LocalAtmIcon },
-  { text: 'Compromisos', href: '/dashboard/compromisos', icon: ReceiptIcon },
-  { text: 'Recordatorios', href: '/dashboard/recordatorios', icon: NotificationsIcon },
-  { text: 'Gestión de Usuarios', href: '/dashboard/usuarios', icon: SupervisedUserCircleIcon },
+  { text: 'Inicio', href: '/dashboard/inicio', icon: HomeIcon, permiso: 'VER_INICIO' },
+  { text: 'Transportes', href: '/dashboard/transportes', icon: LocalShippingIcon, permiso: 'VER_TRANSPORTES' },
+  { text: 'Choferes', href: '/dashboard/choferes', icon: AirlineSeatReclineExtraIcon, permiso: 'VER_CHOFERES' },
+  { text: 'Vehículos', href: '/dashboard/vehiculos', icon: DirectionsCarFilledIcon, permiso: 'VER_VEHICULOS' },
+  { text: 'Clientes', href: '/dashboard/clientes', icon: PeopleAltIcon, permiso: 'VER_CLIENTES' },
+  { text: 'Tarifarios', href: '/dashboard/tarifarios', icon: ReceiptLongIcon, permiso: 'VER_TARIFARIOS' },
+  { text: 'Viajes', href: '/dashboard/viajes', icon: EmojiTransportationIcon, permiso: 'VER_VIAJES' },
+  { text: 'Cheques', href: '/dashboard/cheques', icon: LocalAtmIcon, permiso: 'VER_CHEQUES' },
+  { text: 'Compromisos', href: '/dashboard/compromisos', icon: ReceiptIcon, permiso: 'VER_COMPROMISOS' },
+  { text: 'Recordatorios', href: '/dashboard/recordatorios', icon: NotificationsIcon, permiso: 'VER_RECORDATORIOS' },
+  { text: 'Gestión de Usuarios', href: '/dashboard/usuarios', icon: SupervisedUserCircleIcon, permiso: 'VER_GESTION_USUARIOS' },
 ];
 
 function SideMenu() {
   const sideMenuOpenFromStorage = getFromStorage('sidemenu.open');
   const sideMenuOpen = useSelector(state => state.sidemenu.open);
+  const permisos = useSelector(state => state.user.data.permisos);
   const pathname = usePathname();
   const dispatch = useDispatch();
 
@@ -48,6 +49,7 @@ function SideMenu() {
 
   return (
     <Drawer 
+      suppressHydrationWarning
       variant="permanent" 
       open={sideMenuOpen}
       sx={{
@@ -65,7 +67,7 @@ function SideMenu() {
       }}
     >
       <List>
-        {LINKS.map(({text, href, icon: Icon}) => (
+        {permisos && LINKS.filter(link => permisos.includes(link.permiso)).map(({text, href, icon: Icon}) => (
           <Tooltip key={text} title={text} placement='right' disableHoverListener={sideMenuOpen}>
             <ListItem 
               key={text} 

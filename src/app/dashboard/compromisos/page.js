@@ -14,6 +14,9 @@ export default function RecordatoriosPage() {
         createRoute={'/dashboard/compromisos/crear'}
         detailRoute={'/dashboard/compromisos/detalle'}
         editRoute={'/dashboard/compromisos/editar'}
+        createPermission={'CREAR_COMPROMISO'}
+        editPermission={'EDITAR_COMPROMISO'}
+        deletePermission={'ELIMINAR_COMPROMISO'}
       />
     </Box>
   );

@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
@@ -10,6 +10,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
+import CachedIcon from '@mui/icons-material/Cached';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ApiClient } from '@/utils/apiClient';
@@ -18,18 +19,17 @@ import { deepClone } from '@/utils/deepClone';
 import { formatNumberToCurrency } from '@/utils/numbers';
 
 const CARDS = [
-  { title: 'Viajes Realizados', info: 'Cargando...', icon: EmojiTransportationIcon },
-  { title: 'Vehículos Utilizados', info: 'Cargando...', icon: DirectionsCarFilledIcon },
-  { title: 'Ventas', info: 'Cargando...', icon: SellIcon },
-  { title: 'Compras', info: 'Cargando...', icon: ShoppingCartIcon },
-  { title: 'Ganancia', info: 'Cargando...', icon: AttachMoneyIcon },
-  { title: 'Cheques Pendientes', info: 'Cargando...', icon: RequestQuoteIcon },
-  { title: 'Compromisos Pendientes', info: 'Cargando...', icon: ReceiptIcon },
-  { title: 'Viajes Pendientes de Aprobación', info: 'Cargando...', icon: DepartureBoardIcon },
+  { title: 'Viajes Realizados', icon: EmojiTransportationIcon, permiso: 'VER_INICIO_VIAJES_FINALIZADOS' },
+  { title: 'Vehículos Utilizados', icon: DirectionsCarFilledIcon, permiso: 'VER_INICIO_VEHICULOS_UTILIZADOS' },
+  { title: 'Ventas', icon: SellIcon, permiso: 'VER_INICIO_TOTAL_VENTAS' },
+  { title: 'Compras', icon: ShoppingCartIcon, permiso: 'VER_INICIO_TOTAL_COMPRAS' },
+  { title: 'Ganancia', icon: AttachMoneyIcon, permiso: 'VER_INICIO_TOTAL_BENEFICIO' },
+  { title: 'Cheques Pendientes', icon: RequestQuoteIcon, permiso: 'VER_INICIO_CHEQUES_PENDIENTES' },
+  { title: 'Compromisos Pendientes', icon: ReceiptIcon, permiso: 'VER_INICIO_COMPROMISOS_PENDIENTES' },
+  { title: 'Viajes Pendientes de Aprobación', icon: DepartureBoardIcon, permiso: 'VER_INICIO_VIAJES_PENDIENTES_APROBACION' },
 ];
 
 export default function HomePage() {
-  const [ userName, setUserName ] = useState('');
   const [ cardsData, setCarsData ] = useState([
     { info: 'Cargando...' },
     { info: 'Cargando...' },
@@ -40,11 +40,12 @@ export default function HomePage() {
     { info: 'Cargando...' },
     { info: 'Cargando...' },
   ]);
+  const [ reload, setReload ] = useState(Math.random());
   const userData = useSelector(state => state.user.data);
+  const permisos = useSelector(state => state.user.data.permisos);
 
   useEffect(() => {
     const apiClient = new ApiClient({ url: API.INICIO });
-    setUserName(userData.givenName)
 
     apiClient.getAll({
       onSuccess: ({ data }) => {
@@ -61,11 +62,14 @@ export default function HomePage() {
         setCarsData(cloneCardsData);
       }
     })
-  }, []);
+  }, [reload]);
   return (
-    <Box>
+    <Box supressHydrationWarning>
       <Typography variant='h4' align='center'>
-        !Bienvenido {userName}!
+        !Bienvenido {userData.givenName}!
+        <IconButton aria-label="delete" size="large" onClick={() => setReload(Math.random())}>
+          <CachedIcon fontSize="inherit" />
+        </IconButton>
       </Typography>
       <Box
         sx={{
@@ -76,25 +80,29 @@ export default function HomePage() {
         }}
         mt={6}
       >
-        {CARDS.map(({ title, info, icon: Icon }, idx) => <Card key={title}>
-          <CardContent 
-            sx={{ 
-              display: 'flex', 
-              alignItems: 'center',
-              gap: '1em'
-            }}
-          >
-            <Icon fontSize='large' />
-            <div>
-              <Typography variant='body2'>
-                {title}
-              </Typography>
-              <Typography>
-                {cardsData[idx].info}
-              </Typography>
-            </div>
-          </CardContent>
-        </Card>)}
+        {permisos && CARDS
+          .filter(card => permisos.includes(card.permiso))
+          .map(({ title, icon: Icon }, idx) => 
+            <Card key={title}>
+              <CardContent 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center',
+                  gap: '1em'
+                }}
+              >
+                <Icon fontSize='large' />
+                <div>
+                  <Typography variant='body2'>
+                    {title}
+                  </Typography>
+                  <Typography>
+                    {cardsData[idx].info}
+                  </Typography>
+                </div>
+              </CardContent>
+            </Card>)
+        }
       </Box>
     </Box>
   );

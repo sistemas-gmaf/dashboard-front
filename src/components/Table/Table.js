@@ -7,6 +7,7 @@ import { slots } from './subcomponents/slots';
 import { localeText } from './subcomponents/localeText';
 import { slotProps } from './subcomponents/slotProps';
 import { Actions } from './subcomponents/Actions';
+import { useSelector } from "react-redux";
 
 export default function Table({ 
   url,
@@ -20,8 +21,12 @@ export default function Table({
   createRoute,
   detailRoute,
   editRoute,
-  customDeleteId = false
+  customDeleteId = false,
+  createPermission,
+  editPermission,
+  deletePermission
 }) {
+  const permisos = useSelector(state => state.user.data.permisos);
   const { tableKey, reloadDataTable, rows, deleteCallback, persistentTable } = useTable({ url, section });
   const actionsProps = { disableDetail, disableEdit, disableDelete, detailRoute, editRoute, deleteCallback };
 
@@ -30,7 +35,14 @@ export default function Table({
     { 
       headerName: 'Acciones',
       minWidth: 170, flex: 1,
-      renderCell: ({ id, row }) => <Actions id={id} customDeleteId={row[customDeleteId]} {...actionsProps} />
+      renderCell: ({ id, row }) => 
+        <Actions 
+          id={id} 
+          customDeleteId={row[customDeleteId]} 
+          editPermission={permisos.includes(editPermission)}
+          deletePermission={permisos.includes(deletePermission)}
+          {...actionsProps} 
+        />
     }
   ];
 
@@ -47,7 +59,12 @@ export default function Table({
         {...persistentTable}
 
         localeText={localeText}
-        slots={slots({ disableCreate, createRoute, reloadDataTable })}
+        slots={slots({ 
+          createPermission: permisos.includes(createPermission), 
+          disableCreate, 
+          createRoute, 
+          reloadDataTable 
+        })}
         slotProps={slotProps}
 
         pageSizeOptions={[5, 10]}

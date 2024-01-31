@@ -14,6 +14,9 @@ export default function ChoferesPage() {
         createRoute={'/dashboard/choferes/crear'}
         detailRoute={'/dashboard/choferes/detalle'}
         editRoute={'/dashboard/choferes/editar'}
+        createPermission={'CREAR_CHOFER'}
+        editPermission={'EDITAR_CHOFER'}
+        deletePermission={'ELIMINAR_CHOFER'}
       />
     </Box>
   );

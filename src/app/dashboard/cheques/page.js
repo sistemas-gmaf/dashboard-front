@@ -14,6 +14,9 @@ export default function ChequesPage() {
         createRoute={'/dashboard/cheques/crear'}
         detailRoute={'/dashboard/cheques/detalle'}
         editRoute={'/dashboard/cheques/editar'}
+        createPermission={'CREAR_CHEQUE'}
+        editPermission={'EDITAR_CHEQUE'}
+        deletePermission={'ELIMINAR_CHEQUE'}
       />
     </Box>
   );

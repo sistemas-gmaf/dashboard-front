@@ -4,6 +4,7 @@ import SideMenu from '@/components/SideMenu';
 import Header from '@/components/Header';
 import SectionContainer from '@/components/SectionContainer';
 import BackdropLoading from '@/components/Backdrop';
+import DevWindow from '@/components/DevWindow';
 
 export default function RootLayout({ children }) {
   return (<>
@@ -13,5 +14,6 @@ export default function RootLayout({ children }) {
       {children}
     </SectionContainer>
     <BackdropLoading />
+    <DevWindow />
   </>);
 }

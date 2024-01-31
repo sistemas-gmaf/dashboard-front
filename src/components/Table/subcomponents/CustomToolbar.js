@@ -4,7 +4,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function CustomToolbar({ createRoute, disableCreate, reloadDataTable }) {
+export default function CustomToolbar({ createRoute, disableCreate, reloadDataTable, createPermission }) {
   return (
     <GridToolbarContainer sx={{ 
       display: 'flex', 
@@ -25,7 +25,7 @@ export default function CustomToolbar({ createRoute, disableCreate, reloadDataTa
           gap: 2
         }}
       >
-        {!disableCreate && <Button
+        {!disableCreate && createPermission && <Button
           fullWidth
           color='secondary'
           href={createRoute}

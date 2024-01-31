@@ -15,8 +15,11 @@ export const SliceUser = createSlice({
     clearUserData: (state) => {
       state.data = {};
       localStorage.removeItem('user.data');
+    },
+    setPermisos: (state, { payload }) => {
+      state.data.permisos = payload;
     }
   }
 });
 
-export const { setUserData, clearUserData } = SliceUser.actions;
+export const { setUserData, clearUserData, setPermisos } = SliceUser.actions;

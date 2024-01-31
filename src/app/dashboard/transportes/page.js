@@ -14,6 +14,9 @@ export default function TransportesPage() {
         createRoute={'/dashboard/transportes/crear'}
         detailRoute={'/dashboard/transportes/detalle'}
         editRoute={'/dashboard/transportes/editar'}
+        createPermission={'CREAR_TRANSPORTE'}
+        editPermission={'EDITAR_TRANSPORTE'}
+        deletePermission={'ELIMINAR_TRANSPORTE'}
       />
     </Box>
   );

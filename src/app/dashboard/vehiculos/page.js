@@ -15,6 +15,9 @@ export default function VehiculosPage() {
         detailRoute={'/dashboard/vehiculos/detalle'}
         editRoute={'/dashboard/vehiculos/editar'}
         customDeleteId={'id_vehiculo'}
+        createPermission={'CREAR_VEHICULO'}
+        editPermission={'EDITAR_VEHICULO'}
+        deletePermission={'ELIMINAR_VEHICULO'}
       />
     </Box>
   );

@@ -43,6 +43,9 @@ export default function ViajesPage() {
         createRoute={'/dashboard/viajes/crear'}
         detailRoute={'/dashboard/viajes/detalle'}
         editRoute={'/dashboard/viajes/editar'}
+        createPermission={'CREAR_VIAJE'}
+        editPermission={'EDITAR_VIAJE'}
+        deletePermission={'ELIMINAR_VIAJE'}
       />}
       {tabIndex === 1 && <Table
         disableCreate={true}
@@ -52,6 +55,7 @@ export default function ViajesPage() {
         columns={TABLE_COLUMNS.VIAJES_ESPECIALES}
         section={'viajes-especiales'}
         editRoute={'/dashboard/viajes/viajes-especiales'}
+        editPermission={'APROBAR_VIAJE'}
       />}
     </Box>
   );

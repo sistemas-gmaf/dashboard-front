@@ -14,6 +14,9 @@ export default function ClientesPage() {
         createRoute={'/dashboard/clientes/crear'}
         detailRoute={'/dashboard/clientes/detalle'}
         editRoute={'/dashboard/clientes/editar'}
+        createPermission={'CREAR_CLIENTE'}
+        editPermission={'EDITAR_CLIENTE'}
+        deletePermission={'ELIMINAR_CLIENTE'}
       />
     </Box>
   );

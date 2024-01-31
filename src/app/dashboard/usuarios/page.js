@@ -14,6 +14,9 @@ export default function ChequesPage() {
         createRoute={'/dashboard/usuarios/crear'}
         detailRoute={'/dashboard/usuarios/detalle'}
         editRoute={'/dashboard/usuarios/editar'}
+        createPermission={'CREAR_USUARIO'}
+        editPermission={'EDITAR_USUARIO'}
+        deletePermission={'ELIMINAR_USUARIO'}
       />
     </Box>
   );

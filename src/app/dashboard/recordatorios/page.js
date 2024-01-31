@@ -14,6 +14,9 @@ export default function RecordatoriosPage() {
         createRoute={'/dashboard/recordatorios/crear'}
         detailRoute={'/dashboard/recordatorios/detalle'}
         editRoute={'/dashboard/recordatorios/editar'}
+        createPermission={'CREAR_RECORDATORIO'}
+        editPermission={'EDITAR_RECORDATORIO'}
+        deletePermission={'ELIMINAR_RECORDATORIO'}
       />
     </Box>
   );

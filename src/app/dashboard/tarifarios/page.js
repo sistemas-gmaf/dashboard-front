@@ -8,11 +8,13 @@ import { getFromStorage } from '@/utils/localStorage';
 import ImportRates from '@/components/ImportRates';
 import { ApiClient } from '@/utils/apiClient';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 export default function TarifariosPage() {
   const apiClient = new ApiClient({ url: API.IMPORTAR_TARIFARIOS });
   const [ tabIndex, setTabIndex ] = useState(getFromStorage('tarifarios/tabIndex') || 0);
   const [ keyRefreshTables, setKeyRefreshTables ] = useState(Math.random());
+  const permisos = useSelector(state => state.user.data.permisos);
   
   const handleChangeTab = (e, index) => {
     setTabIndex(index);
@@ -133,8 +135,10 @@ export default function TarifariosPage() {
           display: 'flex',
           flexDirection: 'column'
         }}>
-          <ImportRates onImportData={handleImportRates} />
-          <Typography variant='caption'>*Tarifarios de Clientes/Transportes</Typography>
+          {permisos.includes('IMPORTAR_TARIFARIOS_MASIVO') && <>
+            <ImportRates onImportData={handleImportRates} />
+            <Typography variant='caption'>*Tarifarios de Clientes/Transportes</Typography>
+          </>}
         </Box>
       </Box>
       <Box key={keyRefreshTables}>
@@ -145,6 +149,9 @@ export default function TarifariosPage() {
           createRoute={'/dashboard/tarifarios/clientes-crear'}
           detailRoute={'/dashboard/tarifarios/clientes-detalle'}
           editRoute={'/dashboard/tarifarios/clientes-editar'}
+          createPermission={'CREAR_TARIFARIO_CLIENTE'}
+          editPermission={'EDITAR_TARIFARIO_CLIENTE'}
+          deletePermission={'ELIMINAR_TARIFARIO_CLIENTE'}
         />}
         {tabIndex === 1 && <Table
           url={API.TARIFARIO_TRANSPORTES}
@@ -153,6 +160,9 @@ export default function TarifariosPage() {
           createRoute={'/dashboard/tarifarios/transportes-crear'}
           detailRoute={'/dashboard/tarifarios/transportes-detalle'}
           editRoute={'/dashboard/tarifarios/transportes-editar'}
+          createPermission={'CREAR_TARIFARIO_PROVEEDOR'}
+          editPermission={'EDITAR_TARIFARIO_PROVEEDOR'}
+          deletePermission={'ELIMINAR_TARIFARIO_PROVEEDOR'}
           />}
         {tabIndex === 2 && <Table
           url={API.TARIFARIO_TRANSPORTES_ESPECIALES}
@@ -161,6 +171,9 @@ export default function TarifariosPage() {
           createRoute={'/dashboard/tarifarios/transportes-especiales-crear'}
           detailRoute={'/dashboard/tarifarios/transportes-especiales-detalle'}
           editRoute={'/dashboard/tarifarios/transportes-especiales-editar'}
+          createPermission={'CREAR_TARIFARIO_PROVEEDOR_ESPECIAL'}
+          editPermission={'EDITAR_TARIFARIO_PROVEEDOR_ESPECIAL'}
+          deletePermission={'ELIMINAR_TARIFARIO_PROVEEDOR_ESPECIAL'}
           />}
       </Box>
     </Box>
