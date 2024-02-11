@@ -32,6 +32,7 @@ const nextConfig = {
   env: {
     VERSION: process.env.VERSION,
     API_URL: process.env.API_URL,
+    IS_AUTH_BY: process.env.IS_AUTH_BY,
   }
 };
 

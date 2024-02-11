@@ -1,3 +1,5 @@
+'use client'
+
 import { setBackdropState } from "@/store/slices/backdrop";
 import store from "@/store/store";
 import { logout } from "./auth";
@@ -8,13 +10,36 @@ export class ApiClient {
   constructor({ url, id }) {
     this.url = url;
     this.id = id || false;
+    if (process.env.IS_AUTH_BY === 'authorization') {
+      this.expires = localStorage.getItem('expires');
+      this.headers = {
+        authorization: localStorage.getItem('authorization')
+      };
+    } else {
+      this.expires = undefined;
+      this.headers = undefined;
+    }
   }
 
   async getAll({ onSuccess, onError, backdrop = true }) {
     try {
+      if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
+        return;
+      }
+      if (
+        process.env.IS_AUTH_BY === 'authorization' 
+        && (new Date()).getTime() > (new Date(this.expires)).getTime()
+        && this.expires) {
+        await Swal.fire({
+          text: 'La sesión no es válida, debe reiniciar sesión',
+          icon: 'info'
+        });
+        return logout();
+      }
+
       backdrop && store.dispatch(setBackdropState(true));
 
-      const response = await fetch(this.url, { credentials: 'include' });
+      const response = await fetch(this.url, { credentials: 'include', headers: this.headers });
 
       if (response.status === 401) {
         backdrop && store.dispatch(setBackdropState(false));
@@ -61,9 +86,23 @@ export class ApiClient {
 
   async get({ id, onSuccess, onError, backdrop = true }) {
     try {
+      if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
+        return;
+      }
+      if (
+        process.env.IS_AUTH_BY === 'authorization' 
+        && (new Date()).getTime() > (new Date(this.expires)).getTime()
+        && this.expires) {
+        await Swal.fire({
+          text: 'La sesión no es válida, debe reiniciar sesión',
+          icon: 'info'
+        });
+        return logout();
+      }
+
       backdrop && store.dispatch(setBackdropState(true));
 
-      const response = await fetch(`${this.url}/${this.id || id }`, { credentials: 'include' });
+      const response = await fetch(`${this.url}/${this.id || id }`, { credentials: 'include', headers: this.headers });
 
       if (response.status === 401) {
         backdrop && store.dispatch(setBackdropState(false));
@@ -108,6 +147,20 @@ export class ApiClient {
 
   async patch({ id, data, onSuccess, onError, backdrop = true }) {
     try {
+      if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
+        return;
+      }
+      if (
+        process.env.IS_AUTH_BY === 'authorization' 
+        && (new Date()).getTime() > (new Date(this.expires)).getTime()
+        && this.expires) {
+        await Swal.fire({
+          text: 'La sesión no es válida, debe reiniciar sesión',
+          icon: 'info'
+        });
+        return logout();
+      }
+
       backdrop && store.dispatch(setBackdropState(true));
 
       const formData = new FormData();
@@ -121,7 +174,8 @@ export class ApiClient {
       const response = await fetch(`${this.url}/${this.id || id}`, {
         method: 'PATCH',
         credentials: 'include',
-        body: formData
+        body: formData,
+        headers: this.headers,
       });
       
       if (response.status === 401) {
@@ -175,6 +229,20 @@ export class ApiClient {
   async post({ data, onSuccess, onError, backdrop = true }) {
     let response;
     try {
+      if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
+        return;
+      }
+      if (
+        process.env.IS_AUTH_BY === 'authorization' 
+        && (new Date()).getTime() > (new Date(this.expires)).getTime()
+        && this.expires) {
+        await Swal.fire({
+          text: 'La sesión no es válida, debe reiniciar sesión',
+          icon: 'info'
+        });
+        return logout();
+      }
+
       backdrop && store.dispatch(setBackdropState(true));
 
       const formData = new FormData();
@@ -188,7 +256,8 @@ export class ApiClient {
       response = await fetch(this.url, {
         method: 'POST',
         credentials: 'include',
-        body: formData
+        body: formData,
+        headers: this.headers,
       });
 
       if (response.status === 401) {
@@ -254,6 +323,20 @@ export class ApiClient {
 
   async delete({ id, onSuccess, onError, backdrop = true }) {
     try {
+      if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
+        return;
+      }
+      if (
+        process.env.IS_AUTH_BY === 'authorization' 
+        && (new Date()).getTime() > (new Date(this.expires)).getTime()
+        && this.expires) {
+        await Swal.fire({
+          text: 'La sesión no es válida, debe reiniciar sesión',
+          icon: 'info'
+        });
+        return logout();
+      }
+
       const userConfirm = await Swal.fire({
         title: '¿Está seguro que desea borrar este registro?',
         confirmButtonText: 'Si, quiero',
@@ -268,7 +351,8 @@ export class ApiClient {
       
       const response = await fetch(`${this.url}/${this.id || id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: this.headers,
       });
 
       if (response.status === 401) {
