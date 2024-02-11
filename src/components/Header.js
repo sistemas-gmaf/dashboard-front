@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import logoImg from '@/img/logo.png';
 
 import { toggleSideMenuState } from '@/store/slices/sidemenu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { logout } from '@/utils/auth';
@@ -17,6 +17,7 @@ import { getFromStorage } from '@/utils/localStorage';
 export default function Header() {
   const apiClient = new ApiClient({ url: API.PERFIL });
   const dispatch = useDispatch();
+  const authorizationToken = useSelector(state => state.user.authorization);
   
   const [ displayName, setDisplayName ] = useState((typeof localStorage !== 'undefined') 
     ? (JSON.parse(localStorage.getItem('user.data'))?.displayName || false)
@@ -30,24 +31,30 @@ export default function Header() {
 
   useEffect(() => {
     let userDataLocalstorage = false;
+    let authorizationTokenStorage = false;
     let sidemenuOpen = true;
+
     if (typeof localStorage !== 'undefined') {
       userDataLocalstorage = getFromStorage('user.data');
+      authorizationTokenStorage = localStorage.getItem('authorization');
       sidemenuOpen = getFromStorage("sidemenu.open");
     }
-    if (Boolean(userDataLocalstorage)) {
-      const userDataLocalStorage = userDataLocalstorage;
-      dispatch(setUserData(userDataLocalStorage));
-      dispatch(toggleSideMenuState(sidemenuOpen));
-    } else {
-      apiClient.getAll({
-        onSuccess: data => {
-          dispatch(setUserData(data));
-          setDisplayName(data.displayName);
-        }
-      });
+
+    if (!!authorizationToken) {
+      if (Boolean(userDataLocalstorage)) {
+        const userDataLocalStorage = userDataLocalstorage;
+        dispatch(setUserData(userDataLocalStorage));
+        dispatch(toggleSideMenuState(sidemenuOpen));
+      } else {
+        apiClient.getAll({
+          onSuccess: data => {
+            dispatch(setUserData(data));
+            setDisplayName(data.displayName);
+          }
+        });
+      }
     }
-  }, []);
+  }, [authorizationToken]);
 
   const isMenuOpen = Boolean(anchorEl);
 
