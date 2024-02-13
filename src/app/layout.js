@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <StoreProvider>
           <ThemeRegistry>
             <DatepickerProvider>
-              <Suspense fallback={<>Cargando...</>}>
+              <Suspense>
                 {children}
               </Suspense>
             </DatepickerProvider>
