@@ -139,6 +139,7 @@ export default function Crear() {
     handleSubmitCustomFormdata,
     url: API.TARIFARIO_TRANSPORTES_ESPECIALES,
     onSuccess: handleSuccess,
+    forceOnSuccess: true,
     fields
   });
 

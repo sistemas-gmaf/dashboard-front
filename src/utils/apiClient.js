@@ -198,6 +198,15 @@ export class ApiClient {
         return;
       }
 
+      if (response.status === 409) {
+        backdrop && store.dispatch(setBackdropState(false));
+        await Swal.fire({
+          text: 'Los datos que intenta ingresar están en conflicto con datos que ya existen',
+          icon: 'warning'
+        });
+        return;
+      }
+
       if (response.status >= 300 || response.status < 200) {
         throw new Error('Error en la solicitud');
       }
@@ -228,7 +237,7 @@ export class ApiClient {
     }
   }
 
-  async post({ data, onSuccess, onError, backdrop = true }) {
+  async post({ data, onSuccess, onError, backdrop = true, forceOnSuccess = false }) {
     let response;
     try {
       if (process.env.IS_AUTH_BY === 'authorization' && !this.headers.authorization) {
@@ -280,14 +289,15 @@ export class ApiClient {
         return;
       }
 
-      if (response.status === 409) { //se maneja desde otro lado
+      if (response.status === 409) {
         backdrop && store.dispatch(setBackdropState(false));
-        if (onSuccess) {
+        //@TODO: estandarizar todas las peticiones con posibilidad de extender flujos
+        if (onSuccess && forceOnSuccess) { //forceOnSuccess se usa como parche por tema de flujo de tarifarios
           onSuccess(response);
         } else {
           await Swal.fire({
-            icon: 'error',
-            text: 'Datos en conflicto'
+            text: 'Los datos que intenta ingresar están en conflicto con datos que ya existen',
+            icon: 'warning'
           });
         }
         return;
