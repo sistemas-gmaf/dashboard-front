@@ -128,6 +128,7 @@ export default function TarifariosPage() {
           aria-label='tarifarios tabs' 
           allowScrollButtonsMobile
           variant="scrollable"
+          sx={{ alignSelf: { md: 'end', xs: 'initial' } }}
         >
           <Tab label='Clientes' {...tabProps(0)} />
           <Tab label='Transportes' {...tabProps(1)} />
