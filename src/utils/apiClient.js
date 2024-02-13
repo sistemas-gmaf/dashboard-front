@@ -11,10 +11,12 @@ export class ApiClient {
     this.url = url;
     this.id = id || false;
     if (process.env.IS_AUTH_BY === 'authorization') {
-      this.expires = localStorage.getItem('expires');
-      this.headers = {
-        authorization: localStorage.getItem('authorization')
-      };
+      if (typeof window !== 'undefined') {
+        this.expires = localStorage.getItem('expires');
+        this.headers = {
+          authorization: localStorage.getItem('authorization')
+        };
+      }
     } else {
       this.expires = undefined;
       this.headers = undefined;

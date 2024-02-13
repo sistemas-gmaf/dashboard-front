@@ -18,7 +18,9 @@ export default function TarifariosPage() {
   
   const handleChangeTab = (e, index) => {
     setTabIndex(index);
-    localStorage?.setItem('tarifarios/tabIndex', index);
+    if (typeof window !== 'undefined') {
+      localStorage?.setItem('tarifarios/tabIndex', index);
+    }
   }
 
   const handleImportRates = async excelData => {
