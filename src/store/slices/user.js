@@ -2,27 +2,39 @@
 import { getFromStorage } from "@/utils/localStorage";
 import { createSlice } from "@reduxjs/toolkit";
 
+let authorization = '';
+
+if (typeof window !== 'undefined') { 
+  authorization = localStorage.getItem('authorization');
+}
+
 export const SliceUser = createSlice({
   name: 'user',
   initialState: {
     data: getFromStorage('user.data') || {},
-    authorization: localStorage?.getItem('authorization') || '',
+    authorization,
   },
   reducers: {
     setUserData: (state, { payload }) => {
       state.data = payload;
-      localStorage.setItem('user.data', JSON.stringify(payload));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('user.data', JSON.stringify(payload));
+      }
     },
     clearUserData: (state) => {
       state.data = {};
-      localStorage.removeItem('user.data');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user.data');
+      }
     },
     setPermisos: (state, { payload }) => {
       state.data.permisos = payload;
     },
     setAuthorization: (state, { payload }) => {
       state.authorization = payload;
-      localStorage.setItem('authorization', payload);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('authorization', payload);
+      }
     },
     clearAuthorization: (state) => {
       state.authorization = '';

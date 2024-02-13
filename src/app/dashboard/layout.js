@@ -27,12 +27,17 @@ export default function RootLayout({ children }) {
       if (process.env.IS_AUTH_BY !== 'authorization') {
         return;
       }
-      const authorizationStorage = localStorage.getItem('authorization');
+      let authorizationStorage = '';
+      if (typeof window !== 'undefined'){
+        authorizationStorage = localStorage.getItem('authorization');
+      }
       const authorizationToken = authorizationParam || authorizationStorage;
 
       if (authorizationParam) {
         dispatch(setAuthorization(authorizationParam));
-        localStorage.setItem('expires', expiresParam);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('expires', expiresParam);
+        }
         router.replace(pathname);
       }
       

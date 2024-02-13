@@ -8,7 +8,9 @@ export const SliceSideMenu = createSlice({
   },
   reducers: {
     toggleSideMenuState: (state) => {
-      localStorage.setItem('sidemenu.open', !state.open);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('sidemenu.open', !state.open);
+      }
       state.open = !state.open;
     },
     setSideMenuState: (state, { payload }) => {

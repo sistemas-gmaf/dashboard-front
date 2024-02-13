@@ -20,7 +20,9 @@ export default function ViajesPage() {
 
   const handleChangeTab = (e, index) => {
     setTabIndex(index);
-    localStorage?.setItem('viajes/tabIndex', index);
+    if (typeof window !== 'undefined') {
+      localStorage?.setItem('viajes/tabIndex', index);
+    }
   }
 
   return (
