@@ -147,6 +147,7 @@ export const useFormCustom = ({
   onSuccess = false,
   fields = [],
   mode = 'create',
+  forceOnSuccess
 }) => {
   const apiClient = new ApiClient({ url });
   
@@ -197,6 +198,7 @@ export const useFormCustom = ({
     if (mode == 'create') {
       apiClient.post({ 
         data,
+        forceOnSuccess,
         onSuccess: (response) => {
           /**
            * onSuccess(resetFormCallback)

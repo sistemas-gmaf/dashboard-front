@@ -28,8 +28,8 @@ export default function ImportRates({ onImportData = () => {} }) {
           if (
             key.trim().toUpperCase() === 'VCLIENTE' 
             || key.trim().toUpperCase() === 'VPROVEEDOR'
-            || key.trim().toUpperCase() === 'VCLIENTEAYUDANTE'
-            || key.trim().toUpperCase() === 'VPROVEEDORAYUDANTE'
+            || key.trim().toUpperCase() === 'VCLIENTE AYUDANTE'
+            || key.trim().toUpperCase() === 'VPROVEEDOR AYUDANTE'
           ) {
             cleanedValue = parseFloat(cleanedValue.replace(/[^\d.-]/g, ''));
           }
@@ -113,6 +113,20 @@ export default function ImportRates({ onImportData = () => {} }) {
         style={{ display: 'none' }} 
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/csv" 
       />
+      <a 
+        href={'/files/plantilla-tarifario.xlsx'}
+        id='descargar-plantilla'
+        style={{ display: 'none' }}
+        download
+      />
+      <Button
+        sx={{ marginBottom: '.5em', alignSelf: { xs: 'initial', md: 'center' }}}
+        variant='contained'
+        color="info"
+        onClick={() => document.getElementById('descargar-plantilla').click()}
+      >
+        Descargar Plantilla
+      </Button>
       <Button
         sx={{ alignSelf: { xs: 'initial', md: 'center' }}} 
         variant='contained'

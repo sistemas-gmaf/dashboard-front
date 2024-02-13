@@ -2,6 +2,7 @@
 import { Paper, Box, Grid, Typography } from '@mui/material';
 
 import backgroundLoginImg from '@/img/background-login.jpg';
+import loginLogoImg from '@/img/logo-login.jpg';
 import { VERSION } from '@/utils/constants';
 
 import LoginForm from '@/components/LoginForm';
@@ -60,9 +61,10 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5">
-            Grupo MAF
-          </Typography>
+          <img
+            src={loginLogoImg.src}
+            style={{ width: '90%', maxWidth: '300px' }}
+          />
           <LoginForm />
           <Version sx={{ mt: 5 }} />
         </Box>
