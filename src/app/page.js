@@ -33,6 +33,14 @@ export default function Login() {
         router.replace('/');
       }
     };
+    
+    if (window) {
+      const userData = localStorage.getItem('user.data');
+
+      if (userData) {
+        router.push('/dashboard/inicio');
+      }
+    }
 
     alertFn();
   }, [])
