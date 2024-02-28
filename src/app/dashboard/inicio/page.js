@@ -24,8 +24,8 @@ const CARDS = [
   { title: 'Ventas del Mes', icon: SellIcon, permiso: 'VER_INICIO_TOTAL_VENTAS' },
   { title: 'Compras del Mes', icon: ShoppingCartIcon, permiso: 'VER_INICIO_TOTAL_COMPRAS' },
   { title: 'Ganancia del Mes', icon: AttachMoneyIcon, permiso: 'VER_INICIO_TOTAL_BENEFICIO' },
-  { title: 'Cheques Pendientes', icon: RequestQuoteIcon, permiso: 'VER_INICIO_CHEQUES_PENDIENTES' },
-  { title: 'Compromisos Pendientes', icon: ReceiptIcon, permiso: 'VER_INICIO_COMPROMISOS_PENDIENTES' },
+  { title: 'Cheques Pendientes Hasta este Mes', icon: RequestQuoteIcon, permiso: 'VER_INICIO_CHEQUES_PENDIENTES' },
+  { title: 'Compromisos Pendientes Hasta este Mes', icon: ReceiptIcon, permiso: 'VER_INICIO_COMPROMISOS_PENDIENTES' },
   { title: 'Viajes Pendientes de Aprobación', icon: DepartureBoardIcon, permiso: 'VER_INICIO_VIAJES_PENDIENTES_APROBACION' },
 ];
 
