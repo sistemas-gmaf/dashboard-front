@@ -1,6 +1,6 @@
 'use client'
 
-import SideMenu from '@/components/SideMenu';
+import SideMenu from '@/components/SideMenu/SideMenu';
 import Header from '@/components/Header';
 import SectionContainer from '@/components/SectionContainer';
 import BackdropLoading from '@/components/Backdrop';
