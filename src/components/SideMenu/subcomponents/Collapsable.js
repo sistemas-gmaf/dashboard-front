@@ -10,7 +10,7 @@ export default function Collapsable({ text, icon: Icon, children, permisosHijos 
   const [ open, setOpen ] = useState(false);
 
   return (
-    permisosHijos.some(permiso => permisos.includes(permiso)) ? <ListItem
+    permisosHijos.some(permiso => (permisos || []).includes(permiso)) ? <ListItem
       key={text} 
       disablePadding 
       sx={{ display: 'block' }}

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export default function Item({ text, href, icon: Icon, permiso }) {
   const sideMenuOpen = useSelector(state => state.sidemenu.open);
-  const permisos = useSelector(state => state.user.data.permisos);
+  const permisos = useSelector(state => state.user.data.permisos) || [];
   const pathname = usePathname();
 
   return (
